@@ -4,9 +4,10 @@
 
 `infra/Dockerfile` é um build multi-stage:
 
-1. `deps` — instala todas as dependências (incluindo dev). `better-sqlite3` não tem binário
-   pré-compilado para toda combinação de plataforma/Node, então compila do zero aqui — por
-   isso o estágio instala `python3 make g++` antes do `npm ci`.
+1. `deps` — instala todas as dependências (incluindo dev). O driver `sqlite3` tenta baixar
+   um binário pré-compilado (`prebuild-install`) e só cai em compilação via `node-gyp` se
+   nenhum binário bater com a plataforma — por isso o estágio instala `python3 make g++`
+   antes do `npm ci`, como rede de segurança para esse fallback.
 2. `build` — copia o código, roda `node ace build` (compila TypeScript, empacota o frontend
    com Vite).
 3. `production-deps` — reinstala só as dependências de produção (`npm ci --omit=dev`) a
@@ -79,3 +80,23 @@ Windows). Cada um: valida pré-requisitos (Node 24+, e Docker rodando quando apl
 cria `.env` a partir de `.env.example` se não existir, instala dependências, gera
 `APP_KEY` se necessário, roda migrations e o seed — terminando com as credenciais do admin
 semeado prontas para uso.
+
+## Galaxy Cloud
+
+[Galaxy Cloud](https://galaxycloud.app/) builda apps Node/AdonisJS com um buildpack próprio
+(imagem base `meteor/galaxy-node`) — ele **não** usa `infra/Dockerfile`, nem existe forma
+documentada de adicionar pacotes apt (`python3 make g++`) ou apontar para um Dockerfile
+customizado do repositório. Isso quebrava o deploy: `better-sqlite3` não publica binário
+pré-compilado (todo `npm install` roda `node-gyp rebuild`, que exige Python), e o build
+image do Galaxy não tem Python.
+
+Por isso o driver SQLite do projeto é `sqlite3` (não `better-sqlite3`) — ele tenta baixar um
+binário pré-compilado via `prebuild-install` antes de cair em `node-gyp`, e publica prebuilds
+para `linux-x64` (glibc), que é a plataforma usada pela imagem `meteor/galaxy-node`. Isso
+evita a compilação nativa no ambiente de build do Galaxy sem precisar de nenhuma configuração
+adicional na plataforma.
+
+Se esse problema voltar a acontecer (por exemplo com uma dependência nativa diferente), a
+única alternativa validada é evitar dependências que exigem `node-gyp` sem fallback de
+binário pré-compilado — o Galaxy não oferece um jeito de instalar pacotes de sistema para
+apps Node/AdonisJS no momento em que este documento foi escrito.

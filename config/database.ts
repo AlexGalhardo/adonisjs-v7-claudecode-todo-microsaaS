@@ -14,7 +14,7 @@ const dbConfig = defineConfig({
      * SQLite connection — used for local development, no external service required.
      */
     sqlite: {
-      client: 'better-sqlite3',
+      client: 'sqlite3',
 
       connection: {
         /**

@@ -12,10 +12,16 @@ bug in `TODO.md`'s Fase 7 notes).
 docker build -f infra/Dockerfile -t <name> .
 ```
 
-Native npm dependencies (anything needing `node-gyp`, e.g. `better-sqlite3`) fail in a
-`-slim`/`-alpine` base image without build tools. If `npm ci`/`npm install` fails with
-`gyp ERR! find Python`, add `python3 make g++` (Debian) or `python3 make g++ musl-dev`
+Native npm dependencies (anything needing `node-gyp`, e.g. `sqlite3`'s node-gyp fallback)
+fail in a `-slim`/`-alpine` base image without build tools. If `npm ci`/`npm install` fails
+with `gyp ERR! find Python`, add `python3 make g++` (Debian) or `python3 make g++ musl-dev`
 (Alpine) to that stage before the install step.
+
+Managed platforms that build from their own buildpack instead of `infra/Dockerfile` (e.g.
+Galaxy Cloud) don't let you add system packages at all — for those, prefer a native
+dependency that ships prebuilt binaries with a fallback (`prebuild-install`, like `sqlite3`)
+over one that always compiles from source (like `better-sqlite3`, which has no prebuild
+mechanism whatsoever — see `docs/deployment.md#galaxy-cloud`).
 
 ## 2. Actually run `docker compose up` and hit the app
 

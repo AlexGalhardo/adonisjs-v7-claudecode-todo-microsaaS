@@ -4,8 +4,9 @@
 #   docker build -f infra/Dockerfile -t ado .
 
 # ---- Dependencies (full, including dev) ----
-# better-sqlite3 has no prebuilt binary for every platform/Node combo, so it
-# compiles from source here — needs python3/make/g++.
+# sqlite3 tries to download a prebuilt binary first and only falls back to
+# compiling from source (node-gyp) when none matches the platform — python3/make/g++
+# cover that fallback case so the install never hard-fails.
 FROM node:24-slim AS deps
 WORKDIR /app
 RUN apt-get update && apt-get install --no-install-recommends -y python3 make g++ \
