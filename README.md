@@ -224,4 +224,5 @@ node ace migration:run      # roda migrations pendentes
 node ace migration:rollback  # desfaz o último batch de migrations
 node ace db:seed              # popula o banco (admin + todos de exemplo)
 node ace codegen                # regenera tipos/registros (rotas, páginas, policies)
+npm run db:studio                # abre o Drizzle Studio (visualizador do banco, ver docs/database.md)
 ```

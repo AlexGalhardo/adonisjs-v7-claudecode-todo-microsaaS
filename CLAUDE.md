@@ -11,10 +11,25 @@ MVC e as convenções impostas pelo AdonisJS — sem arquitetura paralela.
 ## Stack
 
 - **Backend**: AdonisJS v7 + Lucid ORM + VineJS (validação)
-- **Frontend**: Inertia v3 + React 19, Tailwind CSS v4 + Base UI
-- **Banco**: SQLite (dev) ou PostgreSQL (dev/produção), escolhido via `.env` (`DB_CONNECTION`)
+- **Frontend**: Inertia v3 + React 19, Tailwind CSS v4 + Base UI, fonte global JetBrains Mono
+- **Banco**: SQLite (dev/prod) ou PostgreSQL (dev/produção), escolhido via `.env`
+  (`DB_CONNECTION`) — driver SQLite é `sqlite3` (não `better-sqlite3`, ver
+  `docs/deployment.md#galaxy-cloud`). Visualizador: Drizzle Studio (`npm run db:studio`,
+  ver `docs/database.md`) — Lucid continua sendo o único ORM/dono de migrations.
+- **Email**: Resend (`config/mail.ts`), templates em JSX renderizados via
+  `@react-email/render` (ver `app/mails/`)
 - **Testes**: Japa (unit, functional, browser/E2E)
 - **Runtime**: Node.js v24+
+
+## Regras de idioma e navegação (obrigatórias em todo o app)
+
+- Toda a interface visível ao usuário (textos, labels, mensagens, emails) deve estar em
+  **inglês** — não em português — independente do idioma usado nesta documentação interna.
+- Toda a lógica de endpoints, rotas e URLs deve estar em inglês (ex.: `/forgot-password`,
+  não `/esqueci-senha`).
+- Usuários autenticados não podem acessar as páginas de login, signup, forgot-password,
+  reset-password e a landing page (`/`) — devem ser redirecionados para a área autenticada
+  (`/dashboard`). Ver `app/middleware/guest_middleware.ts`.
 
 ## Comandos principais
 

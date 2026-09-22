@@ -13,6 +13,10 @@ tmp/*
 # Frontend assets compiled code
 public/assets
 
+# Drizzle Studio schema snapshot (regenerate with `npx drizzle-kit pull`) —
+# Lucid owns migrations, this is only a viewer, not worth versioning.
+drizzle
+
 # Build tools specific
 npm-debug.log
 yarn-error.log

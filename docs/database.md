@@ -60,3 +60,28 @@ usuário quanto para cada todo (chave: `userId` + `title`), o que torna o seeder
 **idempotente**: rodar `node ace db:seed` várias vezes não duplica nada. Verificado na
 prática (seed rodado duas vezes seguidas, contagem de linhas conferida diretamente no
 SQLite) e via login real do admin na UI.
+
+## Visualizador: Drizzle Studio
+
+Lucid continua sendo o único ORM da aplicação — ele é quem roda migrations e é a única
+fonte de verdade do schema. O Drizzle entra só como **visualizador de dados** (`drizzle-kit`
++ `drizzle-orm` são devDependencies, nunca vão para produção):
+
+```bash
+npm run db:studio
+```
+
+Isso roda `drizzle-kit pull` (introspecta o banco apontado por `DB_CONNECTION` — a mesma
+variável que `config/database.ts` usa — e gera `./drizzle/schema.ts`, não versionado) e
+depois `drizzle-kit studio`, que abre uma UI web em `https://local.drizzle.studio` para
+navegar/editar linhas.
+
+`drizzle.config.ts` decide o dialeto (`sqlite` ou `postgresql`) lendo `DB_CONNECTION` do
+processo em tempo de execução, então o mesmo comando funciona nos dois bancos sem editar
+nada. Sempre que uma migration Lucid mudar o schema, rode `npm run db:studio` de novo (ele
+já reaplica o `pull` a cada execução) para o Studio enxergar as tabelas/colunas novas.
+
+A introspecção de SQLite do `drizzle-kit` precisa de um driver próprio — `@libsql/client`
+(devDependency), escolhido em vez de `better-sqlite3` pelo mesmo motivo do driver de
+produção da aplicação (ver `docs/deployment.md#galaxy-cloud`): publica binário
+pré-compilado para as plataformas comuns, então não precisa compilar nada localmente.
