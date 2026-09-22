@@ -52,28 +52,28 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 4. Página /login
 
-- [ ] Ícone de olho (mostrar/ocultar senha)
-- [ ] Validação de senha 8–32 caracteres
-- [ ] Remover navbar, título centralizado com link para landing page
-- [ ] Forçar dark theme nessa página
-- [ ] Commit + push
+- [x] Ícone de olho (mostrar/ocultar senha)
+- [x] Validação de senha 8–32 caracteres
+- [x] Remover navbar, título centralizado com link para landing page (AuthLayout)
+- [x] Forçar dark theme nessa página (AuthLayout forceDark)
+- [x] Commit + push
 
 ## 5. Página /signup
 
-- [ ] Auto-capitalização de cada palavra do full name
-- [ ] Validação full name 4–24 caracteres
-- [ ] Ícone de olho no campo de senha
-- [ ] Validação de senha 8–32 chars, 1 maiúscula, 1 minúscula, 1 número, 1 especial
-- [ ] Botões "Create Account with GitHub/Google" com ícone
-- [ ] Remover navbar, título centralizado com link para landing page
-- [ ] Forçar dark theme nessa página
-- [ ] Commit + push
+- [x] Auto-capitalização de cada palavra do full name
+- [x] Validação full name 4–24 caracteres
+- [x] Ícone de olho no campo de senha
+- [x] Validação de senha 8–32 chars, 1 maiúscula, 1 minúscula, 1 número, 1 especial
+- [x] Botões "Create Account with GitHub/Google" com ícone
+- [x] Remover navbar, título centralizado com link para landing page (AuthLayout)
+- [x] Forçar dark theme nessa página (AuthLayout forceDark)
+- [x] Commit + push
 
 ## 6. Página /forgot-password
 
-- [ ] Remover navbar, título centralizado com link para landing page
-- [ ] Forçar dark theme nessa página
-- [ ] Commit + push
+- [x] Remover navbar, título centralizado com link para landing page (AuthLayout)
+- [x] Forçar dark theme nessa página (AuthLayout forceDark)
+- [x] Commit + push
 
 ## 7. Landing page (/)
 
