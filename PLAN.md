@@ -96,9 +96,9 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 9. Rota /dashboard (ex /todos) + navbar
 
-- [ ] Renomear rota/página de `/todos` para `/dashboard`
-- [ ] Navbar: título à esquerda, ícone de usuário + dropdown (Profile, API, Toggle tema, Logout) à direita
-- [ ] Commit + push
+- [x] Renomear rota/página de `/todos` para `/dashboard`
+- [x] Navbar: título à esquerda, ícone de usuário + dropdown (Profile, API, Toggle tema, Logout) à direita
+- [x] Commit + push (feito junto do commit da fundação de tema/layouts)
 
 ## 10. Página /profile/api (docs da API + tokens)
 
