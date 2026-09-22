@@ -12,6 +12,12 @@ export interface ApiDefinition {
     store: typeof routes['session.store']
     destroy: typeof routes['session.destroy']
   }
+  passwordResets: {
+    create: typeof routes['password_resets.create']
+    store: typeof routes['password_resets.store']
+    edit: typeof routes['password_resets.edit']
+    update: typeof routes['password_resets.update']
+  }
   todos: {
     index: typeof routes['todos.index']
     store: typeof routes['todos.store']

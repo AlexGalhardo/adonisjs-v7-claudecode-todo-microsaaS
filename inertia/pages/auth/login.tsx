@@ -1,4 +1,4 @@
-import { Form } from '@adonisjs/inertia/react'
+import { Form, Link } from '@adonisjs/inertia/react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
 
@@ -20,14 +20,22 @@ export default function Login() {
               error={errors.email}
             />
 
-            <TextField
-              label="Password"
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              error={errors.password}
-            />
+            <div>
+              <TextField
+                label="Password"
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="current-password"
+                error={errors.password}
+              />
+              <Link
+                route="password_resets.create"
+                className="mt-1 inline-block text-sm text-gray-6 hover:text-gray-12"
+              >
+                Forgot password?
+              </Link>
+            </div>
 
             <Button type="submit" className="w-full">
               Login

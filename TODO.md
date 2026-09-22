@@ -51,15 +51,21 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 4 — Autenticação e autorização (extensões)
 
-- [ ] Recuperação de senha (solicitar → token por email → redefinir)
+- [x] `@adonisjs/mail` (SMTP), `@adonisjs/ally` (Google/GitHub) e `@adonisjs/limiter`
+      (store `database`) instalados e configurados
+- [x] Recuperação de senha (solicitar → token por email → redefinir) — tabela genérica
+      `auth_tokens` (reaproveitada pelo magic link), token hasheado (SHA-256) e de uso
+      único, resposta uniforme para não vazar quais emails existem
 - [ ] Magic link login (token único por email, sem senha)
 - [ ] 2FA TOTP (enroll com QR code, verificação no login)
 - [ ] Login social Google (Ally)
 - [ ] Login social GitHub (Ally)
-- [ ] Guard de access tokens para API (`tokens` guard do `@adonisjs/auth`)
-- [ ] Rate limiting em login e recuperação de senha (`@adonisjs/limiter`)
-- [ ] `docs/auth.md`
-- [ ] Testes para cada fluxo (funcional/E2E)
+- [x] Guard de access tokens para API (`tokens` guard do `@adonisjs/auth`) — feito na Fase 3
+- [x] Rate limiting em login (5/min) e recuperação de senha (3/15min), por IP
+      (`@adonisjs/limiter`, store `database`)
+- [x] `docs/auth.md` (parte de recuperação de senha; será completado a cada sub-fluxo)
+- [x] Testes: recuperação de senha (4 funcionais) + rate limiting (1 funcional) —
+      28/28 passando no total até aqui
 
 > Nota: login social (Google/GitHub) e envio de email (reset/magic link) exigem credenciais
 > reais (`OAUTH_*`, `SMTP_*`) que só o usuário pode gerar. O código e os testes cobrem o
