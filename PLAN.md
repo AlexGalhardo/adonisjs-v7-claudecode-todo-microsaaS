@@ -43,12 +43,12 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 3. Drizzle Studio como visualizador do banco
 
-- [ ] Instalar `drizzle-kit` + `drizzle-orm` (dev deps)
-- [ ] Criar `drizzle.config.ts` (dialect dinâmico via `DB_CONNECTION`)
-- [ ] Rodar `drizzle-kit pull` e documentar o fluxo (`docs/database.md`)
-- [ ] Adicionar `./drizzle` ao `.gitignore`
-- [ ] Adicionar script npm `db:studio`
-- [ ] Commit + push
+- [x] Instalar `drizzle-kit` + `drizzle-orm` (dev deps) + `@libsql/client` (introspecção SQLite sem compilar nada)
+- [x] Criar `drizzle.config.ts` (dialect dinâmico via `DB_CONNECTION`)
+- [x] Rodar `drizzle-kit pull` e documentar o fluxo (`docs/database.md`)
+- [x] Adicionar `./drizzle` ao `.gitignore` (e excluir de tsc/eslint)
+- [x] Adicionar script npm `db:studio`
+- [x] Commit + push
 
 ## 4. Página /login
 
