@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-gray-1: oklch(98.5% 0 0);
@@ -10,13 +13,37 @@
   --color-gray-8: oklch(37.1% 0 0);
   --color-gray-10: oklch(26.9% 0 0);
   --color-gray-12: oklch(14.5% 0 0);
+
+  --color-matrix: oklch(72% 0.24 148);
+  --color-matrix-dim: oklch(45% 0.16 148);
+
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/*
+ * Dark theme: same gray-scale variable names, inverted so every existing
+ * text-gray and bg-gray class stays correct without touching component code.
+ * Scoped under .dark (toggled on the html element, see inertia/lib/theme.ts)
+ * rather than a prefers-color-scheme media query, so a layout can force dark
+ * (auth pages) independently of the toggle or system preference.
+ */
+.dark {
+  --color-gray-1: oklch(16% 0 0);
+  --color-gray-2: oklch(19% 0 0);
+  --color-gray-3: oklch(24% 0 0);
+  --color-gray-4: oklch(29% 0 0);
+  --color-gray-6: oklch(52% 0 0);
+  --color-gray-7: oklch(63% 0 0);
+  --color-gray-8: oklch(71% 0 0);
+  --color-gray-10: oklch(85% 0 0);
+  --color-gray-12: oklch(97% 0 0);
 }
 
 @layer base {
   html,
   body {
     @apply h-full bg-gray-2 text-gray-10 antialiased;
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-mono);
   }
 
   h1,

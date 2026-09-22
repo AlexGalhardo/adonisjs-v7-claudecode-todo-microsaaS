@@ -211,9 +211,9 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
     }
   }
-  'todos.index': {
+  'dashboard': {
     methods: ["GET","HEAD"]
-    pattern: '/todos'
+    pattern: '/dashboard'
     types: {
       body: {}
       paramsTuple: []

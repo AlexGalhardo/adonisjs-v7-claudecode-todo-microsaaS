@@ -42,6 +42,6 @@ export default class MagicLinksController {
     await this.authTokenService.consume(record)
     await auth.use('web').login(record.user)
 
-    response.redirect().toRoute('todos.index')
+    response.redirect().toRoute('dashboard')
   }
 }

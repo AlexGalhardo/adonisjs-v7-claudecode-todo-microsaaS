@@ -82,7 +82,7 @@ test.group('Two-factor authentication', () => {
       .form({ code: recoveryCode })
 
     challengeResponse.assertStatus(302)
-    assert.equal(challengeResponse.header('location'), '/todos')
+    assert.equal(challengeResponse.header('location'), '/dashboard')
 
     // The same recovery code cannot be reused once consumed.
     const secondAttempt = await client

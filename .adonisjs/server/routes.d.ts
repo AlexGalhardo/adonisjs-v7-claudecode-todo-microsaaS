@@ -21,7 +21,7 @@ export type ScannedRoutes = {
     'social_auths.redirect': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
-    'todos.index': { paramsTuple?: []; params?: {} }
+    'dashboard': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
     'todos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -47,7 +47,7 @@ export type ScannedRoutes = {
     'two_factor_challenges.create': { paramsTuple?: []; params?: {} }
     'social_auths.redirect': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
-    'todos.index': { paramsTuple?: []; params?: {} }
+    'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -63,7 +63,7 @@ export type ScannedRoutes = {
     'two_factor_challenges.create': { paramsTuple?: []; params?: {} }
     'social_auths.redirect': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
-    'todos.index': { paramsTuple?: []; params?: {} }
+    'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

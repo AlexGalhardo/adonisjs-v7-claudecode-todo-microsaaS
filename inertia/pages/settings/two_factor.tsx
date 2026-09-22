@@ -32,7 +32,7 @@ export default function TwoFactorSettings({ enabled, secret, qrCode, recoveryCod
           ))}
         </ul>
 
-        <Link route="todos.index" className="text-center">
+        <Link route="dashboard" className="text-center">
           <Button className="w-full">Done</Button>
         </Link>
       </div>

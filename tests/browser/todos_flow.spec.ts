@@ -13,7 +13,7 @@ test.group('Todos flow', () => {
     await signupPage.fill('#password', 'Password123!')
     await signupPage.fill('#passwordConfirmation', 'Password123!')
     await signupPage.click('button[type=submit]')
-    await signupPage.waitForURL('**/todos')
+    await signupPage.waitForURL('**/dashboard')
 
     // Create
     await signupPage.click('text=New todo')
@@ -39,6 +39,7 @@ test.group('Todos flow', () => {
     await signupPage.assertExists('text=No todos yet')
 
     // Logout
+    await signupPage.click('[aria-label="User menu"]')
     await signupPage.click('text=Logout')
     await signupPage.waitForURL('**/login')
     assert.include(signupPage.url(), '/login')

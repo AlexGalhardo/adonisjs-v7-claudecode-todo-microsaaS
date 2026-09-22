@@ -39,6 +39,6 @@ export default class TwoFactorChallengesController {
     session.forget(PENDING_USER_SESSION_KEY)
     await auth.use('web').login(user)
 
-    response.redirect().toRoute('todos.index')
+    response.redirect().toRoute('dashboard')
   }
 }

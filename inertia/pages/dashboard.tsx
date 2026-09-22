@@ -4,7 +4,7 @@ import Button from '~/components/button'
 import TodoItem from '~/components/todo_item'
 import TodoDialog from '~/components/todo_dialog'
 
-export default function TodosIndex({ todos }: { todos: Data.Todo[] }) {
+export default function Dashboard({ todos }: { todos: Data.Todo[] }) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingTodo, setEditingTodo] = useState<Data.Todo | undefined>(undefined)
   // Bumped on every open so TodoDialog remounts with fresh field state,

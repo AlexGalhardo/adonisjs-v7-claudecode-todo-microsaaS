@@ -108,11 +108,11 @@ const routes = {
     tokens: [{"old":"/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['session.destroy']['types'],
   },
-  'todos.index': {
+  'dashboard': {
     methods: ["GET","HEAD"],
-    pattern: '/todos',
-    tokens: [{"old":"/todos","type":0,"val":"todos","end":""}],
-    types: placeholder as Registry['todos.index']['types'],
+    pattern: '/dashboard',
+    tokens: [{"old":"/dashboard","type":0,"val":"dashboard","end":""}],
+    types: placeholder as Registry['dashboard']['types'],
   },
   'todos.store': {
     methods: ["POST"],

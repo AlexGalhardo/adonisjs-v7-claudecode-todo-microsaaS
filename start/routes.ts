@@ -12,7 +12,7 @@ import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 import { loginThrottle, magicLinkThrottle, passwordResetThrottle } from '#start/limiter'
 
-router.on('/').renderInertia('home', {}).as('home')
+router.on('/').renderInertia('home', {}).as('home').use(middleware.guest())
 
 router
   .group(() => {
@@ -43,7 +43,7 @@ router
   .group(() => {
     router.post('logout', [controllers.Session, 'destroy'])
 
-    router.get('todos', [controllers.Todos, 'index'])
+    router.get('dashboard', [controllers.Todos, 'index']).as('dashboard')
     router.post('todos', [controllers.Todos, 'store'])
     router.put('todos/:id', [controllers.Todos, 'update'])
     router.delete('todos/:id', [controllers.Todos, 'destroy'])

@@ -54,6 +54,6 @@ export default class SocialAuthsController {
     }
 
     await auth.use('web').login(user)
-    response.redirect().toRoute('todos.index')
+    response.redirect().toRoute('dashboard')
   }
 }

@@ -31,8 +31,8 @@ export interface ApiDefinition {
     redirect: typeof routes['social_auths.redirect']
     callback: typeof routes['social_auths.callback']
   }
+  dashboard: typeof routes['dashboard']
   todos: {
-    index: typeof routes['todos.index']
     store: typeof routes['todos.store']
     update: typeof routes['todos.update']
     destroy: typeof routes['todos.destroy']

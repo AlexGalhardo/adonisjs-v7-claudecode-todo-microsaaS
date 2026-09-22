@@ -10,15 +10,15 @@ test.group('Todos web', () => {
     await TodoFactory.merge({ userId: user.id }).create()
     await TodoFactory.merge({ userId: otherUser.id }).create()
 
-    const response = await client.get('/todos').loginAs(user).withInertia()
+    const response = await client.get('/dashboard').loginAs(user).withInertia()
 
     response.assertStatus(200)
-    response.assertInertiaComponent('todos/index')
+    response.assertInertiaComponent('dashboard')
     assert.lengthOf(response.inertiaProps.todos, 1)
   })
 
   test('guests are redirected to login', async ({ client }) => {
-    const response = await client.get('/todos')
+    const response = await client.get('/dashboard')
 
     response.assertRedirectsTo('/login')
   })

@@ -1,11 +1,41 @@
-import { type Data } from '@generated/data'
 import { toast, Toaster } from 'sonner'
 import { usePage } from '@inertiajs/react'
+import { type Data } from '@generated/data'
 import { type ReactElement, useEffect } from 'react'
-import { Form, Link } from '@adonisjs/inertia/react'
+import AppLayout from '~/layouts/app'
+import AuthLayout from '~/layouts/auth'
 
+const FORCE_DARK_BARE_PATHS = [
+  '/login',
+  '/signup',
+  '/forgot-password',
+  '/magic-link',
+  '/two-factor/challenge',
+]
+
+const APP_PATHS = ['/dashboard', '/profile', '/profile/api']
+
+function isForceDarkBarePath(url: string): boolean {
+  return FORCE_DARK_BARE_PATHS.includes(url) || url.startsWith('/reset-password/')
+}
+
+function isAppPath(url: string): boolean {
+  return APP_PATHS.includes(url)
+}
+
+/**
+ * Picks the right chrome for the current route:
+ * - `/` (landing) gets none at all — it owns the entire viewport itself.
+ * - login/signup/forgot-password/reset-password/magic-link/2FA-challenge get
+ *   the bare, always-dark AuthLayout.
+ * - the authenticated app (dashboard/profile/profile/api) gets AppLayout.
+ * - everything else (/contact, 404, 500, any other path) gets the bare
+ *   layout following the normal theme toggle — the safe default for a page
+ *   that might be hit by a signed-out visitor.
+ */
 export default function Layout({ children }: { children: ReactElement<Data.SharedProps> }) {
   const { url, flash } = usePage()
+
   useEffect(() => {
     toast.dismiss()
   }, [url])
@@ -19,56 +49,41 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
     }
   })
 
+  const toaster = <Toaster position="top-center" richColors />
+
+  if (url === '/') {
+    return (
+      <>
+        {children}
+        {toaster}
+      </>
+    )
+  }
+
+  if (isForceDarkBarePath(url)) {
+    return (
+      <>
+        <AuthLayout>{children}</AuthLayout>
+        {toaster}
+      </>
+    )
+  }
+
+  if (isAppPath(url)) {
+    return (
+      <>
+        <AppLayout>{children}</AppLayout>
+        {toaster}
+      </>
+    )
+  }
+
   return (
     <>
-      <header className="border-b border-gray-3">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-          <Link route="home" className="font-semibold tracking-tight text-gray-12">
-            Todo
-          </Link>
-
-          <nav className="flex items-center gap-6">
-            {children.props.user ? (
-              <>
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-3 text-xs font-semibold text-gray-12">
-                  {children.props.user.initials}
-                </span>
-                <Link
-                  route="two_factor_settings.create"
-                  className="text-sm font-medium text-gray-8 hover:text-gray-12"
-                >
-                  Security
-                </Link>
-                <Form route="session.destroy">
-                  <button
-                    type="submit"
-                    className="text-sm font-medium text-gray-8 hover:text-gray-12"
-                  >
-                    Logout
-                  </button>
-                </Form>
-              </>
-            ) : (
-              <>
-                <Link
-                  route="new_account.create"
-                  className="text-sm font-medium text-gray-8 hover:text-gray-12"
-                >
-                  Signup
-                </Link>
-                <Link
-                  route="session.create"
-                  className="text-sm font-medium text-gray-8 hover:text-gray-12"
-                >
-                  Login
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
-      </header>
-      <main className="mx-auto min-h-[calc(100vh-65px)] max-w-5xl px-6">{children}</main>
-      <Toaster position="top-center" richColors />
+      <AuthLayout forceDark={false} maxWidth="max-w-lg">
+        {children}
+      </AuthLayout>
+      {toaster}
     </>
   )
 }

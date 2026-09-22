@@ -30,7 +30,7 @@ test.group('Magic link', (group) => {
     const consumeResponse = await client.get(`/magic-link/${token}`).redirects(0)
 
     consumeResponse.assertStatus(302)
-    assert.equal(consumeResponse.header('location'), '/todos')
+    assert.equal(consumeResponse.header('location'), '/dashboard')
     assert.equal(consumeResponse.session('auth_web'), user.id)
   })
 

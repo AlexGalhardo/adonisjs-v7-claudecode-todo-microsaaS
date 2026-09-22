@@ -11,6 +11,16 @@
     @vite(['inertia/app.tsx'])
     @inertiaHead()
     @stack('dumper')
+
+    <script>
+      // Blocking (not deferred/module) so it runs before first paint — see
+      // inertia/lib/theme.ts, which this mirrors for the toggle button.
+      (function () {
+        var stored = localStorage.getItem('theme')
+        var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+        if (dark) document.documentElement.classList.add('dark')
+      })()
+    </script>
   </head>
 
   <body>

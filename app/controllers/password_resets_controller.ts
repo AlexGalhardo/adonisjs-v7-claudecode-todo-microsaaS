@@ -57,6 +57,6 @@ export default class PasswordResetsController {
 
     await auth.use('web').login(user)
     session.flash('success', 'Your password has been reset.')
-    response.redirect().toRoute('todos.index')
+    response.redirect().toRoute('dashboard')
   }
 }

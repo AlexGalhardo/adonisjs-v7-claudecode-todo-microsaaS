@@ -12,7 +12,7 @@ export default class TodosController {
 
   async index({ inertia, auth }: HttpContext) {
     const todos = await this.todoService.list(auth.user!)
-    return inertia.render('todos/index', {
+    return inertia.render('dashboard', {
       todos: TodoTransformer.transform(todos),
     })
   }
