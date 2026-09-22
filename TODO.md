@@ -14,11 +14,12 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 1 — Banco de dados dual (SQLite / PostgreSQL)
 
-- [ ] Instalar driver `pg`
-- [ ] `config/database.ts` lendo `DB_CONNECTION` do `.env` (sqlite | pg) sem alterar código
-- [ ] `.env.example` completo e comentado para os dois drivers
-- [ ] `docs/database.md`
-- [ ] Teste: migrations rodam em ambos os drivers (sqlite local; pg via docker no CI manual)
+- [x] Instalar driver `pg`
+- [x] `config/database.ts` lendo `DB_CONNECTION` do `.env` (sqlite | pg) sem alterar código
+- [x] `.env.example` completo e comentado para os dois drivers
+- [x] `docs/database.md`
+- [x] Teste: migrations rodam em ambos os drivers (sqlite local; pg via container Docker
+      temporário — migrou com sucesso em ambos sem alterar código)
 
 ## Fase 2 — Estilo (Tailwind v4 + Base UI)
 
