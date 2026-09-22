@@ -23,9 +23,12 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 2 — Estilo (Tailwind v4 + Base UI)
 
-- [ ] Instalar Tailwind CSS v4 (plugin Vite) + Base UI
-- [ ] Layout base React (Inertia) com Tailwind aplicado
-- [ ] Verificar dev server renderiza estilos corretamente
+- [x] Instalar Tailwind CSS v4 (plugin Vite) + Base UI
+- [x] Layout base React (Inertia) com Tailwind aplicado (header, home, login, signup,
+      páginas de erro; componentes reutilizáveis `TextField`/`Button`)
+- [x] Verificar dev server renderiza estilos corretamente (screenshot via Playwright,
+      sem erros de console) — uso real do Base UI (Dialog/Checkbox/Menu) chega na Fase 3
+      junto com a UI de Todos, onde faz sentido de fato
 
 ## Fase 3 — Domínio Todos (CRUD)
 

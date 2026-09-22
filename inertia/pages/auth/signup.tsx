@@ -1,73 +1,57 @@
 import { Form } from '@adonisjs/inertia/react'
+import Button from '~/components/button'
+import TextField from '~/components/text_field'
 
 export default function Signup() {
   return (
-    <div className="form-container">
-      <div>
-        <h1> Signup </h1>
-        <p>Enter your details below to create your account</p>
-      </div>
+    <div className="mx-auto flex max-w-sm flex-col justify-center py-24">
+      <h1 className="text-2xl font-semibold tracking-tight text-gray-12">Signup</h1>
+      <p className="mb-8 text-gray-6">Enter your details below to create your account</p>
 
-      <div>
-        <Form route="new_account.store">
-          {({ errors }) => (
-            <>
-              <div>
-                <label htmlFor="fullName">Full name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  id="fullName"
-                  data-invalid={errors.fullName ? 'true' : undefined}
-                />
-                {errors.fullName && <div>{errors.fullName}</div>}
-              </div>
+      <Form route="new_account.store" className="flex flex-col gap-5">
+        {({ errors }) => (
+          <>
+            <TextField
+              label="Full name"
+              type="text"
+              name="fullName"
+              id="fullName"
+              error={errors.fullName}
+            />
 
-              <div>
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  autoComplete="email"
-                  data-invalid={errors.email ? 'true' : undefined}
-                />
-                {errors.email && <div>{errors.email}</div>}
-              </div>
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              id="email"
+              autoComplete="email"
+              error={errors.email}
+            />
 
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  autoComplete="new-password"
-                  data-invalid={errors.password ? 'true' : undefined}
-                />
-                {errors.password && <div>{errors.password}</div>}
-              </div>
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              id="password"
+              autoComplete="new-password"
+              error={errors.password}
+            />
 
-              <div>
-                <label htmlFor="passwordConfirmation">Confirm password</label>
-                <input
-                  type="password"
-                  name="passwordConfirmation"
-                  id="passwordConfirmation"
-                  autoComplete="new-password"
-                  data-invalid={errors.passwordConfirmation ? 'true' : undefined}
-                />
-                {errors.passwordConfirmation && <div>{errors.passwordConfirmation}</div>}
-              </div>
+            <TextField
+              label="Confirm password"
+              type="password"
+              name="passwordConfirmation"
+              id="passwordConfirmation"
+              autoComplete="new-password"
+              error={errors.passwordConfirmation}
+            />
 
-              <div>
-                <button type="submit" className="button">
-                  Sign up
-                </button>
-              </div>
-            </>
-          )}
-        </Form>
-      </div>
+            <Button type="submit" className="w-full">
+              Sign up
+            </Button>
+          </>
+        )}
+      </Form>
     </div>
   )
 }
