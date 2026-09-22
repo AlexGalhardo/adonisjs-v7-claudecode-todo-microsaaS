@@ -4,7 +4,7 @@ import TextField from '~/components/text_field'
 
 export default function TwoFactorChallenge() {
   return (
-    <div className="mx-auto flex max-w-sm flex-col justify-center py-24">
+    <div>
       <h1 className="text-2xl font-semibold tracking-tight text-gray-12">Two-factor code</h1>
       <p className="mb-8 text-gray-6">
         Enter the 6-digit code from your authenticator app, or one of your recovery codes.

@@ -4,7 +4,7 @@ import TextField from '~/components/text_field'
 
 export default function MagicLink() {
   return (
-    <div className="mx-auto flex max-w-sm flex-col justify-center py-24">
+    <div>
       <h1 className="text-2xl font-semibold tracking-tight text-gray-12">Log in with a link</h1>
       <p className="mb-8 text-gray-6">
         Enter your email and we&apos;ll send you a link to log in — no password needed.

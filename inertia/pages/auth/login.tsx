@@ -1,11 +1,12 @@
 import { Form, Link } from '@adonisjs/inertia/react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
+import PasswordField from '~/components/password_field'
 import SocialAuthLinks from '~/components/social_auth_links'
 
 export default function Login() {
   return (
-    <div className="mx-auto flex max-w-sm flex-col justify-center py-24">
+    <div>
       <h1 className="text-2xl font-semibold tracking-tight text-gray-12">Login</h1>
       <p className="mb-8 text-gray-6">Enter your details below to login to your account</p>
 
@@ -22,12 +23,13 @@ export default function Login() {
             />
 
             <div>
-              <TextField
+              <PasswordField
                 label="Password"
-                type="password"
                 name="password"
                 id="password"
                 autoComplete="current-password"
+                minLength={8}
+                maxLength={32}
                 error={errors.password}
               />
               <Link
