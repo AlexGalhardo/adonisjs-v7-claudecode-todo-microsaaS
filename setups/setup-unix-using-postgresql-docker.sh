@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Idempotent local setup — Unix (Linux/macOS), PostgreSQL + Mailpit via Docker
-# Compose (infra/docker-compose.yml). The app itself still runs locally with
-# `npm run dev` — only the database and mail inbox run in containers.
+# Idempotent local setup — Unix (Linux/macOS), PostgreSQL via Docker Compose
+# (infra/docker-compose.yml). The app itself still runs locally with
+# `npm run dev` — only the database runs in a container. Email is sent via
+# Resend (see RESEND_API_KEY in .env.example), no local mail container needed.
 #
 # What it does:
 #   1. Checks prerequisites (Node.js >= 24, Docker running)
 #   2. Creates .env from .env.example if missing, forced to Dockerized Postgres
-#   3. Starts the "db" and "mailpit" containers and waits for Postgres to be healthy
+#   3. Starts the "db" container and waits for Postgres to be healthy
 #   4. Installs npm dependencies
 #   5. Generates an APP_KEY if one isn't set yet
 #   6. Runs migrations and seeds the database (admin@gmail.com / adminBR@123)
@@ -59,12 +60,13 @@ set_env DB_PORT 5432
 set_env DB_USER postgres
 set_env DB_PASSWORD postgres
 set_env DB_DATABASE ado
-set_env SMTP_HOST localhost
-set_env SMTP_PORT 1025
-echo "DB_CONNECTION=pg (via Docker), SMTP via Mailpit (http://localhost:8025)"
+echo "DB_CONNECTION=pg (via Docker)"
+if ! grep -q '^RESEND_API_KEY=.\+' .env; then
+  echo "Note: RESEND_API_KEY is empty in .env — set a real key from https://resend.com/api-keys to send emails."
+fi
 
-log "Starting Postgres + Mailpit containers"
-docker compose -f infra/docker-compose.yml up -d db mailpit
+log "Starting Postgres container"
+docker compose -f infra/docker-compose.yml up -d db
 
 log "Waiting for Postgres to become healthy"
 for _ in $(seq 1 30); do
@@ -101,8 +103,8 @@ Then open http://localhost:3333 and log in with:
   email:    admin@gmail.com
   password: adminBR@123
 
-Emails sent by the app (password reset, magic link) land in Mailpit:
-  http://localhost:8025
+Emails sent by the app (password reset, magic link, contact form) go through
+Resend — set RESEND_API_KEY in .env to a real key to actually deliver them.
 
 Stop the containers when you're done:
   docker compose -f infra/docker-compose.yml down

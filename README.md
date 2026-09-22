@@ -44,7 +44,7 @@ aplicação, rodam as migrations e semeiam o banco, tudo de uma vez.
 ./setups/setup-unix-using-postgresql-localhost.sh
 ./setups/setup-windows-using-postgresql-localhost.sh
 
-# PostgreSQL + Mailpit via Docker (app roda local com hot-reload)
+# PostgreSQL via Docker (app roda local com hot-reload)
 ./setups/setup-unix-using-postgresql-docker.sh
 ./setups/setup-windows-using-postgresql-docker.sh
 ```
@@ -85,9 +85,9 @@ Veja `.env.example` — todas as variáveis estão lá, comentadas. Os grupos pr
 - **Banco de dados**: `DB_CONNECTION=sqlite` ou `DB_CONNECTION=pg` (+ `DB_HOST`,
   `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`) — troca de banco é só uma questão de
   variável de ambiente, nenhum código muda. Detalhes em [`docs/database.md`](docs/database.md).
-- **Mail** (`SMTP_*`): usado para recuperação de senha e magic link. Em desenvolvimento,
-  aponte para o [Mailpit](#rodando-com-docker) (`docker compose up mailpit`) para ver os
-  emails numa caixa de entrada local — nenhuma conta real necessária.
+- **Mail** (`RESEND_API_KEY`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME`): usado para recuperação
+  de senha, magic link e o formulário de contato, enviados via [Resend](https://resend.com).
+  Gere uma chave em https://resend.com/api-keys.
 - **Rate limiting** (`LIMITER_STORE`): `database` em desenvolvimento/produção, `memory`
   automaticamente nos testes.
 - **Login social** (`GOOGLE_CLIENT_*`, `GITHUB_CLIENT_*`): opcionais — sem eles o app
@@ -126,10 +126,10 @@ npm run dev
 
 Duas formas, dependendo do que você quer rodar em container:
 
-### Só a infraestrutura (Postgres + Mailpit), app local com hot-reload
+### Só a infraestrutura (Postgres), app local com hot-reload
 
 ```bash
-docker compose -f infra/docker-compose.yml up -d db mailpit
+docker compose -f infra/docker-compose.yml up -d db
 cp .env.example .env
 ```
 
@@ -142,8 +142,7 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_DATABASE=ado
-SMTP_HOST=localhost
-SMTP_PORT=1025
+RESEND_API_KEY=<sua chave>
 ```
 
 ```bash
@@ -154,9 +153,7 @@ node ace db:seed
 npm run dev
 ```
 
-Emails enviados pelo app aparecem em **http://localhost:8025** (Mailpit).
-
-### Tudo em containers (app + Postgres + Mailpit)
+### Tudo em containers (app + Postgres)
 
 ```bash
 cp .env.example .env

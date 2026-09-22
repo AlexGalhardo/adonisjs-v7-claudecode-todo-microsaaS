@@ -24,17 +24,13 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_DATABASE: ado
-      SMTP_HOST: mailpit
-      SMTP_PORT: 1025
-      MAIL_FROM_ADDRESS: noreply@ado.test
-      MAIL_FROM_NAME: Todo
       LIMITER_STORE: database
     depends_on:
       db:
         condition: service_healthy
 
-  # Just the infrastructure, for local `npm run dev` against Postgres/Mailpit
-  # in Docker: `docker compose -f infra/docker-compose.yml up db mailpit`
+  # Just the infrastructure, for local `npm run dev` against Postgres in
+  # Docker: `docker compose -f infra/docker-compose.yml up db`
   db:
     image: postgres:17-alpine
     environment:
@@ -50,14 +46,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
-  # Local email inbox — catches every email sent via SMTP, viewable at
-  # http://localhost:8025. No real credentials or external account needed.
-  mailpit:
-    image: axllent/mailpit:latest
-    ports:
-      - '1025:1025' # SMTP
-      - '8025:8025' # Web UI
 
 volumes:
   ado_postgres_data:

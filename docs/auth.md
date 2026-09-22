@@ -27,10 +27,9 @@ Fluxo: `POST /forgot-password` (email) → email com link assinado (via um token
 - Rate limiting: 5 tentativas de login por minuto e 3 pedidos de recuperação de senha a
   cada 15 minutos, por IP (`start/limiter.ts`, guardado na tabela `rate_limits` via o store
   `database` do `@adonisjs/limiter` — sem precisar de Redis).
-- Emails são enviados via `@adonisjs/mail` (SMTP). Em desenvolvimento, aponte `SMTP_HOST`/
-  `SMTP_PORT` para o Mailpit do `infra/docker-compose.yml` (Fase 7) para ver os emails numa
-  caixa de entrada local; nos testes, `mail.fake()` intercepta o envio sem precisar de
-  nenhum servidor SMTP real.
+- Emails são enviados via `@adonisjs/mail` usando o transporte `resend` (ver
+  `config/mail.ts` e `RESEND_API_KEY` em `.env`); nos testes, `mail.fake()` intercepta o
+  envio sem precisar de nenhuma chamada real à API do Resend.
 
 ## Magic link
 

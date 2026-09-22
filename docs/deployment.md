@@ -27,18 +27,21 @@ docker build -f infra/Dockerfile -t ado .
 
 ## docker-compose
 
-`infra/docker-compose.yml` sobe três serviços:
+`infra/docker-compose.yml` sobe dois serviços:
 
 - **`app`** — a aplicação, buildada a partir do `Dockerfile` acima. Carrega `APP_KEY` e o
   resto de `../.env` via `env_file` (por isso `.env` precisa existir antes — rode um dos
-  scripts em `setups/` primeiro), e sobrescreve só o necessário para rodar dentro da rede
-  Docker (`DB_CONNECTION=pg`, `DB_HOST=db`, `SMTP_HOST=mailpit`, etc.).
+  scripts em `setups/` primeiro, incluindo um `RESEND_API_KEY` real para enviar email), e
+  sobrescreve só o necessário para rodar dentro da rede Docker (`DB_CONNECTION=pg`,
+  `DB_HOST=db`, etc.).
 - **`db`** — PostgreSQL 17, com healthcheck (`pg_isready`) para o `app` esperar antes de
   subir.
-- **`mailpit`** — caixa de entrada de email local (SMTP na porta 1025, UI web em
-  `http://localhost:8025`), sem precisar de nenhuma conta real.
 
-### Rodar tudo (app + banco + email) via Docker
+Email (password reset, magic link, contato) é enviado via Resend — não há mais um serviço
+local de inbox (Mailpit foi removido); ver `docs/deployment.md#galaxy-cloud` e
+`config/mail.ts`.
+
+### Rodar tudo (app + banco) via Docker
 
 ```bash
 docker compose -f infra/docker-compose.yml up -d
@@ -60,12 +63,12 @@ Acesse em `http://localhost:3333`. Pare tudo com:
 docker compose -f infra/docker-compose.yml down
 ```
 
-### Rodar só a infraestrutura (banco + email), app local com hot-reload
+### Rodar só a infraestrutura (banco), app local com hot-reload
 
 Fluxo usado pelos scripts `setups/*-postgresql-docker.sh`:
 
 ```bash
-docker compose -f infra/docker-compose.yml up -d db mailpit
+docker compose -f infra/docker-compose.yml up -d db
 npm run dev
 ```
 

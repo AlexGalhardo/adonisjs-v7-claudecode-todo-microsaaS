@@ -29,9 +29,10 @@ match, not user-supplied secrets needing brute-force resistance per guess.
 ## 3. Mail class
 
 `node ace make:mail your_flow_notification` → extend `BaseMail`, take the target user and
-a pre-built URL in the constructor, reuse `app/mails/email_layout.ts` for the HTML body
-(don't build a new template unless the email actually needs more than a heading + message
-+ button).
+a pre-built URL in the constructor, render the HTML body with the shared
+`app/mails/components/email_layout.tsx` react-email component (don't build a new template
+unless the email actually needs more than a heading + message + button) via
+`app/mails/render.ts`'s `renderEmail()` helper.
 
 ## 4. Controller shape
 
@@ -52,7 +53,7 @@ arbitrary email and sends mail, so it's a spam vector without one.
 
 ## 6. Testing
 
-Use `mail.fake()` (see `docs/testing.md`) — never depends on a real SMTP server. Pull the
+Use `mail.fake()` (see `docs/testing.md`) — never depends on a real call to the Resend API. Pull the
 token out of the faked mail's URL property (make it `public` on the Mail class
 constructor param specifically so tests can read it back). Cover: happy path, unknown
 email still responds successfully, invalid/expired token rejected, token can't be reused.
