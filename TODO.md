@@ -1,165 +1,240 @@
-# TODO — TODO List Full-Stack (AdonisJS v7)
+# Faça
 
-Fonte de verdade do progresso. Atualizar a cada tarefa concluída.
+IMPORTANTE: 
+- Atualize toda a interface da aplicação para ficar em ingles -> crie essa regra no claude.md para os agentes sempre lembrarem;
+- Toda a lógica de endpoints, urls, etc devem ficar em inglês;
+- Usuários autenticados na aplicação não podem conseguir as páginas de login, signup, forget-password, reset-password e landing page -> devem ser redirecionados para o /app;
+- A fonte geral da aplicação deve ser: JetBrains Mono
+- Adicione na pasta skills dessa aplicação as skills e use elas quando necessário:
+    - https://www.skills.sh/anthropics/skills/frontend-design
+    - https://www.skills.sh/vercel-labs/agent-skills/web-design-guidelines
+    - https://www.skills.sh/vercel-labs/agent-skills/vercel-react-best-practices
+    - https://www.skills.sh/nextlevelbuilder/ui-ux-pro-max-skill/ui-ux-pro-max
+    - https://www.skills.sh/leonxlnx/taste-skill/minimalist-ui
 
-Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendência externa (ver notas)
+## ANTES DE COMEÇAR AS TAREFAS
+- Crie um arquivo chamado PLAN.md na raiz desse projeto e coloque todos as tarefas com o [x] checklist de cada item que tu vai fazer para você não perder o contexto e para futuras sessões se necessário;
+- Não se esqueça de usar as melhores práticas de git commit, semver, etc;
+- A cada finalização de tarefa, faça o commit e pode fazer o push direto para a master também para guardar o resultado;
 
-## Fase 0 — Bootstrap
+## Bug Deploy
 
-- [x] Scaffold do projeto via `create-adonisjs` (kit `react` = Inertia + React 19, já traz Lucid, VineJS, Session Auth, Shield, Vite)
-- [x] Confirmar Node v24+ (ambiente tem v26.8.1) e AdonisJS v7.5.0 real (publicado no npm)
-- [x] `TODO.md` inicial (este arquivo)
-- [x] `CLAUDE.md` + esqueleto de `docs/`
-- [x] Primeiro commit (`chore: bootstrap adonisjs v7 + inertia react project`)
+1 - Corrija esse problema de deploy no [galaxy cloud](https://galaxycloud.app/) usando sqlite dentro do contexto do Docker:
 
-## Fase 1 — Banco de dados dual (SQLite / PostgreSQL)
+```
+17:13:31.443ERROR: failed to build: failed to solve: process "/bin/sh -c npm i" did not complete successfully: exit code: 117:13:31.457✗ Build failed: Docker build failed: #0 building with "default" instance using docker driver
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 582B done
+#1 DONE 0.0s
+#2 [internal] load metadata for docker.io/meteor/galaxy-node:24.13.0
+#2 DONE 0.1s
+#3 [internal] load .dockerignore
+#3 transferring context: 108B done
+#3 DONE 0.0s
+#4 [base 1/1] FROM docker.io/meteor/galaxy-node:24.13.0@sha256:17e97d77cf88f942e6f0f214ef4dfaff695d96c717d6799888f253574d078d25
+#4 DONE 0.0s
+#5 [deps 1/4] WORKDIR /app
+#5 CACHED
+#6 [internal] load build context
+#6 transferring context: 711.43kB 0.0s done
+#6 DONE 0.0s
+#7 [deps 2/4] ADD package.json package-lock.json ./
+#7 DONE 0.1s
+#8 [deps 3/4] ADD .npmrc ./
+#8 DONE 0.0s
+#9 [deps 4/4] RUN npm i
+#9 7.252 npm error code 1
+#9 7.252 npm error path /app/node_modules/better-sqlite3
+#9 7.252 npm error command failed
+#9 7.252 npm error command sh -c node-gyp rebuild
+#9 7.256 npm error gyp info it worked if it ends with ok
+#9 7.256 npm error gyp info using node-gyp@11.4.2
+#9 7.256 npm error gyp info using node@24.13.0 | linux | x64
+#9 7.256 npm error gyp ERR! find Python 
+#9 7.256 npm error gyp ERR! find Python Python is not set from command line or npm configuration
+#9 7.256 npm error gyp ERR! find Python Python is not set from environment variable PYTHON
+#9 7.256 npm error gyp ERR! find Python checking if "python3" can be used
+#9 7.256 npm error gyp ERR! find Python - executable path is ""
+#9 7.256 npm error gyp ERR! find Python - "" could not be run
+#9 7.256 npm error gyp ERR! find Python checking if "python" can be used
+#9 7.256 npm error gyp ERR! find Python - executable path is ""
+#9 7.256 npm error gyp ERR! find Python - "" could not be run
+#9 7.256 npm error gyp ERR! find Python 
+#9 7.256 npm error gyp ERR! find Python **********************************************************
+#9 7.256 npm error gyp ERR! find Python You need to install the latest version of Python.
+#9 7.256 npm error gyp ERR! find Python Node-gyp should be able to find and use Python. If not,
+#9 7.256 npm error gyp ERR! find Python you can try one of the following options:
+#9 7.256 npm error gyp ERR! find Python - Use the switch --python="/path/to/pythonexecutable"
+#9 7.256 npm error gyp ERR! find Python (accepted by both node-gyp and npm)
+#9 7.256 npm error gyp ERR! find Python - Set the environment variable PYTHON
+#9 7.256 npm error gyp ERR! find Python - Set the npm configuration variable python:
+#9 7.256 npm error gyp ERR! find Python npm config set python "/path/to/pythonexecutable"
+#9 7.256 npm error gyp ERR! find Python For more information consult the documentation at:
+#9 7.256 npm error gyp ERR! find Python https://github.com/nodejs/node-gyp#installation
+#9 7.256 npm error gyp ERR! find Python **********************************************************
+#9 7.256 npm error gyp ERR! find Python 
+#9 7.256 npm error gyp ERR! configure error 
+#9 7.256 npm error gyp ERR! stack Error: Could not find any Python installation to use
+#9 7.256 npm error gyp ERR! stack at PythonFinder.fail (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/find-python.js:306:11)
+#9 7.256 npm error gyp ERR! stack at PythonFinder.findPython (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/find-python.js:164:17)
+#9 7.256 npm error gyp ERR! stack at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+#9 7.256 npm error gyp ERR! stack at async configure (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/configure.js:27:18)
+#9 7.256 npm error gyp ERR! stack at async run (/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js:81:18)
+#9 7.256 npm error gyp ERR! System Linux 6.8.0-90-generic
+#9 7.256 npm error gyp ERR! command "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
+#9 7.256 npm error gyp ERR! cwd /app/node_modules/better-sqlite3
+#9 7.256 npm error gyp ERR! node -v v24.13.0
+#9 7.256 npm error gyp ERR! node-gyp -v v11.4.2
+#9 7.256 npm error gyp ERR! not ok
+#9 7.257 npm notice
+#9 7.257 npm notice New minor version of npm available! 11.6.2 -> 11.19.1
+#9 7.257 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.19.1
+#9 7.257 npm notice To update run: npm install -g npm@11.19.1
+#9 7.257 npm notice
+#9 7.258 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-09-22T20_13_24_203Z-debug-0.log
+#9 ERROR: process "/bin/sh -c npm i" did not complete successfully: exit code: 1
+------
+ > [deps 4/4] RUN npm i:
+7.256 npm error gyp ERR! cwd /app/node_modules/better-sqlite3
+7.256 npm error gyp ERR! node -v v24.13.0
+7.256 npm error gyp ERR! node-gyp -v v11.4.2
+7.256 npm error gyp ERR! not ok
+7.257 npm notice
+7.257 npm notice New minor version of npm available! 11.6.2 -> 11.19.1
+7.257 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.19.1
+7.257 npm notice To update run: npm install -g npm@11.19.1
+7.257 npm notice
+7.258 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-09-22T20_13_24_203Z-debug-0.log
+------
+Dockerfile:8
+--------------------
+   6 |     ADD package.json package-lock.json ./
+   7 |       ADD .npmrc ./
+   8 | >>>   RUN npm i
+   9 |     
+  10 |     FROM base AS production-deps
+--------------------
+Dockerfile:15
+--------------------
+  13 |       ADD .npmrc ./
+  14 |     
+  15 | >>>     RUN npm i
+  16 |     
+  17 |     FROM base AS build
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c npm i" did not complete successfully: exit code: 1
+```
 
-- [x] Instalar driver `pg`
-- [x] `config/database.ts` lendo `DB_CONNECTION` do `.env` (sqlite | pg) sem alterar código
-- [x] `.env.example` completo e comentado para os dois drivers
-- [x] `docs/database.md`
-- [x] Teste: migrations rodam em ambos os drivers (sqlite local; pg via container Docker
-      temporário — migrou com sucesso em ambos sem alterar código)
+2 - Envio de Emails
 
-## Fase 2 — Estilo (Tailwind v4 + Base UI)
+- Retire a lógica de SMTP no envio de emails, e use o Resend no lugar com essas .envs aqui que já estão setadas:
 
-- [x] Instalar Tailwind CSS v4 (plugin Vite) + Base UI
-- [x] Layout base React (Inertia) com Tailwind aplicado (header, home, login, signup,
-      páginas de erro; componentes reutilizáveis `TextField`/`Button`)
-- [x] Verificar dev server renderiza estilos corretamente (screenshot via Playwright,
-      sem erros de console) — uso real do Base UI (Dialog/Checkbox/Menu) chega na Fase 3
-      junto com a UI de Todos, onde faz sentido de fato
+```bash
+RESEND_API_KEY=re_WJUSU4P6_HqVZNAK4gQPo9hmSdbcNqPwu
+MAIL_FROM_ADDRESS=onboarding@resend.dev
+MAIL_FROM_NAME=Todo
+```
+- Use o https://react.email/ em todos os emails enviados nessa aplicação
 
-## Fase 3 — Domínio Todos (CRUD)
+3 - Interface web para ver dados do banco de dados
 
-- [x] Migration `todos` (user_id FK, title, description, completed, timestamps) + migration
-      `auth_access_tokens` (necessária para o guard de tokens da API)
-- [x] Model `Todo` (belongsTo User) + relação inversa `User.todos` (hasMany)
-- [x] `TodoService` (regra de negócio, controllers finos)
-- [x] Validators VineJS (create/update)
-- [x] Policy `TodoPolicy` (Bouncer) — usuário só acessa seus próprios todos
-- [x] Controller web (Inertia): index/store/update/destroy (toggle reaproveita update)
-- [x] Páginas React: lista (`todos/index`), modal de criar/editar com Base UI Dialog,
-      Checkbox (concluído) e Menu (editar/excluir) — primeiro uso real do Base UI
-- [x] Controller API REST equivalente (`/api/todos`) com guard de access tokens (`api`)
-      + `POST/DELETE /api/login|logout` para emitir/revogar o token
-- [x] Rotas web + API, ambas autenticadas
-- [x] Testes: 11 unitários (`TodoService` + validators), 12 funcionais (web + API,
-      incluindo autorização cruzada entre usuários), 1 E2E de browser (signup → criar →
-      concluir → editar → excluir → logout) — 24/24 passando
-- [x] `npm run build` (produção) validado de ponta a ponta
+Siga essa solução que o claude me recomendou para ver os dados em uma interface web:
 
-## Fase 4 — Autenticação e autorização (extensões)
+- Usar o Drizzle Studio só como visualizador (o mais parecido com o que você quer)
 
-- [x] `@adonisjs/mail` (SMTP), `@adonisjs/ally` (Google/GitHub) e `@adonisjs/limiter`
-      (store `database`) instalados e configurados
-- [x] Recuperação de senha (solicitar → token por email → redefinir) — tabela genérica
-      `auth_tokens` (reaproveitada pelo magic link), token hasheado (SHA-256) e de uso
-      único, resposta uniforme para não vazar quais emails existem
-- [x] Magic link login (token único por email, sem senha) — reaproveita `auth_tokens`/
-      `AuthTokenService` da recuperação de senha
-- [x] 2FA TOTP (enroll com QR code, verificação no login) — implementação própria
-      (RFC 6238 via `node:crypto`, sem pacote oficial disponível), secret e códigos de
-      recuperação criptografados em repouso, `serializeAs: null` no model auto-gerado
-- [x] Login social Google (Ally) — `GET/GET /oauth/google/redirect|callback`
-- [x] Login social GitHub (Ally) — `GET/GET /oauth/github/redirect|callback`
-- [x] Guard de access tokens para API (`tokens` guard do `@adonisjs/auth`) — feito na Fase 3
-- [x] Rate limiting em login (5/min), recuperação de senha e magic link (3/15min cada),
-      por IP (`@adonisjs/limiter`, store `database`)
-- [x] `docs/auth.md` completo (recuperação de senha, magic link, 2FA, login social)
-- [x] Testes: recuperação de senha (4), magic link (4), rate limiting (1), TOTP (5
-      unitários), 2FA end-to-end (4 funcionais), login social (4 — redirect/404, sem
-      credenciais reais) — 45/45 funcionais+unitários, 46 com o E2E de browser
+Você não troca o Lucid por nada. Instala o drizzle-kit apenas como dependência de desenvolvimento, aponta para o mesmo banco e usa só o Studio.
 
-> Nota (pendência externa): login social (Google/GitHub) e envio de email (reset/magic
-> link) precisam de credenciais reais (`GOOGLE_CLIENT_*`, `GITHUB_CLIENT_*`, `SMTP_*`) que
-> só o usuário pode gerar — ver instruções em `.env.example` e `docs/auth.md`. O código
-> está completo e testado (redirect real ao provedor, criação/login de conta por email
-> coincidente, tratamento de erro do OAuth); só falta o usuário preencher o `.env` com
-> valores reais para validar o fluxo de callback ponta a ponta com uma conta de verdade.
+bash
+npm i -D drizzle-kit drizzle-orm
 
-## Fase 5 — Seeds
+Crie um drizzle.config.ts na raiz. Exemplo para PostgreSQL:
 
-- [x] Seeder admin (`admin@gmail.com` / `adminBR@123`) + 3 todos de exemplo —
-      idempotente via `firstOrCreate`, verificado rodando o seed duas vezes (sem
-      duplicar) e fazendo login real do admin na UI (screenshot conferido)
-- [x] `node ace db:seed` documentado (`docs/database.md`)
+ts
+import { defineConfig } from 'drizzle-kit'
 
-## Fase 6 — API
+export default defineConfig({
+  dialect: 'postgresql',
+  out: './drizzle',
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+})
 
-- [x] `docs/api.md` (contratos de request/response de todos os endpoints REST) — escrito
-      antecipadamente junto com a Fase 3; revisar quando a Fase 4 adicionar mais rotas
+Para SQLite, troque por dialect: 'sqlite' e dbCredentials: { url: './tmp/db.sqlite3' }, usando o caminho que está no seu config/database.ts.
 
-## Fase 7 — Infraestrutura
+Depois rode:
 
-- [x] `infra/Dockerfile` multi-stage produção — testado com `docker build` real
-      (precisou de `python3 make g++` no estágio de deps para compilar `better-sqlite3`,
-      e copiar `.npmrc` para os estágios que rodam `npm ci`)
-- [x] `infra/docker-compose.yml` (app + Postgres + Mailpit) — `docker compose up` completo
-      testado ponta a ponta (build → migrate --force → seed → login real no navegador)
-- [x] `setups/setup-unix-using-sqlite-localhost.sh` — testado (caminho novo e idempotente)
-- [x] `setups/setup-unix-using-postgresql-localhost.sh` — testado contra um Postgres real
-      (sucesso e também o caminho de erro quando nenhum servidor responde)
-- [x] `setups/setup-unix-using-postgresql-docker.sh` — testado ponta a ponta, incluindo
-      `npm run dev` local + login real contra o Postgres em Docker
-- [x] `setups/setup-windows-using-sqlite-localhost.sh` — mesma lógica verificada da
-      variante unix (script roda via Git Bash em ambas as plataformas)
-- [x] `setups/setup-windows-using-postgresql-localhost.sh` — idem
-- [x] `setups/setup-windows-using-postgresql-docker.sh` — idem
-- [x] `docs/deployment.md`
+bash
+npx drizzle-kit pull    # lê o banco e gera um schema na pasta ./drizzle
+npx drizzle-kit studio  # abre a interface web
 
-> Bug real encontrado e corrigido testando os scripts: `.env`/`.env.example` não
-> terminavam com quebra de linha, então `echo "CHAVE=valor" >> .env` colava o valor no
-> final da última linha existente em vez de criar uma nova (ex.:
-> `LIMITER_STORE=databaseDB_HOST=localhost`). Corrigido garantindo quebra de linha final
-> antes de qualquer append, nos 6 scripts e nos dois arquivos `.env*`.
->
-> Também descoberto: `@adonisjs/ally@6.3.0` declara peer dependency desatualizada contra
-> `@adonisjs/inertia@^4.2.0` (o projeto usa v5), quebrando `npm install` puro com
-> ERESOLVE. Corrigido com um `.npmrc` (`legacy-peer-deps=true`) na raiz — nenhum script
-> ou comando precisa mais saber desse detalhe.
+As migrations continuam sendo do Lucid (node ace migration:run). Sempre que mudar o banco, rode o pull de novo para o Studio enxergar as tabelas novas. Coloque a pasta ./drizzle no .gitignore se não quiser versioná-la.
 
-## Fase 8 — Documentação final
 
-- [x] `docs/architecture.md`
-- [x] `docs/testing.md` — escrito antecipadamente junto com a Fase 3
-- [x] `.claude/skills/` com os fluxos dominados: CRUD completo, testar rotas autenticadas,
-      driver dual de banco, fluxo de email com token de uso único, evitar surpresas de
-      peer deps do npm, verificar infra Docker de verdade (6 skills no total)
-- [x] `README.md` completo na raiz — instalação (scripts e manual), variáveis de
-      ambiente, SQLite/Postgres/Docker, testes, credenciais de seed
-- [x] Revisão final do Definition of Done (ver seção abaixo)
+4 - Na página de /login:
 
-## Definition of Done — revisão final
+- Coloque aquele ícone de olho no input de senha para o usuário poder ver ou não sua senha digitada
+- O input da senha ter no mínimo 8 characteres e no máximo 32 characteres
+- Retire a navbar dessa página e adicione apenas O título da página centralizado em cima do formulario para o usuário ir para a landing page;
+- Mantenha essa página em modo dark theme padrão;
 
-- [x] `CLAUDE.md` e `docs/` completos e linkados
-- [x] `TODO.md` com histórico de tarefas 100% marcado
-- [x] Autenticação completa (registro, login, logout, recuperação de senha, magic link,
-      2FA, login social) funcionando e testada
-- [x] Seed admin + todos de exemplo presentes no banco (idempotente, verificado)
-- [x] CRUD de todos funcionando via web (Inertia) e via API REST
-- [x] SQLite e PostgreSQL funcionando via `.env`, sem alterar código (verificado contra
-      Postgres real, container e nativo)
-- [x] Testes unitários, de integração e E2E passando (46/46)
-- [x] Docker (`infra/`) subindo a aplicação do zero com sucesso (verificado de ponta a
-      ponta: build → up → migrate → seed → login real no navegador)
-- [x] Todos os 6 scripts em `setups/` testados e funcionando (os 3 `unix-*` rodados de
-      ponta a ponta contra bancos reais; os 3 `windows-*` compartilham a mesma lógica já
-      verificada, rodam via Git Bash)
-- [x] `.env.example` completo
-- [x] `README.md` permite a qualquer pessoa rodar o projeto do zero seguindo apenas o
-      documento
-- [x] Histórico de commits segue Conventional Commits e releases seguem SemVer (tags
-      locais `v0.1.0` a `v0.10.0`; sem push para GitHub por decisão do usuário — ver nota
-      abaixo)
+5 - Na página /signup:
 
-> Nota: o usuário optou por não configurar um repositório remoto no GitHub nesta sessão
-> (sem `gh` CLI disponível no ambiente) — o versionamento segue via commits locais +
-> tags git seguindo SemVer, e cabe ao usuário publicar num remoto quando desejar.
+- O input de full name deve começar cada inicio de nome com letra maiuscula UPPERCASE -> Exemplo: alex galhardo -> Alex Galhardo
+- O input de full name deve ter no mínimo 4 characteres e no máximo 24 characters;
+- Coloque aquele ícone de olho no input de senha para o usuário poder ver ou não sua senha digitada
+- A senha do usuário deve ter no mínimo 8 characteres e no máximo 32 characteres, seguindo as regras: pelo menos 1 letra UPPERCASE, 1 letra lowercase, pelo menos 1 número, e pelo menos 1 character especial;
+- Mude os textos dos buttons de criar conta do github e google para -> Create Account with GitHub/Google e coloque o ícone de cada no inicio do texto;
+- Retire a navbar dessa página e adicione apenas O título da página centralizado em cima do formulario para o usuário ir para a landing page;
+- Mantenha essa página em modo dark theme padrão;
 
-## Pendências externas conhecidas
 
-- Credenciais reais de OAuth (Google/GitHub) — usuário deve criar os apps e preencher `.env`
-- Credenciais reais de SMTP para envio de email (reset de senha, magic link) — usuário deve
-  fornecer um provedor (ex.: Mailtrap para dev, SMTP real para produção)
-- Teste dos 6 scripts em `setups/` em ambiente Windows real e Unix real com Docker rodando
+
+
+6 - Na página /forget-password:
+- Retire a navbar dessa página e adicione apenas O título da página centralizado em cima do formulario para o usuário ir para a landing page;
+- Mantenha essa página em modo dark theme padrão;
+
+7 - Na página landing page index /:
+- Retire o botão 'começar agora'
+- Melhore a interface da landing page para ficar com viewport (usuário não consegue dar scroll) com efeito de 'matrix' no fundo caindo os números 1 e 0, em modo dark theme padrão;
+- Crie um titulo atraente no grid da esquerda (metade da página) e na direita deixe uma imagem placeholder (vou colocar um gif depois da aplicação funcionando)
+- Estilize os botões de Signup com cor verde 'matrix' de terminal com efeito de hover e o de login em cor branca com efeito de hover também;
+- No footer, na esquerda deixe os 'Todos os direitos reservados' e na direita deixe os 3 links em ordem: Contact, Terms Of Use, e Privacy Policy
+
+8 - Página de contato /contact:
+- Crie essa página com 3 inputs:
+    - Full name (se usuário já autenticado, deixar pré-preenchido, com input disabled mas que pode ser enviado no envio da mensagem)
+    - Email (se usuário já autenticado, deixar pré-preenchido, com input disabled mas que pode ser enviado no envio da mensagem)
+    - Select para escolher assunto: Bug/Problema técnico, sugestão ou dúvida, Outros assuntos
+    - TextArea com 7 rows (usuário tem que digitar no mínimo 32 characteres e no máximo 512 characteres) -> coloque um [x]/512 characteres cound para o usuário ver quanto ele pode digitar ainda;
+    - Botão com hover na cor verde matrix
+
+9 - Na página /todos:
+- Mude o caminho dessa página para ficar como -> /dashboard;
+- Coloque na navbar apenas o título da aplicação na extrema esquerda e na extrema direita deixe apenas o icone de usuário com um dropdown com 3 botões: Profile, API, Toggle light/dark theme e logout
+
+10 - Página de /profile/api:
+- Crie essa página para o usuário ver a documentação da API rest para que ele possa usar os endpoints;
+- Essa página deve gerar os token de api do usuário;
+- Use a lib clipboardjs para copiar essas tokens, urls, códigos exemplo etc (não se esqueça do toast avisando que foi copiado);
+- Use a lib @scalar/api-reference-react para criar essa documentação
+- Não se esqueça de colocar exemplos práticos usando cURL e javascript com fetch nativo usando essas API REST;
+
+11 - Página de profile /profile:
+- Crie essa página de profile para o usuário poder editar seu nome
+- Input de email com email prépreenchido disabled (usuário naõ pode mudar email)
+- Formulário para usuário poder trocar sua senha
+- Botão para usuário poder excluir sua conta (abrir modal com coldown de 10 segundos mostrando na tela, informando que o usuário pode relogar em sua conta em até 30 dias antes de exclusão permanente)
+- Formulário sobre informações de 2FA
+
+12 - BiomeJS v2
+- Retire o lint e o format padrão do adonisjs e coloque o biomejs v2 no lugar para corrigir problemas de linter e formatação
+
+13 - Hooks Git usando Husky
+- Adicione o husky na aplicação e crie os arquivos pre-commit e pre-push e verifique quando necessário detalhes de formater, linter, build, testes, commit semantic, semver, etc
+
+14 - CI/CD Github integrado com o https://galaxycloud.app/ usando GitHub Actions:
+- Crie todo o fluxo necessário para eu fazer deploy dessa aplicação com ci/cd integrado com o github actions na galaxy cloud;
+- Peça todas as permissões e configurações necessárias no chat se precisar para você poder fazer tudo isso sozinho;
+- Não se esqueça de criar a documentação no docs/ e skill necessário se considerar útil

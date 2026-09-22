@@ -6,9 +6,9 @@ tmp/*
 
 # Secrets
 .env
-.env.local
-.env.production.local
-.env.development.local
+.env.*
+!.env.example
+!.env.test
 
 # Frontend assets compiled code
 public/assets
@@ -16,6 +16,12 @@ public/assets
 # Build tools specific
 npm-debug.log
 yarn-error.log
+
+# This project uses npm (package-lock.json) exclusively — ignore other lockfiles
+# that get created if someone accidentally runs a different package manager.
+bun.lock
+pnpm-lock.yaml
+yarn.lock
 
 # Editors specific
 .fleet
