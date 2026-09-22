@@ -115,6 +115,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/password_resets_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'magic_links.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/magic-link'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['create']>>>
+    }
+  }
+  'magic_links.store': {
+    methods: ["POST"]
+    pattern: '/magic-link'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/magic_link').requestMagicLinkValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/magic_link').requestMagicLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'magic_links.consume': {
+    methods: ["GET","HEAD"]
+    pattern: '/magic-link/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['consume']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['consume']>>>
+    }
+  }
   'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'

@@ -40,6 +40,13 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Login
             </Button>
+
+            <Link
+              route="magic_links.create"
+              className="text-center text-sm text-gray-6 hover:text-gray-12"
+            >
+              Or log in with a link, no password needed
+            </Link>
           </>
         )}
       </Form>

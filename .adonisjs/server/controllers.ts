@@ -8,6 +8,7 @@ export const controllers = {
     Session: () => import('#controllers/api/session_controller'),
     Todos: () => import('#controllers/api/todos_controller'),
   },
+  MagicLinks: () => import('#controllers/magic_links_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   PasswordResets: () => import('#controllers/password_resets_controller'),
   Session: () => import('#controllers/session_controller'),

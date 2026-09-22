@@ -10,7 +10,7 @@
 import { middleware } from '#start/kernel'
 import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
-import { loginThrottle, passwordResetThrottle } from '#start/limiter'
+import { loginThrottle, magicLinkThrottle, passwordResetThrottle } from '#start/limiter'
 
 router.on('/').renderInertia('home', {}).as('home')
 
@@ -26,6 +26,10 @@ router
     router.post('forgot-password', [controllers.PasswordResets, 'store']).use(passwordResetThrottle)
     router.get('reset-password/:token', [controllers.PasswordResets, 'edit'])
     router.put('reset-password', [controllers.PasswordResets, 'update'])
+
+    router.get('magic-link', [controllers.MagicLinks, 'create'])
+    router.post('magic-link', [controllers.MagicLinks, 'store']).use(magicLinkThrottle)
+    router.get('magic-link/:token', [controllers.MagicLinks, 'consume'])
   })
   .use(middleware.guest())
 

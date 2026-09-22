@@ -13,6 +13,9 @@ export type ScannedRoutes = {
     'password_resets.store': { paramsTuple?: []; params?: {} }
     'password_resets.edit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'password_resets.update': { paramsTuple?: []; params?: {} }
+    'magic_links.create': { paramsTuple?: []; params?: {} }
+    'magic_links.store': { paramsTuple?: []; params?: {} }
+    'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'todos.index': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
@@ -32,6 +35,8 @@ export type ScannedRoutes = {
     'session.create': { paramsTuple?: []; params?: {} }
     'password_resets.create': { paramsTuple?: []; params?: {} }
     'password_resets.edit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'magic_links.create': { paramsTuple?: []; params?: {} }
+    'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -42,6 +47,8 @@ export type ScannedRoutes = {
     'session.create': { paramsTuple?: []; params?: {} }
     'password_resets.create': { paramsTuple?: []; params?: {} }
     'password_resets.edit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'magic_links.create': { paramsTuple?: []; params?: {} }
+    'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -50,6 +57,7 @@ export type ScannedRoutes = {
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'password_resets.store': { paramsTuple?: []; params?: {} }
+    'magic_links.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }

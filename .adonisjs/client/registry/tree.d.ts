@@ -18,6 +18,11 @@ export interface ApiDefinition {
     edit: typeof routes['password_resets.edit']
     update: typeof routes['password_resets.update']
   }
+  magicLinks: {
+    create: typeof routes['magic_links.create']
+    store: typeof routes['magic_links.store']
+    consume: typeof routes['magic_links.consume']
+  }
   todos: {
     index: typeof routes['todos.index']
     store: typeof routes['todos.store']

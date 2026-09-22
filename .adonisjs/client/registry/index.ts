@@ -60,6 +60,24 @@ const routes = {
     tokens: [{"old":"/reset-password","type":0,"val":"reset-password","end":""}],
     types: placeholder as Registry['password_resets.update']['types'],
   },
+  'magic_links.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/magic-link',
+    tokens: [{"old":"/magic-link","type":0,"val":"magic-link","end":""}],
+    types: placeholder as Registry['magic_links.create']['types'],
+  },
+  'magic_links.store': {
+    methods: ["POST"],
+    pattern: '/magic-link',
+    tokens: [{"old":"/magic-link","type":0,"val":"magic-link","end":""}],
+    types: placeholder as Registry['magic_links.store']['types'],
+  },
+  'magic_links.consume': {
+    methods: ["GET","HEAD"],
+    pattern: '/magic-link/:token',
+    tokens: [{"old":"/magic-link/:token","type":0,"val":"magic-link","end":""},{"old":"/magic-link/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['magic_links.consume']['types'],
+  },
   'session.destroy': {
     methods: ["POST"],
     pattern: '/logout',

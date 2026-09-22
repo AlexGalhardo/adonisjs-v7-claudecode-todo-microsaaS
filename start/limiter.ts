@@ -24,3 +24,11 @@ export const loginThrottle = limiter.define('login', () => {
 export const passwordResetThrottle = limiter.define('password_reset', () => {
   return limiter.allowRequests(3).every('15 minutes')
 })
+
+/**
+ * Same limits as password reset — same abuse shape (spamming emails to
+ * arbitrary addresses).
+ */
+export const magicLinkThrottle = limiter.define('magic_link', () => {
+  return limiter.allowRequests(3).every('15 minutes')
+})

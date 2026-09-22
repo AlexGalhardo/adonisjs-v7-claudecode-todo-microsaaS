@@ -33,6 +33,16 @@ Fluxo: `POST /forgot-password` (email) → email com link assinado (via um token
   caixa de entrada local; nos testes, `mail.fake()` intercepta o envio sem precisar de
   nenhum servidor SMTP real.
 
+## Magic link
+
+`POST /magic-link` (email) → email com link de login de uso único → `GET
+/magic-link/:token` autentica direto (sem senha) e redireciona para `/todos`.
+
+Reaproveita `AuthTokenService`/`auth_tokens` (mesma tabela da recuperação de senha, com
+`type = 'magic_link'`), o mesmo princípio de resposta uniforme (não revela quais emails
+existem) e a mesma limitação de 3 pedidos a cada 15 minutos por IP. O link expira em 15
+minutos e só pode ser usado uma vez.
+
 ## Autorização
 
 Cada usuário só acessa seus próprios todos, reforçado por `TodoPolicy`
