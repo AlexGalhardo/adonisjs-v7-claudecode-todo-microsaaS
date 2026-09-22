@@ -1,5 +1,6 @@
 import { defineConfig } from '@adonisjs/auth'
 import { sessionGuard, sessionUserProvider } from '@adonisjs/auth/session'
+import { tokensGuard, tokensUserProvider } from '@adonisjs/auth/access_tokens'
 import type { InferAuthenticators, InferAuthEvents, Authenticators } from '@adonisjs/auth/types'
 
 const authConfig = defineConfig({
@@ -10,7 +11,7 @@ const authConfig = defineConfig({
 
   guards: {
     /**
-     * Session-based guard for browser authentication.
+     * Session-based guard for browser (Inertia) authentication.
      */
     web: sessionGuard({
       /**
@@ -19,6 +20,16 @@ const authConfig = defineConfig({
       useRememberMeTokens: false,
 
       provider: sessionUserProvider({
+        model: () => import('#models/user'),
+      }),
+    }),
+
+    /**
+     * Access-tokens guard used by the REST API (Authorization: Bearer <token>).
+     */
+    api: tokensGuard({
+      provider: tokensUserProvider({
+        tokens: 'accessTokens',
         model: () => import('#models/user'),
       }),
     }),

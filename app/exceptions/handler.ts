@@ -30,6 +30,17 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    /**
+     * Self-rendering exceptions (VineJS validation, Bouncer authorization) pick
+     * HTML-vs-JSON based on the request's Accept header, redirecting browser
+     * navigations back with a flashed error. The REST API is a pure JSON
+     * surface with no "back" page to redirect to, so force JSON here
+     * regardless of what the client sent.
+     */
+    if (ctx.request.url().startsWith('/api/')) {
+      ctx.request.request.headers.accept = 'application/json'
+    }
+
     return super.handle(error, ctx)
   }
 

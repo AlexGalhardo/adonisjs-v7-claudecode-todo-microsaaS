@@ -8,9 +8,9 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 - [x] Scaffold do projeto via `create-adonisjs` (kit `react` = Inertia + React 19, já traz Lucid, VineJS, Session Auth, Shield, Vite)
 - [x] Confirmar Node v24+ (ambiente tem v26.8.1) e AdonisJS v7.5.0 real (publicado no npm)
-- [ ] `TODO.md` inicial (este arquivo)
-- [ ] `CLAUDE.md` + esqueleto de `docs/`
-- [ ] Primeiro commit (`chore: bootstrap adonisjs v7 + inertia react project`)
+- [x] `TODO.md` inicial (este arquivo)
+- [x] `CLAUDE.md` + esqueleto de `docs/`
+- [x] Primeiro commit (`chore: bootstrap adonisjs v7 + inertia react project`)
 
 ## Fase 1 — Banco de dados dual (SQLite / PostgreSQL)
 
@@ -32,16 +32,22 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 3 — Domínio Todos (CRUD)
 
-- [ ] Migration `todos` (user_id FK, title, description, completed, timestamps)
-- [ ] Model `Todo` (belongsTo User)
-- [ ] `TodoService` (regra de negócio, controllers finos)
-- [ ] Validators VineJS (create/update)
-- [ ] Policy `TodoPolicy` (Bouncer) — usuário só acessa seus próprios todos
-- [ ] Controller web (Inertia): index/store/update/toggle/destroy
-- [ ] Páginas React: lista, criar/editar (modal ou página), estado concluído
-- [ ] Controller API REST equivalente (`/api/todos`) com guard de access tokens
-- [ ] Rotas web + API, ambas autenticadas
-- [ ] Testes unitários (TodoService), funcionais (controllers web+API), E2E (fluxo completo)
+- [x] Migration `todos` (user_id FK, title, description, completed, timestamps) + migration
+      `auth_access_tokens` (necessária para o guard de tokens da API)
+- [x] Model `Todo` (belongsTo User) + relação inversa `User.todos` (hasMany)
+- [x] `TodoService` (regra de negócio, controllers finos)
+- [x] Validators VineJS (create/update)
+- [x] Policy `TodoPolicy` (Bouncer) — usuário só acessa seus próprios todos
+- [x] Controller web (Inertia): index/store/update/destroy (toggle reaproveita update)
+- [x] Páginas React: lista (`todos/index`), modal de criar/editar com Base UI Dialog,
+      Checkbox (concluído) e Menu (editar/excluir) — primeiro uso real do Base UI
+- [x] Controller API REST equivalente (`/api/todos`) com guard de access tokens (`api`)
+      + `POST/DELETE /api/login|logout` para emitir/revogar o token
+- [x] Rotas web + API, ambas autenticadas
+- [x] Testes: 11 unitários (`TodoService` + validators), 12 funcionais (web + API,
+      incluindo autorização cruzada entre usuários), 1 E2E de browser (signup → criar →
+      concluir → editar → excluir → logout) — 24/24 passando
+- [x] `npm run build` (produção) validado de ponta a ponta
 
 ## Fase 4 — Autenticação e autorização (extensões)
 
@@ -67,7 +73,8 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 6 — API
 
-- [ ] `docs/api.md` (contratos de request/response de todos os endpoints REST)
+- [x] `docs/api.md` (contratos de request/response de todos os endpoints REST) — escrito
+      antecipadamente junto com a Fase 3; revisar quando a Fase 4 adicionar mais rotas
 
 ## Fase 7 — Infraestrutura
 
@@ -84,7 +91,7 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 ## Fase 8 — Documentação final
 
 - [ ] `docs/architecture.md`
-- [ ] `docs/testing.md`
+- [x] `docs/testing.md` — escrito antecipadamente junto com a Fase 3
 - [ ] `.claude/skills/` com os fluxos dominados
 - [ ] `README.md` completo na raiz
 - [ ] Revisão final do Definition of Done (ver prompt original)

@@ -4,6 +4,11 @@
  */
 
 export const controllers = {
+  api: {
+    Session: () => import('#controllers/api/session_controller'),
+    Todos: () => import('#controllers/api/todos_controller'),
+  },
   NewAccount: () => import('#controllers/new_account_controller'),
   Session: () => import('#controllers/session_controller'),
+  Todos: () => import('#controllers/todos_controller'),
 }

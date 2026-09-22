@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react'
+import { forwardRef, type ComponentProps } from 'react'
 
 type ButtonProps = ComponentProps<'button'> & {
   variant?: 'primary' | 'secondary' | 'ghost'
@@ -10,14 +10,13 @@ const variants = {
   ghost: 'text-gray-8 hover:text-gray-12',
 }
 
-export default function Button({
-  variant = 'primary',
-  className,
-  type = 'button',
-  ...props
-}: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function ButtonRoot(
+  { variant = 'primary', className, type = 'button', ...props },
+  ref
+) {
   return (
     <button
+      ref={ref}
       type={type}
       className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-sm
         font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50
@@ -25,4 +24,6 @@ export default function Button({
       {...props}
     />
   )
-}
+})
+
+export default Button
