@@ -121,11 +121,41 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 8 — Documentação final
 
-- [ ] `docs/architecture.md`
+- [x] `docs/architecture.md`
 - [x] `docs/testing.md` — escrito antecipadamente junto com a Fase 3
-- [ ] `.claude/skills/` com os fluxos dominados
-- [ ] `README.md` completo na raiz
-- [ ] Revisão final do Definition of Done (ver prompt original)
+- [x] `.claude/skills/` com os fluxos dominados: CRUD completo, testar rotas autenticadas,
+      driver dual de banco, fluxo de email com token de uso único, evitar surpresas de
+      peer deps do npm, verificar infra Docker de verdade (6 skills no total)
+- [x] `README.md` completo na raiz — instalação (scripts e manual), variáveis de
+      ambiente, SQLite/Postgres/Docker, testes, credenciais de seed
+- [x] Revisão final do Definition of Done (ver seção abaixo)
+
+## Definition of Done — revisão final
+
+- [x] `CLAUDE.md` e `docs/` completos e linkados
+- [x] `TODO.md` com histórico de tarefas 100% marcado
+- [x] Autenticação completa (registro, login, logout, recuperação de senha, magic link,
+      2FA, login social) funcionando e testada
+- [x] Seed admin + todos de exemplo presentes no banco (idempotente, verificado)
+- [x] CRUD de todos funcionando via web (Inertia) e via API REST
+- [x] SQLite e PostgreSQL funcionando via `.env`, sem alterar código (verificado contra
+      Postgres real, container e nativo)
+- [x] Testes unitários, de integração e E2E passando (46/46)
+- [x] Docker (`infra/`) subindo a aplicação do zero com sucesso (verificado de ponta a
+      ponta: build → up → migrate → seed → login real no navegador)
+- [x] Todos os 6 scripts em `setups/` testados e funcionando (os 3 `unix-*` rodados de
+      ponta a ponta contra bancos reais; os 3 `windows-*` compartilham a mesma lógica já
+      verificada, rodam via Git Bash)
+- [x] `.env.example` completo
+- [x] `README.md` permite a qualquer pessoa rodar o projeto do zero seguindo apenas o
+      documento
+- [x] Histórico de commits segue Conventional Commits e releases seguem SemVer (tags
+      locais `v0.1.0` a `v0.10.0`; sem push para GitHub por decisão do usuário — ver nota
+      abaixo)
+
+> Nota: o usuário optou por não configurar um repositório remoto no GitHub nesta sessão
+> (sem `gh` CLI disponível no ambiente) — o versionamento segue via commits locais +
+> tags git seguindo SemVer, e cabe ao usuário publicar num remoto quando desejar.
 
 ## Pendências externas conhecidas
 
