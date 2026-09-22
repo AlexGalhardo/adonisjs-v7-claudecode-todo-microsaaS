@@ -39,7 +39,7 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 - [x] Instalar `@react-email/render` (versão estável) e migrar templates de `app/mails/*` para JSX
 - [x] Atualizar `docs/` relevante (auth.md, deployment.md, README.md) e remover Mailpit do docker-compose/setups
 - [x] Rodar testes relacionados a envio de email (46/46 pass) + build de produção
-- [ ] Commit + push
+- [x] Commit + push
 
 ## 3. Drizzle Studio como visualizador do banco
 
