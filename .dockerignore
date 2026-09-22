@@ -1,0 +1,8 @@
+node_modules
+build
+tmp
+.git
+.env
+.env.local
+.env.test
+public/assets

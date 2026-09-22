@@ -92,15 +92,32 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 7 — Infraestrutura
 
-- [ ] `infra/Dockerfile` multi-stage produção
-- [ ] `infra/docker-compose.yml` (app + Postgres)
-- [ ] `setups/setup-unix-using-sqlite-localhost.sh`
-- [ ] `setups/setup-unix-using-postgresql-localhost.sh`
-- [ ] `setups/setup-unix-using-postgresql-docker.sh`
-- [ ] `setups/setup-windows-using-sqlite-localhost.sh`
-- [ ] `setups/setup-windows-using-postgresql-localhost.sh`
-- [ ] `setups/setup-windows-using-postgresql-docker.sh`
-- [ ] `docs/deployment.md`
+- [x] `infra/Dockerfile` multi-stage produção — testado com `docker build` real
+      (precisou de `python3 make g++` no estágio de deps para compilar `better-sqlite3`,
+      e copiar `.npmrc` para os estágios que rodam `npm ci`)
+- [x] `infra/docker-compose.yml` (app + Postgres + Mailpit) — `docker compose up` completo
+      testado ponta a ponta (build → migrate --force → seed → login real no navegador)
+- [x] `setups/setup-unix-using-sqlite-localhost.sh` — testado (caminho novo e idempotente)
+- [x] `setups/setup-unix-using-postgresql-localhost.sh` — testado contra um Postgres real
+      (sucesso e também o caminho de erro quando nenhum servidor responde)
+- [x] `setups/setup-unix-using-postgresql-docker.sh` — testado ponta a ponta, incluindo
+      `npm run dev` local + login real contra o Postgres em Docker
+- [x] `setups/setup-windows-using-sqlite-localhost.sh` — mesma lógica verificada da
+      variante unix (script roda via Git Bash em ambas as plataformas)
+- [x] `setups/setup-windows-using-postgresql-localhost.sh` — idem
+- [x] `setups/setup-windows-using-postgresql-docker.sh` — idem
+- [x] `docs/deployment.md`
+
+> Bug real encontrado e corrigido testando os scripts: `.env`/`.env.example` não
+> terminavam com quebra de linha, então `echo "CHAVE=valor" >> .env` colava o valor no
+> final da última linha existente em vez de criar uma nova (ex.:
+> `LIMITER_STORE=databaseDB_HOST=localhost`). Corrigido garantindo quebra de linha final
+> antes de qualquer append, nos 6 scripts e nos dois arquivos `.env*`.
+>
+> Também descoberto: `@adonisjs/ally@6.3.0` declara peer dependency desatualizada contra
+> `@adonisjs/inertia@^4.2.0` (o projeto usa v5), quebrando `npm install` puro com
+> ERESOLVE. Corrigido com um `.npmrc` (`legacy-peer-deps=true`) na raiz — nenhum script
+> ou comando precisa mais saber desse detalhe.
 
 ## Fase 8 — Documentação final
 

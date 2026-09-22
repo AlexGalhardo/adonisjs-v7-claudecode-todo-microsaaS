@@ -1,0 +1,8 @@
+# Shell scripts must keep LF line endings regardless of the checking-out
+# platform's git autocrlf setting — a CRLF shebang line (`#!/usr/bin/env bash\r`)
+# fails to execute on Unix, and setups/*.sh must run there.
+*.sh text eol=lf
+
+# Match .editorconfig's `end_of_line = lf` for the rest of the source tree too,
+# so git checkout behavior can't drift from what every editor already enforces.
+* text=auto eol=lf

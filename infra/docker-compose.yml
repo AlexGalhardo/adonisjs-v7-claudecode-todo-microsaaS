@@ -1,0 +1,63 @@
+name: ado
+
+services:
+  # Full production-like run: `docker compose -f infra/docker-compose.yml up`
+  app:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    ports:
+      - '3333:3333'
+    # Loads APP_KEY and friends from the project's own .env, so this doesn't
+    # depend on the calling shell having them exported. The block below then
+    # overrides just what needs to be different for the Docker network.
+    env_file:
+      - ../.env
+    environment:
+      PORT: 3333
+      HOST: '0.0.0.0'
+      NODE_ENV: production
+      APP_URL: http://localhost:3333
+      DB_CONNECTION: pg
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: ado
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      MAIL_FROM_ADDRESS: noreply@ado.test
+      MAIL_FROM_NAME: Todo
+      LIMITER_STORE: database
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Just the infrastructure, for local `npm run dev` against Postgres/Mailpit
+  # in Docker: `docker compose -f infra/docker-compose.yml up db mailpit`
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ado
+    ports:
+      - '5432:5432'
+    volumes:
+      - ado_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Local email inbox — catches every email sent via SMTP, viewable at
+  # http://localhost:8025. No real credentials or external account needed.
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
+
+volumes:
+  ado_postgres_data:
