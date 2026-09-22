@@ -16,11 +16,11 @@ Galaxy Cloud (base `meteor/galaxy-node`, sem Dockerfile customizado suportado pa
 Node/AdonisJS) não tem esses pacotes e não documenta forma de adicioná-los. O pacote
 `sqlite3` (também suportado nativamente pelo Lucid) tenta baixar um binário pré-compilado
 via `prebuild-install` antes de cair em `node-gyp`, então evita o problema na prática.
-- [ ] Trocar client SQLite de `better-sqlite3` para `sqlite3` em `config/database.ts`
-- [ ] Atualizar `package.json` (remover `better-sqlite3`, adicionar `sqlite3` com versão exata)
-- [ ] Atualizar `infra/Dockerfile` / docs (`docs/database.md`, `docs/deployment.md`)
-- [ ] Rodar `npm install`, migrations e suíte de testes localmente para validar
-- [ ] Commit + push
+- [x] Trocar client SQLite de `better-sqlite3` para `sqlite3` em `config/database.ts`
+- [x] Atualizar `package.json` (remover `better-sqlite3`, adicionar `sqlite3` com versão exata)
+- [x] Atualizar `infra/Dockerfile` / docs (`docs/database.md`, `docs/deployment.md`)
+- [x] Rodar `npm install`, migrations e suíte de testes localmente para validar (46/46 pass)
+- [x] Commit + push
 
 ## 2. Envio de emails via Resend + react.email
 - [ ] Remover config SMTP de `config/mail.ts`, adicionar transporte Resend
