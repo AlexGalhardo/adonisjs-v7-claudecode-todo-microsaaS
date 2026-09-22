@@ -80,8 +80,10 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 
 ## Fase 5 — Seeds
 
-- [ ] Seeder admin (`admin@gmail.com` / `adminBR@123`) + todos de exemplo
-- [ ] `node ace db:seed` documentado
+- [x] Seeder admin (`admin@gmail.com` / `adminBR@123`) + 3 todos de exemplo —
+      idempotente via `firstOrCreate`, verificado rodando o seed duas vezes (sem
+      duplicar) e fazendo login real do admin na UI (screenshot conferido)
+- [x] `node ace db:seed` documentado (`docs/database.md`)
 
 ## Fase 6 — API
 

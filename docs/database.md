@@ -43,5 +43,20 @@ node ace migration:rollback # desfaz o último batch
 node ace db:seed             # popula o banco (usuário admin + todos de exemplo)
 ```
 
-Ver `database/migrations/` para o histórico de schema e `database/seeders/` para os dados
-de desenvolvimento (detalhado quando a Fase 5 do `TODO.md` for concluída).
+Ver `database/migrations/` para o histórico de schema.
+
+### Seeder de admin
+
+`database/seeders/admin_user_seeder.ts` cria (ou reaproveita, se já existir) a conta:
+
+```
+email: admin@gmail.com
+senha: adminBR@123
+```
+
+junto com 3 todos de exemplo (um deles já marcado como concluído), para servir de
+referência de como seeders funcionam com Lucid — `firstOrCreate` é usado tanto para o
+usuário quanto para cada todo (chave: `userId` + `title`), o que torna o seeder
+**idempotente**: rodar `node ace db:seed` várias vezes não duplica nada. Verificado na
+prática (seed rodado duas vezes seguidas, contagem de linhas conferida diretamente no
+SQLite) e via login real do admin na UI.
