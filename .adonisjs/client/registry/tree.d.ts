@@ -23,11 +23,20 @@ export interface ApiDefinition {
     store: typeof routes['magic_links.store']
     consume: typeof routes['magic_links.consume']
   }
+  twoFactorChallenges: {
+    create: typeof routes['two_factor_challenges.create']
+    store: typeof routes['two_factor_challenges.store']
+  }
   todos: {
     index: typeof routes['todos.index']
     store: typeof routes['todos.store']
     update: typeof routes['todos.update']
     destroy: typeof routes['todos.destroy']
+  }
+  twoFactorSettings: {
+    create: typeof routes['two_factor_settings.create']
+    store: typeof routes['two_factor_settings.store']
+    destroy: typeof routes['two_factor_settings.destroy']
   }
   api: {
     session: {

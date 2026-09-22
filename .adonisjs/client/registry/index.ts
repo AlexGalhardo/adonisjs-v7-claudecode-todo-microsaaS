@@ -78,6 +78,18 @@ const routes = {
     tokens: [{"old":"/magic-link/:token","type":0,"val":"magic-link","end":""},{"old":"/magic-link/:token","type":1,"val":"token","end":""}],
     types: placeholder as Registry['magic_links.consume']['types'],
   },
+  'two_factor_challenges.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/two-factor/challenge',
+    tokens: [{"old":"/two-factor/challenge","type":0,"val":"two-factor","end":""},{"old":"/two-factor/challenge","type":0,"val":"challenge","end":""}],
+    types: placeholder as Registry['two_factor_challenges.create']['types'],
+  },
+  'two_factor_challenges.store': {
+    methods: ["POST"],
+    pattern: '/two-factor/challenge',
+    tokens: [{"old":"/two-factor/challenge","type":0,"val":"two-factor","end":""},{"old":"/two-factor/challenge","type":0,"val":"challenge","end":""}],
+    types: placeholder as Registry['two_factor_challenges.store']['types'],
+  },
   'session.destroy': {
     methods: ["POST"],
     pattern: '/logout',
@@ -107,6 +119,24 @@ const routes = {
     pattern: '/todos/:id',
     tokens: [{"old":"/todos/:id","type":0,"val":"todos","end":""},{"old":"/todos/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['todos.destroy']['types'],
+  },
+  'two_factor_settings.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/settings/two-factor',
+    tokens: [{"old":"/settings/two-factor","type":0,"val":"settings","end":""},{"old":"/settings/two-factor","type":0,"val":"two-factor","end":""}],
+    types: placeholder as Registry['two_factor_settings.create']['types'],
+  },
+  'two_factor_settings.store': {
+    methods: ["POST"],
+    pattern: '/settings/two-factor',
+    tokens: [{"old":"/settings/two-factor","type":0,"val":"settings","end":""},{"old":"/settings/two-factor","type":0,"val":"two-factor","end":""}],
+    types: placeholder as Registry['two_factor_settings.store']['types'],
+  },
+  'two_factor_settings.destroy': {
+    methods: ["DELETE"],
+    pattern: '/settings/two-factor',
+    tokens: [{"old":"/settings/two-factor","type":0,"val":"settings","end":""},{"old":"/settings/two-factor","type":0,"val":"two-factor","end":""}],
+    types: placeholder as Registry['two_factor_settings.destroy']['types'],
   },
   'api.session.store': {
     methods: ["POST"],

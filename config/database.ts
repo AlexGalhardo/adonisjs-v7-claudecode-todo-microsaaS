@@ -33,6 +33,14 @@ const dbConfig = defineConfig({
         naturalSort: true,
         paths: ['database/migrations'],
       },
+
+      /**
+       * Custom rules (e.g. serializeAs: null for sensitive columns) applied
+       * when generating database/schema.ts from migrations.
+       */
+      schemaGeneration: {
+        rulesPaths: ['#database/schema_rules'],
+      },
     },
 
     /**
@@ -51,6 +59,9 @@ const dbConfig = defineConfig({
       migrations: {
         naturalSort: true,
         paths: ['database/migrations'],
+      },
+      schemaGeneration: {
+        rulesPaths: ['#database/schema_rules'],
       },
       debug: app.inDev,
     },

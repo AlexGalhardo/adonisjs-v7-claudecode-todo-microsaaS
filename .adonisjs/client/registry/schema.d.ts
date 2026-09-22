@@ -151,6 +151,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/magic_links_controller').default['consume']>>>
     }
   }
+  'two_factor_challenges.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/two-factor/challenge'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/two_factor_challenges_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_challenges_controller').default['create']>>>
+    }
+  }
+  'two_factor_challenges.store': {
+    methods: ["POST"]
+    pattern: '/two-factor/challenge'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/two_factor').twoFactorChallengeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/two_factor').twoFactorChallengeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/two_factor_challenges_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_challenges_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'
@@ -209,6 +233,42 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/todos_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/todos_controller').default['destroy']>>>
+    }
+  }
+  'two_factor_settings.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/settings/two-factor'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['create']>>>
+    }
+  }
+  'two_factor_settings.store': {
+    methods: ["POST"]
+    pattern: '/settings/two-factor'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/two_factor').confirmTwoFactorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/two_factor').confirmTwoFactorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'two_factor_settings.destroy': {
+    methods: ["DELETE"]
+    pattern: '/settings/two-factor'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['destroy']>>>
     }
   }
   'api.session.store': {

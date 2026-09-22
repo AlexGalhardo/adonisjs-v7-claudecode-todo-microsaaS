@@ -35,6 +35,11 @@ node ace test --groups="Todos web"       # filtra por grupo
 - `tests/bootstrap.ts` envolve cada teste em uma transação global
   (`testUtils.db().wrapInGlobalTransaction()`) que é desfeita ao final — testes não
   precisam limpar dados manualmente e não interferem uns nos outros.
+- O rate limiting (`@adonisjs/limiter`, store `memory` em teste) **não** é coberto por essa
+  transação — vive na memória do processo, não no banco. Um teste que esgota um throttle
+  (ex.: `rate_limiting.spec.ts` fazendo 6 tentativas de login) deve limpar depois de si com
+  `group.each.teardown(() => limiter.clear())`, senão o estado vaza para outros testes que
+  batem na mesma rota mais tarde na mesma execução.
 
 ## Autenticando requisições em testes funcionais
 

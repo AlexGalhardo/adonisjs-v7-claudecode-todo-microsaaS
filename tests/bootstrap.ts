@@ -5,6 +5,7 @@ import type { Config } from '@japa/runner/types'
 import { apiClient } from '@japa/api-client'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import { dbAssertions } from '@adonisjs/lucid/plugins/db'
+import limiter from '@adonisjs/limiter/services/main'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { browserClient } from '@japa/browser-client'
 import { shieldApiClient } from '@adonisjs/shield/plugins/api_client'
@@ -63,4 +64,13 @@ export const configureSuite: Config['configureSuite'] = (suite) => {
    * This keeps tests independent without needing manual cleanup.
    */
   suite.setup(() => testUtils.db().wrapInGlobalTransaction())
+
+  /**
+   * Rate limiting uses the in-memory store in tests (see .env.test), which is
+   * NOT covered by the DB transaction rollback above — it lives for the
+   * lifetime of the test process. Without clearing it, a test that exhausts a
+   * throttle (e.g. rate_limiting.spec.ts hammering /login) leaks that state
+   * into every later test hitting the same route.
+   */
+  suite.setup(() => limiter.clear())
 }

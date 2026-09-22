@@ -7,9 +7,15 @@ export default class SessionController {
     return inertia.render('auth/login', {})
   }
 
-  async store({ request, auth, response }: HttpContext) {
+  async store({ request, auth, response, session }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
+
+    if (user.twoFactorConfirmedAt) {
+      session.put('two_factor_user_id', user.id)
+      response.redirect().toRoute('two_factor_challenges.create')
+      return
+    }
 
     await auth.use('web').login(user)
     response.redirect().toRoute('todos.index')

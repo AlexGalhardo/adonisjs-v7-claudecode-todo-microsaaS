@@ -30,6 +30,9 @@ router
     router.get('magic-link', [controllers.MagicLinks, 'create'])
     router.post('magic-link', [controllers.MagicLinks, 'store']).use(magicLinkThrottle)
     router.get('magic-link/:token', [controllers.MagicLinks, 'consume'])
+
+    router.get('two-factor/challenge', [controllers.TwoFactorChallenges, 'create'])
+    router.post('two-factor/challenge', [controllers.TwoFactorChallenges, 'store'])
   })
   .use(middleware.guest())
 
@@ -41,6 +44,10 @@ router
     router.post('todos', [controllers.Todos, 'store'])
     router.put('todos/:id', [controllers.Todos, 'update'])
     router.delete('todos/:id', [controllers.Todos, 'destroy'])
+
+    router.get('settings/two-factor', [controllers.TwoFactorSettings, 'create'])
+    router.post('settings/two-factor', [controllers.TwoFactorSettings, 'store'])
+    router.delete('settings/two-factor', [controllers.TwoFactorSettings, 'destroy'])
   })
   .use(middleware.auth())
 

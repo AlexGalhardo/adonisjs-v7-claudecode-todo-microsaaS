@@ -68,3 +68,29 @@ async handle(error: unknown, ctx: HttpContext) {
   Inertia layout reads for its toast) — `response.assertFlashMessage('error')`.
 - The session plugin's `assertHasValidationError('field')` helper checks flash key
   `'errors'`, which nothing in this app actually populates — don't rely on it here.
+
+## Gotcha 5: session data does NOT carry over between separate `client.*()` calls
+
+Each `client.get(...)`/`client.post(...)` call gets its own fresh `SessionClient` — plain
+non-auth session writes from one response (e.g. `session.put('pending_2fa_secret', ...)`
+during a GET) are **not** visible to a later `client.post(...)` in the same test, even
+reusing `.loginAs(user)` on both. This breaks any flow where a controller reads back
+session state written by a previous request (2FA enrollment's pending secret, the login →
+2FA-challenge handoff, etc.) — the second request silently sees an empty session and takes
+whatever "missing" branch the controller has, not the one you meant to exercise.
+
+Fix: explicitly re-seed the session data on the next request with `.withSession({...})`,
+using values read from the first response (`response.inertiaProps`, `response.body()`,
+etc.) rather than assuming continuity:
+
+```ts
+const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
+const secret = enrollPage.inertiaProps.secret as string
+
+await client
+  .post('/settings/two-factor')
+  .loginAs(user)
+  .withCsrfToken()
+  .withSession({ pending_2fa_secret: secret }) // <- re-seed, don't assume it's still there
+  .form({ code: totpCodeFor(secret) })
+```

@@ -1,6 +1,12 @@
 import { test } from '@japa/runner'
+import limiter from '@adonisjs/limiter/services/main'
 
-test.group('Rate limiting', () => {
+test.group('Rate limiting', (group) => {
+  // Exhausting a throttle here would otherwise leak into every later test
+  // hitting the same route — the in-memory store isn't covered by the
+  // per-test DB transaction rollback.
+  group.each.teardown(() => limiter.clear())
+
   test('login is throttled after 5 attempts per minute', async ({ client }) => {
     const attempt = () =>
       client

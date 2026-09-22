@@ -16,11 +16,16 @@ export type ScannedRoutes = {
     'magic_links.create': { paramsTuple?: []; params?: {} }
     'magic_links.store': { paramsTuple?: []; params?: {} }
     'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'two_factor_challenges.create': { paramsTuple?: []; params?: {} }
+    'two_factor_challenges.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'todos.index': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
     'todos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'two_factor_settings.create': { paramsTuple?: []; params?: {} }
+    'two_factor_settings.store': { paramsTuple?: []; params?: {} }
+    'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
@@ -37,7 +42,9 @@ export type ScannedRoutes = {
     'password_resets.edit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'magic_links.create': { paramsTuple?: []; params?: {} }
     'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'two_factor_challenges.create': { paramsTuple?: []; params?: {} }
     'todos.index': { paramsTuple?: []; params?: {} }
+    'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -49,7 +56,9 @@ export type ScannedRoutes = {
     'password_resets.edit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'magic_links.create': { paramsTuple?: []; params?: {} }
     'magic_links.consume': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'two_factor_challenges.create': { paramsTuple?: []; params?: {} }
     'todos.index': { paramsTuple?: []; params?: {} }
+    'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -58,8 +67,10 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'password_resets.store': { paramsTuple?: []; params?: {} }
     'magic_links.store': { paramsTuple?: []; params?: {} }
+    'two_factor_challenges.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
+    'two_factor_settings.store': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.store': { paramsTuple?: []; params?: {} }
@@ -71,6 +82,7 @@ export type ScannedRoutes = {
   }
   DELETE: {
     'todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

@@ -58,15 +58,18 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
       único, resposta uniforme para não vazar quais emails existem
 - [x] Magic link login (token único por email, sem senha) — reaproveita `auth_tokens`/
       `AuthTokenService` da recuperação de senha
-- [ ] 2FA TOTP (enroll com QR code, verificação no login)
+- [x] 2FA TOTP (enroll com QR code, verificação no login) — implementação própria
+      (RFC 6238 via `node:crypto`, sem pacote oficial disponível), secret e códigos de
+      recuperação criptografados em repouso, `serializeAs: null` no model auto-gerado
 - [ ] Login social Google (Ally)
 - [ ] Login social GitHub (Ally)
 - [x] Guard de access tokens para API (`tokens` guard do `@adonisjs/auth`) — feito na Fase 3
 - [x] Rate limiting em login (5/min), recuperação de senha e magic link (3/15min cada),
       por IP (`@adonisjs/limiter`, store `database`)
-- [x] `docs/auth.md` (recuperação de senha + magic link; será completado a cada sub-fluxo)
-- [x] Testes: recuperação de senha (4), magic link (4), rate limiting (1) — todos
-      funcionais — 32/32 passando no total até aqui
+- [x] `docs/auth.md` (recuperação de senha, magic link, 2FA; login social falta)
+- [x] Testes: recuperação de senha (4), magic link (4), rate limiting (1), TOTP (5
+      unitários), 2FA end-to-end (4 funcionais) — todos passando — 41/41 no total até
+      aqui (+ 1 E2E de browser = 42)
 
 > Nota: login social (Google/GitHub) e envio de email (reset/magic link) exigem credenciais
 > reais (`OAUTH_*`, `SMTP_*`) que só o usuário pode gerar. O código e os testes cobrem o

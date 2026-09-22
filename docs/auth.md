@@ -6,7 +6,7 @@
   logout (`SessionController`). Senhas com hash via `withAuthFinder` (hasher padrão do
   AdonisJS).
 - Guard `api` (access tokens, `@adonisjs/auth`) para a API REST — ver `docs/api.md`.
-- Recuperação de senha (abaixo). Magic link, 2FA e login social (Google/GitHub) ainda estão
+- Recuperação de senha, magic link e 2FA (abaixo). Login social (Google/GitHub) ainda está
   na Fase 4 do `TODO.md`.
 
 ## Recuperação de senha
@@ -42,6 +42,35 @@ Reaproveita `AuthTokenService`/`auth_tokens` (mesma tabela da recuperação de s
 `type = 'magic_link'`), o mesmo princípio de resposta uniforme (não revela quais emails
 existem) e a mesma limitação de 3 pedidos a cada 15 minutos por IP. O link expira em 15
 minutos e só pode ser usado uma vez.
+
+## Autenticação de dois fatores (2FA / TOTP)
+
+Não existe pacote oficial de 2FA no AdonisJS, então `app/services/totp_service.ts`
+implementa TOTP (RFC 6238) direto com `node:crypto` — HMAC-SHA1, período de 30s, 6 dígitos.
+Coberto por um teste unitário que recalcula o código de forma independente (implementação
+própria no teste) como conferência cruzada do HMAC/offset/truncamento.
+
+- **Habilitar**: `GET /settings/two-factor` gera um secret pendente (guardado só na
+  sessão, ainda não persistido) e mostra um QR code (`otpauth://` renderizado via
+  `qrcode`) + o secret em texto para digitação manual. `POST /settings/two-factor`
+  confirma com um código de 6 dígitos; se válido, o secret e 8 códigos de recuperação são
+  **criptografados** (`@adonisjs/core/services/encryption`, não hasheados — precisam ser
+  lidos de volta para verificar códigos futuros) e gravados em `users`
+  (`two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`). Os
+  códigos de recuperação são mostrados uma única vez, na resposta da própria confirmação.
+- **Login com 2FA ativo**: `SessionController.store` detecta `twoFactorConfirmedAt` e, em
+  vez de logar o usuário, guarda o id dele na sessão (`two_factor_user_id`) e redireciona
+  para `GET /two-factor/challenge`. `POST /two-factor/challenge` aceita um código TOTP ou
+  um código de recuperação (que é consumido/removido ao ser usado) e só então efetiva o
+  login.
+- **Desabilitar**: `DELETE /settings/two-factor` limpa as três colunas.
+- **Serialização**: `database/schema_rules.ts` marca `two_factor_secret` e
+  `two_factor_recovery_codes` com `serializeAs: null` no model auto-gerado — o mesmo
+  tratamento que a coluna `password` já recebe por padrão do Lucid — para que esses
+  campos nunca vazem em JSON/Inertia mesmo que alguém esqueça de usar um transformer.
+  Isso exigiu registrar `schemaGeneration.rulesPaths` em `config/database.ts` (em cada
+  conexão), já que esse arquivo de regras existe no starter kit mas não vem conectado por
+  padrão.
 
 ## Autorização
 

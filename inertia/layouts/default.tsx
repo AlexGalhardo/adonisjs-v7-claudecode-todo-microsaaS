@@ -33,6 +33,12 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-3 text-xs font-semibold text-gray-12">
                   {children.props.user.initials}
                 </span>
+                <Link
+                  route="two_factor_settings.create"
+                  className="text-sm font-medium text-gray-8 hover:text-gray-12"
+                >
+                  Security
+                </Link>
                 <Form route="session.destroy">
                   <button
                     type="submit"
