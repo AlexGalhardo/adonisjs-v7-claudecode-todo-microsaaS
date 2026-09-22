@@ -210,7 +210,17 @@ gotchas encontrados escrevendo os testes em [`docs/testing.md`](docs/testing.md)
 - [`docs/deployment.md`](docs/deployment.md) — Docker e produção
 - [`.claude/skills/`](.claude/skills/) — como reproduzir cada fluxo dominado neste
   projeto (adicionar um recurso CRUD, um fluxo de email com token, verificar infra Docker
-  de verdade, etc.)
+  de verdade, etc.), além de skills de design de UI (ver abaixo)
+
+### Skills de design de UI
+
+Além das skills `how-to-*` (escritas para este projeto), `.claude/skills/` também traz
+skills de terceiros via [skills.sh](https://www.skills.sh/) para orientar decisões visuais
+(paletas, tipografia, guidelines de acessibilidade, padrões React/Next.js):
+`frontend-design`, `web-design-guidelines`, `vercel-react-best-practices`, `ui-ux-pro-max`,
+`minimalist-ui`. São copiadas diretamente (não symlinks — o CLI `skills` grava symlinks com
+caminho absoluto, que quebrariam em outra máquina), então já funcionam após clonar o repo,
+sem passo extra de instalação.
 
 ## Comandos úteis
 

@@ -27,6 +27,13 @@ bun.lock
 pnpm-lock.yaml
 yarn.lock
 
+# Working directory of the `skills` CLI (npx skills add ...) — the design-guideline
+# skills it installed are committed directly under .claude/skills/<name>/ as plain
+# files instead (the CLI's own .claude/skills symlinks use absolute paths, which
+# break on any other machine, so those were replaced with real copies).
+.agents/
+skills-lock.json
+
 # Editors specific
 .fleet
 .idea
