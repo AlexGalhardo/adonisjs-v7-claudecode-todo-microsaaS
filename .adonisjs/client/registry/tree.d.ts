@@ -27,6 +27,10 @@ export interface ApiDefinition {
     create: typeof routes['two_factor_challenges.create']
     store: typeof routes['two_factor_challenges.store']
   }
+  socialAuths: {
+    redirect: typeof routes['social_auths.redirect']
+    callback: typeof routes['social_auths.callback']
+  }
   todos: {
     index: typeof routes['todos.index']
     store: typeof routes['todos.store']

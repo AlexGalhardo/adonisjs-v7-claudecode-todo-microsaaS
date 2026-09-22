@@ -90,6 +90,18 @@ const routes = {
     tokens: [{"old":"/two-factor/challenge","type":0,"val":"two-factor","end":""},{"old":"/two-factor/challenge","type":0,"val":"challenge","end":""}],
     types: placeholder as Registry['two_factor_challenges.store']['types'],
   },
+  'social_auths.redirect': {
+    methods: ["GET","HEAD"],
+    pattern: '/oauth/:provider/redirect',
+    tokens: [{"old":"/oauth/:provider/redirect","type":0,"val":"oauth","end":""},{"old":"/oauth/:provider/redirect","type":1,"val":"provider","end":""},{"old":"/oauth/:provider/redirect","type":0,"val":"redirect","end":""}],
+    types: placeholder as Registry['social_auths.redirect']['types'],
+  },
+  'social_auths.callback': {
+    methods: ["GET","HEAD"],
+    pattern: '/oauth/:provider/callback',
+    tokens: [{"old":"/oauth/:provider/callback","type":0,"val":"oauth","end":""},{"old":"/oauth/:provider/callback","type":1,"val":"provider","end":""},{"old":"/oauth/:provider/callback","type":0,"val":"callback","end":""}],
+    types: placeholder as Registry['social_auths.callback']['types'],
+  },
   'session.destroy': {
     methods: ["POST"],
     pattern: '/logout',

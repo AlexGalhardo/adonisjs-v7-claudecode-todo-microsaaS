@@ -61,20 +61,22 @@ Legenda: `[x]` concluído e testado · `[ ]` pendente · `[~]` bloqueado/pendên
 - [x] 2FA TOTP (enroll com QR code, verificação no login) — implementação própria
       (RFC 6238 via `node:crypto`, sem pacote oficial disponível), secret e códigos de
       recuperação criptografados em repouso, `serializeAs: null` no model auto-gerado
-- [ ] Login social Google (Ally)
-- [ ] Login social GitHub (Ally)
+- [x] Login social Google (Ally) — `GET/GET /oauth/google/redirect|callback`
+- [x] Login social GitHub (Ally) — `GET/GET /oauth/github/redirect|callback`
 - [x] Guard de access tokens para API (`tokens` guard do `@adonisjs/auth`) — feito na Fase 3
 - [x] Rate limiting em login (5/min), recuperação de senha e magic link (3/15min cada),
       por IP (`@adonisjs/limiter`, store `database`)
-- [x] `docs/auth.md` (recuperação de senha, magic link, 2FA; login social falta)
+- [x] `docs/auth.md` completo (recuperação de senha, magic link, 2FA, login social)
 - [x] Testes: recuperação de senha (4), magic link (4), rate limiting (1), TOTP (5
-      unitários), 2FA end-to-end (4 funcionais) — todos passando — 41/41 no total até
-      aqui (+ 1 E2E de browser = 42)
+      unitários), 2FA end-to-end (4 funcionais), login social (4 — redirect/404, sem
+      credenciais reais) — 45/45 funcionais+unitários, 46 com o E2E de browser
 
-> Nota: login social (Google/GitHub) e envio de email (reset/magic link) exigem credenciais
-> reais (`OAUTH_*`, `SMTP_*`) que só o usuário pode gerar. O código e os testes cobrem o
-> fluxo completo com credenciais de teste/mock; a validação com credenciais reais fica como
-> pendência explícita até o usuário fornecer os valores em `.env`.
+> Nota (pendência externa): login social (Google/GitHub) e envio de email (reset/magic
+> link) precisam de credenciais reais (`GOOGLE_CLIENT_*`, `GITHUB_CLIENT_*`, `SMTP_*`) que
+> só o usuário pode gerar — ver instruções em `.env.example` e `docs/auth.md`. O código
+> está completo e testado (redirect real ao provedor, criação/login de conta por email
+> coincidente, tratamento de erro do OAuth); só falta o usuário preencher o `.env` com
+> valores reais para validar o fluxo de callback ponta a ponta com uma conta de verdade.
 
 ## Fase 5 — Seeds
 

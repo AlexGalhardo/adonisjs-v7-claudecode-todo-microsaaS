@@ -1,6 +1,7 @@
 import { Form, Link } from '@adonisjs/inertia/react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
+import SocialAuthLinks from '~/components/social_auth_links'
 
 export default function Login() {
   return (
@@ -50,6 +51,10 @@ export default function Login() {
           </>
         )}
       </Form>
+
+      <div className="mt-6">
+        <SocialAuthLinks />
+      </div>
     </div>
   )
 }

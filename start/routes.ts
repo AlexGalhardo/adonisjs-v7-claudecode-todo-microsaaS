@@ -33,6 +33,9 @@ router
 
     router.get('two-factor/challenge', [controllers.TwoFactorChallenges, 'create'])
     router.post('two-factor/challenge', [controllers.TwoFactorChallenges, 'store'])
+
+    router.get('oauth/:provider/redirect', [controllers.SocialAuths, 'redirect'])
+    router.get('oauth/:provider/callback', [controllers.SocialAuths, 'callback'])
   })
   .use(middleware.guest())
 

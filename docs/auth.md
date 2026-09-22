@@ -6,8 +6,7 @@
   logout (`SessionController`). Senhas com hash via `withAuthFinder` (hasher padrão do
   AdonisJS).
 - Guard `api` (access tokens, `@adonisjs/auth`) para a API REST — ver `docs/api.md`.
-- Recuperação de senha, magic link e 2FA (abaixo). Login social (Google/GitHub) ainda está
-  na Fase 4 do `TODO.md`.
+- Recuperação de senha, magic link, 2FA e login social (Google/GitHub) — todos abaixo.
 
 ## Recuperação de senha
 
@@ -71,6 +70,30 @@ própria no teste) como conferência cruzada do HMAC/offset/truncamento.
   Isso exigiu registrar `schemaGeneration.rulesPaths` em `config/database.ts` (em cada
   conexão), já que esse arquivo de regras existe no starter kit mas não vem conectado por
   padrão.
+
+## Login social (Google/GitHub)
+
+Via `@adonisjs/ally`. `GET /oauth/:provider/redirect` envia o navegador para o provedor;
+`GET /oauth/:provider/callback` recebe a volta, busca o usuário autenticado no provedor
+(`ally.use(provider).user()`) e:
+
+- Se já existe um usuário com aquele email, faz login nele (conta social e conta por
+  senha com o mesmo email são tratadas como a mesma pessoa — simplificação deliberada
+  para este projeto de referência; um app real provavelmente guardaria
+  `provider`/`provider_id` para permitir múltiplos providers por conta com segurança).
+- Senão, cria um novo usuário com esse email e uma senha aleatória de 32 bytes que a
+  pessoa nunca usa (a coluna `password` é `NOT NULL`; login social nunca passa por
+  `verifyCredentials`, só por `auth.use('web').login(user)` diretamente).
+- Se o provedor não retorna email público, ou o usuário nega acesso, ou o `state` do OAuth
+  não bate, redireciona para o login com uma mensagem de erro.
+
+`config/ally.ts` já está configurado para `google` e `github`; falta apenas preencher
+`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`/`GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET` no
+`.env` com credenciais reais (ver comentários em `.env.example` com os links para criar os
+OAuth apps e a callback URL exata que cada um espera). Sem essas credenciais, os botões
+"Continue with Google/GitHub" redirecionam corretamente até o provedor, mas a autenticação
+em si falha — isso é uma pendência explícita que só o usuário pode resolver (ver
+`TODO.md`).
 
 ## Autorização
 

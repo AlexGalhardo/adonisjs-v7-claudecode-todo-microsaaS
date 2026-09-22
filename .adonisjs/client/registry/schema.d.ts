@@ -175,6 +175,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_challenges_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'social_auths.redirect': {
+    methods: ["GET","HEAD"]
+    pattern: '/oauth/:provider/redirect'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { provider: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/social_auths_controller').default['redirect']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/social_auths_controller').default['redirect']>>>
+    }
+  }
+  'social_auths.callback': {
+    methods: ["GET","HEAD"]
+    pattern: '/oauth/:provider/callback'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { provider: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/social_auths_controller').default['callback']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/social_auths_controller').default['callback']>>>
+    }
+  }
   'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'

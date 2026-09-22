@@ -1,0 +1,24 @@
+export default function SocialAuthLinks() {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3 text-xs text-gray-6">
+        <span className="h-px flex-1 bg-gray-3" />
+        or
+        <span className="h-px flex-1 bg-gray-3" />
+      </div>
+
+      <a
+        href="/oauth/google/redirect"
+        className="flex h-10 items-center justify-center rounded-md border border-gray-4 text-sm font-medium text-gray-12 hover:bg-gray-1"
+      >
+        Continue with Google
+      </a>
+      <a
+        href="/oauth/github/redirect"
+        className="flex h-10 items-center justify-center rounded-md border border-gray-4 text-sm font-medium text-gray-12 hover:bg-gray-1"
+      >
+        Continue with GitHub
+      </a>
+    </div>
+  )
+}
