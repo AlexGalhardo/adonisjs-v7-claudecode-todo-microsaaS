@@ -6,15 +6,20 @@ import { confirmTwoFactorValidator } from '#validators/two_factor'
 
 const PENDING_SECRET_SESSION_KEY = 'pending_2fa_secret'
 
+/**
+ * Two-factor is managed from a modal on /profile, not a dedicated page — every
+ * action here is a plain JSON endpoint the modal calls via `fetch`, never an
+ * Inertia page render or a redirect.
+ */
 @inject()
 export default class TwoFactorSettingsController {
   constructor(protected twoFactorService: TwoFactorService) {}
 
-  async create({ inertia, auth, session }: HttpContext) {
+  async create({ auth, session, response }: HttpContext) {
     const user = auth.user!
 
     if (user.twoFactorConfirmedAt) {
-      return inertia.render('settings/two_factor', { enabled: true })
+      return response.json({ enabled: true })
     }
 
     let pendingSecret = session.get(PENDING_SECRET_SESSION_KEY) as string | undefined
@@ -25,43 +30,32 @@ export default class TwoFactorSettingsController {
 
     const qrCode = await qrcode.toDataURL(this.twoFactorService.keyUri(pendingSecret, user))
 
-    return inertia.render('settings/two_factor', {
-      enabled: false,
-      secret: pendingSecret,
-      qrCode,
-    })
+    return response.json({ enabled: false, secret: pendingSecret, qrCode })
   }
 
-  async store({ request, auth, session, response, inertia }: HttpContext) {
+  async store({ request, auth, session, response }: HttpContext) {
     const user = auth.user!
     const { code } = await request.validateUsing(confirmTwoFactorValidator)
     const pendingSecret = session.get(PENDING_SECRET_SESSION_KEY) as string | undefined
 
     if (!pendingSecret) {
-      response.redirect().toRoute('two_factor_settings.create')
-      return
+      return response.badRequest({ error: 'Your enrollment session expired. Please try again.' })
     }
 
     const recoveryCodes = await this.twoFactorService.confirm(user, pendingSecret, code)
 
     if (!recoveryCodes) {
-      session.flash('error', 'That code did not match. Please try again.')
-      response.redirect().back()
-      return
+      return response.badRequest({ error: 'That code did not match. Please try again.' })
     }
 
     session.forget(PENDING_SECRET_SESSION_KEY)
 
-    return inertia.render('settings/two_factor', {
-      enabled: true,
-      recoveryCodes,
-    })
+    return response.json({ enabled: true, recoveryCodes })
   }
 
-  async destroy({ auth, response, session }: HttpContext) {
+  async destroy({ auth, response }: HttpContext) {
     await this.twoFactorService.disable(auth.user!)
 
-    session.flash('success', 'Two-factor authentication has been disabled.')
-    response.redirect().toRoute('two_factor_settings.create')
+    return response.json({ enabled: false })
   }
 }

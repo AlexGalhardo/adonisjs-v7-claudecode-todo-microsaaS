@@ -15,9 +15,9 @@ test.group('Two-factor authentication', (group) => {
   }) => {
     const user = await UserFactory.create()
 
-    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user)
     enrollPage.assertStatus(200)
-    const secret = enrollPage.inertiaProps.secret as string
+    const secret = enrollPage.body().secret as string
     assert.isString(secret)
 
     const confirmResponse = await client
@@ -25,13 +25,12 @@ test.group('Two-factor authentication', (group) => {
       .loginAs(user)
       .withCsrfToken()
       .withSession({ pending_2fa_secret: secret })
-      .withInertia()
       .form({ code: generateCode(secret) })
 
     confirmResponse.assertStatus(200)
-    assert.equal(confirmResponse.inertiaProps.enabled, true)
-    assert.isArray(confirmResponse.inertiaProps.recoveryCodes)
-    assert.lengthOf(confirmResponse.inertiaProps.recoveryCodes as unknown[], 8)
+    assert.equal(confirmResponse.body().enabled, true)
+    assert.isArray(confirmResponse.body().recoveryCodes)
+    assert.lengthOf(confirmResponse.body().recoveryCodes as unknown[], 8)
 
     await user.refresh()
     assert.isNotNull(user.twoFactorConfirmedAt)
@@ -48,37 +47,35 @@ test.group('Two-factor authentication', (group) => {
     assert.equal(loginResponse.session('two_factor_user_id'), user.id)
   })
 
-  test('an invalid confirmation code is rejected', async ({ client }) => {
+  test('an invalid confirmation code is rejected', async ({ client, assert }) => {
     const user = await UserFactory.create()
 
-    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
-    const secret = enrollPage.inertiaProps.secret as string
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user)
+    const secret = enrollPage.body().secret as string
 
     const confirmResponse = await client
       .post('/settings/two-factor')
       .loginAs(user)
       .withCsrfToken()
       .withSession({ pending_2fa_secret: secret })
-      .redirects(0)
       .form({ code: '000000' })
 
-    confirmResponse.assertStatus(302)
-    confirmResponse.assertFlashMessage('error')
+    confirmResponse.assertStatus(400)
+    assert.property(confirmResponse.body(), 'error')
   })
 
   test('a recovery code can be used once to complete the challenge', async ({ client, assert }) => {
     const user = await UserFactory.create()
-    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
-    const secret = enrollPage.inertiaProps.secret as string
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user)
+    const secret = enrollPage.body().secret as string
 
     const confirmResponse = await client
       .post('/settings/two-factor')
       .loginAs(user)
       .withCsrfToken()
       .withSession({ pending_2fa_secret: secret })
-      .withInertia()
       .form({ code: generateCode(secret) })
-    const recoveryCode = (confirmResponse.inertiaProps.recoveryCodes as string[])[0]
+    const recoveryCode = (confirmResponse.body().recoveryCodes as string[])[0]
 
     const challengeResponse = await client
       .post('/two-factor/challenge')
@@ -104,8 +101,8 @@ test.group('Two-factor authentication', (group) => {
 
   test('disabling clears the confirmed state', async ({ client, assert }) => {
     const user = await UserFactory.create()
-    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
-    const secret = enrollPage.inertiaProps.secret as string
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user)
+    const secret = enrollPage.body().secret as string
 
     await client
       .post('/settings/two-factor')
@@ -125,8 +122,8 @@ test.group('Two-factor authentication', (group) => {
     assert,
   }) => {
     const user = await UserFactory.create()
-    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
-    const secret = enrollPage.inertiaProps.secret as string
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user)
+    const secret = enrollPage.body().secret as string
 
     await client
       .post('/settings/two-factor')

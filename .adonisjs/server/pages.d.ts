@@ -20,13 +20,11 @@ declare module '@adonisjs/inertia/types' {
     'auth/two_factor_challenge': ExtractProps<(typeof import('../../inertia/pages/auth/two_factor_challenge.tsx'))['default']>
     'contact': ExtractProps<(typeof import('../../inertia/pages/contact.tsx'))['default']>
     'dashboard': ExtractProps<(typeof import('../../inertia/pages/dashboard.tsx'))['default']>
-    'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>
     'errors/server_error': ExtractProps<(typeof import('../../inertia/pages/errors/server_error.tsx'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'privacy': ExtractProps<(typeof import('../../inertia/pages/privacy.tsx'))['default']>
     'profile/api': ExtractProps<(typeof import('../../inertia/pages/profile/api.tsx'))['default']>
     'profile/index': ExtractProps<(typeof import('../../inertia/pages/profile/index.tsx'))['default']>
-    'settings/two_factor': ExtractProps<(typeof import('../../inertia/pages/settings/two_factor.tsx'))['default']>
     'terms': ExtractProps<(typeof import('../../inertia/pages/terms.tsx'))['default']>
   }
 }

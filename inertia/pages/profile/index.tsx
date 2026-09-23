@@ -1,10 +1,11 @@
-import { Form, Link } from '@adonisjs/inertia/react'
-import { router, usePage } from '@inertiajs/react'
+import { Form } from '@adonisjs/inertia/react'
+import { usePage } from '@inertiajs/react'
 import { useState } from 'react'
 import Button from '~/components/button'
 import DeleteAccountDialog from '~/components/delete_account_dialog'
 import PasswordField from '~/components/password_field'
 import TextField from '~/components/text_field'
+import TwoFactorDialog from '~/components/two_factor_dialog'
 
 export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolean }) {
   const { user } = usePage().props
@@ -13,8 +14,13 @@ export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolea
   // countdown, even when re-opening after cancelling.
   const [deleteDialogKey, setDeleteDialogKey] = useState(0)
 
-  function disableTwoFactor() {
-    router.delete('/settings/two-factor')
+  const [twoFactorDialogOpen, setTwoFactorDialogOpen] = useState(false)
+  const [twoFactorDialogKey, setTwoFactorDialogKey] = useState(0)
+  const [twoFactorEnabledState, setTwoFactorEnabledState] = useState(twoFactorEnabled)
+
+  function openTwoFactorDialog() {
+    setTwoFactorDialogOpen(true)
+    setTwoFactorDialogKey((key) => key + 1)
   }
 
   function openDeleteDialog() {
@@ -90,21 +96,14 @@ export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolea
 
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-semibold text-gray-12">Two-factor authentication</h2>
-        {twoFactorEnabled ? (
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-7">Two-factor authentication is enabled.</p>
-            <Button variant="secondary" onClick={disableTwoFactor}>
-              Disable
-            </Button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-7">Two-factor authentication is disabled.</p>
-            <Link route="two_factor_settings.create">
-              <Button variant="secondary">Enable</Button>
-            </Link>
-          </div>
-        )}
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-7">
+            Two-factor authentication is {twoFactorEnabledState ? 'enabled' : 'disabled'}.
+          </p>
+          <Button variant="secondary" onClick={openTwoFactorDialog}>
+            Manage
+          </Button>
+        </div>
       </section>
 
       <section className="flex flex-col gap-4 rounded-md border border-red-200 p-4">
@@ -126,6 +125,14 @@ export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolea
         key={deleteDialogKey}
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
+      />
+
+      <TwoFactorDialog
+        key={twoFactorDialogKey}
+        open={twoFactorDialogOpen}
+        onOpenChange={setTwoFactorDialogOpen}
+        enabled={twoFactorEnabledState}
+        onChange={setTwoFactorEnabledState}
       />
     </div>
   )
