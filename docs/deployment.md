@@ -103,3 +103,15 @@ Se esse problema voltar a acontecer (por exemplo com uma dependência nativa dif
 única alternativa validada é evitar dependências que exigem `node-gyp` sem fallback de
 binário pré-compilado — o Galaxy não oferece um jeito de instalar pacotes de sistema para
 apps Node/AdonisJS no momento em que este documento foi escrito.
+
+## CI/CD (GitHub Actions)
+
+`.github/workflows/ci.yml` roda em todo push/PR para `master`: `npm ci` → cria um `.env` a
+partir de `.env.example` (com `APP_KEY` gerado e um `RESEND_API_KEY` fake — os testes que
+enviam email usam `mail.fake()`, nunca fazem chamada de rede real) → `node ace migration:run`
+contra o banco de teste → `npx playwright install --with-deps chromium` (necessário para a
+suíte `tests/browser/`) → lint (Biome) → typecheck → testes (Japa) → build de produção.
+
+Não há step de deploy: o Galaxy Cloud já observa o repositório e builda/publica sozinho a
+cada push em `master` (deploy automático via Git, sem token/secret do lado do GitHub
+Actions) — o workflow existe só como esteira de qualidade antes desse deploy acontecer.

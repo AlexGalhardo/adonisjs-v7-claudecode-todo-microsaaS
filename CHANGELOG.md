@@ -37,6 +37,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Terms of Use e Privacy Policy (com ícones), separados do Logout por um `<hr/>`.
 - Husky: hooks `pre-commit` (`biome check --staged`), `pre-push` (typecheck + build + testes) e
   `commit-msg` (valida Conventional Commits).
+- CI: `.github/workflows/ci.yml` roda lint, typecheck, testes e build em todo push/PR para
+  `master` (sem step de deploy — o Galaxy Cloud já publica sozinho via Git push).
 
 ### Changed
 

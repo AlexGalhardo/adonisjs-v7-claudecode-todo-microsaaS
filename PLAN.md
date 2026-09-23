@@ -136,11 +136,13 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 14. CI/CD GitHub Actions → Galaxy Cloud
 
-- [ ] Perguntar ao usuário credenciais/permissões necessárias (token Galaxy, secrets do GitHub)
-- [ ] Criar workflow `.github/workflows/*.yml` (lint, typecheck, test, build, deploy)
-- [ ] Documentar em `docs/deployment.md` (ou novo `docs/ci-cd.md`)
-- [ ] Avaliar necessidade de skill dedicada em `.claude/skills/`
-- [ ] Commit + push
+- [x] Perguntado ao usuário: Galaxy Cloud faz deploy automático via Git push no `master` — sem
+      token/secret necessário, então o workflow cobre só a esteira de qualidade (sem step de deploy)
+- [x] Criar workflow `.github/workflows/ci.yml` (lint, typecheck, test, build)
+- [x] Documentar em `docs/deployment.md`
+- [ ] Avaliar necessidade de skill dedicada em `.claude/skills/` (não fez sentido — o workflow é
+      simples o bastante para não precisar de skill própria)
+- [x] Commit + push
 
 ## Transversal (aplicado ao longo de todas as tarefas acima)
 
