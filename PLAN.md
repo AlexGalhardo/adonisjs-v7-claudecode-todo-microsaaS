@@ -146,10 +146,10 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## Transversal (aplicado ao longo de todas as tarefas acima)
 
-- [ ] Toda a interface (textos visíveis) em inglês
-- [ ] Toda lógica de endpoints/URLs em inglês
-- [ ] Redirecionar usuários autenticados para longe de login/signup/forgot-password/reset-password/landing page
-- [ ] Fonte global: JetBrains Mono
-- [ ] Adicionar skills `frontend-design`, `web-design-guidelines`, `vercel-react-best-practices`, `ui-ux-pro-max`, `minimalist-ui` em `.claude/skills/` e usá-las
-- [ ] Atualizar `CLAUDE.md` com a regra de interface em inglês
-- [ ] Atualizar `CHANGELOG.md` ao final do conjunto de mudanças
+- [x] Toda a interface (textos visíveis) em inglês — verificado em todas as páginas
+- [x] Toda lógica de endpoints/URLs em inglês
+- [x] Redirecionar usuários autenticados para longe de login/signup/forgot-password/reset-password/landing page (`guest_middleware.ts`)
+- [x] Fonte global: JetBrains Mono (`inertia/css/app.css`)
+- [x] Skills `frontend-design`, `web-design-guidelines`, `vercel-react-best-practices`, `ui-ux-pro-max`, `minimalist-ui` presentes em `.claude/skills/`
+- [x] `CLAUDE.md` já documenta a regra de interface em inglês
+- [x] `CHANGELOG.md` criado e atualizado ao final deste conjunto de mudanças
