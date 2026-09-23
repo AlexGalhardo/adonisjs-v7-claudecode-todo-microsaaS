@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import Todo from '#models/todo'
 import TodoPolicy from '#policies/todo_policy'
-import TodoService from '#services/todo_service'
+import TodoService, { TODOS_PER_PAGE } from '#services/todo_service'
 import TodoTransformer from '#transformers/todo_transformer'
 import { createTodoValidator, updateTodoValidator } from '#validators/todo'
 
@@ -10,10 +10,27 @@ import { createTodoValidator, updateTodoValidator } from '#validators/todo'
 export default class TodosController {
   constructor(protected todoService: TodoService) {}
 
-  async index({ inertia, auth }: HttpContext) {
-    const todos = await this.todoService.list(auth.user!)
+  async index({ inertia, auth, request }: HttpContext) {
+    const filters = {
+      search: request.input('q') || undefined,
+      category: request.input('category') || undefined,
+      dateFrom: request.input('dateFrom') || undefined,
+      dateTo: request.input('dateTo') || undefined,
+    }
+    const page = request.input('page') ? Number(request.input('page')) : 1
+
+    const paginator = await this.todoService
+      .list(auth.user!, filters)
+      .paginate(page, TODOS_PER_PAGE)
+
     return inertia.render('dashboard', {
-      todos: TodoTransformer.transform(todos),
+      todos: TodoTransformer.paginate(paginator.all(), paginator.getMeta()),
+      filters: {
+        q: filters.search ?? '',
+        category: filters.category ?? '',
+        dateFrom: filters.dateFrom ?? '',
+        dateTo: filters.dateTo ?? '',
+      },
     })
   }
 

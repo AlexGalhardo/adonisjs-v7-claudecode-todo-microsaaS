@@ -54,9 +54,11 @@ email: admin@gmail.com
 senha: adminBR@123
 ```
 
-junto com 3 todos de exemplo (um deles já marcado como concluído), para servir de
-referência de como seeders funcionam com Lucid — `firstOrCreate` é usado tanto para o
-usuário quanto para cada todo (chave: `userId` + `title`), o que torna o seeder
+junto com 3 todos de exemplo (um deles já marcado como concluído) + 32 todos gerados
+aleatoriamente (categorias/datas/descrição variadas), para servir de referência de como
+seeders funcionam com Lucid e dar massa de dados suficiente para testar busca, filtro por
+categoria/data e paginação (10 por página) do dashboard — `firstOrCreate` é usado tanto
+para o usuário quanto para cada todo (chave: `userId` + `title`), o que torna o seeder
 **idempotente**: rodar `node ace db:seed` várias vezes não duplica nada. Verificado na
 prática (seed rodado duas vezes seguidas, contagem de linhas conferida diretamente no
 SQLite) e via login real do admin na UI.

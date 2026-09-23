@@ -63,14 +63,18 @@ export class RateLimitSchema extends BaseModel {
 }
 
 export class TodoSchema extends BaseModel {
-  static $columns = ['completed', 'createdAt', 'description', 'id', 'title', 'updatedAt', 'userId'] as const
+  static $columns = ['category', 'completed', 'createdAt', 'description', 'dueDate', 'id', 'title', 'updatedAt', 'userId'] as const
   $columns = TodoSchema.$columns
+  @column()
+  declare category: string | null
   @column()
   declare completed: boolean
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
   declare description: string | null
+  @column.date()
+  declare dueDate: DateTime | null
   @column({ isPrimary: true })
   declare id: number
   @column()

@@ -7,6 +7,8 @@ export default class TodoTransformer extends BaseTransformer<Todo> {
       'id',
       'title',
       'description',
+      'category',
+      'dueDate',
       'completed',
       'createdAt',
       'updatedAt',

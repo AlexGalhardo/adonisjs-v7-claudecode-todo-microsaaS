@@ -1,9 +1,12 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import { DateTime } from 'luxon'
 import Todo from '#models/todo'
 import User from '#models/user'
+import { TODO_CATEGORIES } from '#validators/todo'
 
 const ADMIN_EMAIL = 'admin@gmail.com'
 const ADMIN_PASSWORD = 'adminBR@123'
+const RANDOM_TODO_COUNT = 32
 
 const SAMPLE_TODOS: { title: string; description: string; completed: boolean }[] = [
   {
@@ -12,7 +15,7 @@ const SAMPLE_TODOS: { title: string; description: string; completed: boolean }[]
     completed: false,
   },
   {
-    title: 'Try marking a todo as complete',
+    title: 'Mark a todo as done',
     description: 'Click the checkbox on the left to toggle it.',
     completed: true,
   },
@@ -22,6 +25,36 @@ const SAMPLE_TODOS: { title: string; description: string; completed: boolean }[]
     completed: false,
   },
 ]
+
+const RANDOM_TITLE_WORDS = [
+  'Watch',
+  'Read',
+  'Finish',
+  'Plan',
+  'Review',
+  'Buy',
+  'Book',
+  'Play',
+  'Write',
+  'Study',
+]
+
+/** Deterministic-ish pseudo-random title/description generator, no faker dependency needed here. */
+function randomTodoData(index: number) {
+  const category = TODO_CATEGORIES[index % TODO_CATEGORIES.length]
+  const word = RANDOM_TITLE_WORDS[index % RANDOM_TITLE_WORDS.length]
+  const title = `${word} item ${index + 1}`.slice(0, 24)
+  const hasDescription = index % 3 !== 0
+  const dueDate = index % 4 !== 0 ? DateTime.now().plus({ days: (index % 20) - 10 }) : null
+
+  return {
+    title,
+    description: hasDescription ? `Sample generated description for demo item ${index + 1}.` : null,
+    category,
+    dueDate,
+    completed: index % 3 === 0,
+  }
+}
 
 /**
  * Idempotent: safe to run multiple times (e.g. re-running `node ace db:seed`
@@ -38,6 +71,16 @@ export default class extends BaseSeeder {
       await Todo.firstOrCreate(
         { userId: admin.id, title: todo.title },
         { userId: admin.id, ...todo }
+      )
+    }
+
+    // 32 randomly-generated todos so pagination/search/category/date filters
+    // on the dashboard have enough data to exercise during manual testing.
+    for (let i = 0; i < RANDOM_TODO_COUNT; i++) {
+      const data = randomTodoData(i)
+      await Todo.firstOrCreate(
+        { userId: admin.id, title: data.title },
+        { userId: admin.id, ...data }
       )
     }
   }

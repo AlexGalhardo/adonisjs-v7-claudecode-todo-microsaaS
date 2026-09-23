@@ -11,14 +11,12 @@ test.group('Todos flow', () => {
     await signupPage.fill('#fullName', 'Browser Test')
     await signupPage.fill('#email', email)
     await signupPage.fill('#password', 'Password123!')
-    await signupPage.fill('#passwordConfirmation', 'Password123!')
     await signupPage.click('button[type=submit]')
     await signupPage.waitForURL('**/dashboard')
 
     // Create
     await signupPage.click('text=New todo')
     await signupPage.fill('#title', 'Buy milk')
-    await signupPage.fill('#description', 'Whole milk, 2 liters')
     await signupPage.click('button[type=submit]:has-text("Create")')
     await signupPage.assertExists('text=Buy milk')
 

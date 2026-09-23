@@ -14,7 +14,7 @@ test.group('Todos web', () => {
 
     response.assertStatus(200)
     response.assertInertiaComponent('dashboard')
-    assert.lengthOf(response.inertiaProps.todos, 1)
+    assert.lengthOf(response.inertiaProps.todos.data, 1)
   })
 
   test('guests are redirected to login', async ({ client }) => {
