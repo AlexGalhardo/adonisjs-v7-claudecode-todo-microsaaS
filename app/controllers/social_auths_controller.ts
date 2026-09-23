@@ -1,6 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import logger from '@adonisjs/core/services/logger'
 import User from '#models/user'
 import AccountDeletionService from '#services/account_deletion_service'
 
@@ -35,7 +36,20 @@ export default class SocialAuthsController {
       return
     }
 
-    const socialUser = await provider.user()
+    // provider.user() makes real HTTP calls to the provider's token/userinfo
+    // endpoints — a network hiccup, a misconfigured client secret, or an API
+    // response shape change would otherwise bubble up as an unhandled 500.
+    // Log the real error server-side and degrade to a friendly redirect.
+    let socialUser: Awaited<ReturnType<typeof provider.user>>
+    try {
+      socialUser = await provider.user()
+    } catch (error) {
+      logger.error({ err: error, provider: params.provider }, 'OAuth callback failed')
+      session.flash('error', 'Something went wrong while signing in. Please try again.')
+      response.redirect().toRoute('session.create')
+      return
+    }
+
     if (!socialUser.email) {
       session.flash(
         'error',
