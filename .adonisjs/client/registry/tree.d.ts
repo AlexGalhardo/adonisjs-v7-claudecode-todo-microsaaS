@@ -50,6 +50,11 @@ export interface ApiDefinition {
     store: typeof routes['two_factor_settings.store']
     destroy: typeof routes['two_factor_settings.destroy']
   }
+  profileApi: {
+    index: typeof routes['profile_api.index']
+    store: typeof routes['profile_api.store']
+    destroy: typeof routes['profile_api.destroy']
+  }
   api: {
     session: {
       store: typeof routes['api.session.store']

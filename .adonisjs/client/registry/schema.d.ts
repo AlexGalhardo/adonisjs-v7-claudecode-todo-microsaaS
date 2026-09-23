@@ -343,6 +343,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/two_factor_settings_controller').default['destroy']>>>
     }
   }
+  'profile_api.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/profile/api'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['index']>>>
+    }
+  }
+  'profile_api.store': {
+    methods: ["POST"]
+    pattern: '/profile/api/tokens'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/api_token').createTokenValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/api_token').createTokenValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'profile_api.destroy': {
+    methods: ["DELETE"]
+    pattern: '/profile/api/tokens/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['destroy']>>>
+    }
+  }
   'api.session.store': {
     methods: ["POST"]
     pattern: '/api/login'

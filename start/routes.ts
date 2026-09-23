@@ -62,6 +62,10 @@ router
     router.get('settings/two-factor', [controllers.TwoFactorSettings, 'create'])
     router.post('settings/two-factor', [controllers.TwoFactorSettings, 'store'])
     router.delete('settings/two-factor', [controllers.TwoFactorSettings, 'destroy'])
+
+    router.get('profile/api', [controllers.ProfileApi, 'index'])
+    router.post('profile/api/tokens', [controllers.ProfileApi, 'store'])
+    router.delete('profile/api/tokens/:id', [controllers.ProfileApi, 'destroy'])
   })
   .use(middleware.auth())
 

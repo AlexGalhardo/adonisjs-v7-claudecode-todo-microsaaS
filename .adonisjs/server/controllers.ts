@@ -13,6 +13,7 @@ export const controllers = {
   MagicLinks: () => import('#controllers/magic_links_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   PasswordResets: () => import('#controllers/password_resets_controller'),
+  ProfileApi: () => import('#controllers/profile_api_controller'),
   Session: () => import('#controllers/session_controller'),
   SocialAuths: () => import('#controllers/social_auths_controller'),
   Todos: () => import('#controllers/todos_controller'),

@@ -32,6 +32,9 @@ export type ScannedRoutes = {
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'two_factor_settings.store': { paramsTuple?: []; params?: {} }
     'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
+    'profile_api.index': { paramsTuple?: []; params?: {} }
+    'profile_api.store': { paramsTuple?: []; params?: {} }
+    'profile_api.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
@@ -56,6 +59,7 @@ export type ScannedRoutes = {
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
+    'profile_api.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -75,6 +79,7 @@ export type ScannedRoutes = {
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
+    'profile_api.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -88,6 +93,7 @@ export type ScannedRoutes = {
     'session.destroy': { paramsTuple?: []; params?: {} }
     'todos.store': { paramsTuple?: []; params?: {} }
     'two_factor_settings.store': { paramsTuple?: []; params?: {} }
+    'profile_api.store': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.store': { paramsTuple?: []; params?: {} }
@@ -100,6 +106,7 @@ export type ScannedRoutes = {
   DELETE: {
     'todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
+    'profile_api.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

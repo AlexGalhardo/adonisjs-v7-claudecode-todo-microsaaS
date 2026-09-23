@@ -174,6 +174,24 @@ const routes = {
     tokens: [{"old":"/settings/two-factor","type":0,"val":"settings","end":""},{"old":"/settings/two-factor","type":0,"val":"two-factor","end":""}],
     types: placeholder as Registry['two_factor_settings.destroy']['types'],
   },
+  'profile_api.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/profile/api',
+    tokens: [{"old":"/profile/api","type":0,"val":"profile","end":""},{"old":"/profile/api","type":0,"val":"api","end":""}],
+    types: placeholder as Registry['profile_api.index']['types'],
+  },
+  'profile_api.store': {
+    methods: ["POST"],
+    pattern: '/profile/api/tokens',
+    tokens: [{"old":"/profile/api/tokens","type":0,"val":"profile","end":""},{"old":"/profile/api/tokens","type":0,"val":"api","end":""},{"old":"/profile/api/tokens","type":0,"val":"tokens","end":""}],
+    types: placeholder as Registry['profile_api.store']['types'],
+  },
+  'profile_api.destroy': {
+    methods: ["DELETE"],
+    pattern: '/profile/api/tokens/:id',
+    tokens: [{"old":"/profile/api/tokens/:id","type":0,"val":"profile","end":""},{"old":"/profile/api/tokens/:id","type":0,"val":"api","end":""},{"old":"/profile/api/tokens/:id","type":0,"val":"tokens","end":""},{"old":"/profile/api/tokens/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['profile_api.destroy']['types'],
+  },
   'api.session.store': {
     methods: ["POST"],
     pattern: '/api/login',

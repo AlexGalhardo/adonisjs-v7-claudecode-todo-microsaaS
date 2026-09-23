@@ -65,3 +65,21 @@ autorização sempre retornam JSON nesta API — `app/exceptions/handler.ts` for
 JSON para qualquer rota sob `/api/*`, independente do header `Accept` enviado pelo cliente
 (evita que exceções pensadas para a camada web — que redirecionam de volta com uma
 mensagem "flash" — vazem para a API como um redirect/HTML).
+
+## Documentação interativa e tokens (/profile/api)
+
+Um usuário autenticado pode gerar/revogar seus próprios access tokens em `/profile/api` sem
+reentrar a senha (diferente de `POST /api/login`, que existe para clientes externos/CLIs). O
+token em texto puro só fica visível uma vez, logo após a criação — só o hash é persistido
+(`ProfileApiController`).
+
+A mesma página embute `@scalar/api-reference-react` renderizando um documento OpenAPI 3.0
+escrito à mão em `inertia/lib/openapi_spec.ts` (espelha as tabelas acima — atualize os dois
+juntos se o contrato da API mudar).
+
+**Nota de dependência:** a árvore de dependências do `@scalar/api-reference` inclui um
+recurso de chat com IA (`@scalar/agent-chat` → Vercel AI SDK → `undici`) que não é usado
+aqui — `hideClientButton`/`telemetry: false` reduzem a superfície exposta, mas
+`npm audit` ainda acusa vulnerabilidades nessa cadeia (a versão mais recente do pacote tem
+menos delas do que versões intermediárias testadas). Isolado ao bundle desta única página
+(code-split pelo Vite, não carrega em nenhuma outra rota) — reavalie ao atualizar o pacote.
