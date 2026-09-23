@@ -110,12 +110,12 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 11. Página /profile
 
-- [ ] Form editar nome
-- [ ] Campo email disabled pré-preenchido
-- [ ] Form trocar senha
-- [ ] Botão excluir conta → modal com cooldown de 10s + aviso de 30 dias para reverter
-- [ ] Form de gestão de 2FA
-- [ ] Commit + push
+- [x] Form editar nome
+- [x] Campo email disabled pré-preenchido
+- [x] Form trocar senha (exige senha atual)
+- [x] Botão excluir conta → modal com cooldown de 10s + aviso de 30 dias para reverter (soft-delete real, cancela no login, `users:purge-deleted`)
+- [x] Form de gestão de 2FA (status + link para habilitar/desabilitar)
+- [x] Commit + push
 
 ## 12. BiomeJS v2
 
