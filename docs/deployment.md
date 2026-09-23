@@ -104,6 +104,33 @@ Se esse problema voltar a acontecer (por exemplo com uma dependência nativa dif
 binário pré-compilado — o Galaxy não oferece um jeito de instalar pacotes de sistema para
 apps Node/AdonisJS no momento em que este documento foi escrito.
 
+### Regressão: `sqlite3@6.0.1` quebra em produção com `GLIBC_2.38' not found`
+
+Mesmo usando `sqlite3` (que baixa um binário pré-compilado em vez de compilar via
+`node-gyp`), o app ainda quebrava em produção com 500 em qualquer request que tocasse o
+banco:
+
+```
+Knex: run
+$ npm install sqlite3 --save
+/lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.38' not found (required by
+/app/node_modules/sqlite3/build/Release/node_sqlite3.node)
+```
+
+Causa raiz: a partir da release `6.0.1`, o binário pré-compilado do `sqlite3` passou a ser
+gerado numa imagem de CI com uma `glibc` mais nova (2.38) do que a que o container de
+**runtime** do Galaxy Cloud oferece — mesmo o *build* completando sem erro (o binário é só
+baixado, não compilado ali), ele falha ao carregar depois, no pod que efetivamente serve a
+aplicação. Esse é um problema conhecido e documentado do pacote (afeta Vercel, Railway e
+outras plataformas com a mesma divisão build/runtime), com o binário da `5.1.7` — a última
+release antes dessa mudança de toolchain — confirmado como correção pela comunidade.
+
+- **Fix**: `sqlite3` fixado em `5.1.7` (exato, sem `^`) em `package.json` — ainda usa
+  N-API (`node-addon-api`), então o mesmo binário funciona em qualquer versão do Node que
+  suporte N-API estável, incluindo o Node 24 usado aqui; não precisa recompilar nada.
+- Se uma futura atualização do `sqlite3` corrigir esse problema na origem (ou se o Galaxy
+  Cloud alinhar a glibc do build/runtime), vale revisitar o pin.
+
 ## CI/CD (GitHub Actions)
 
 `.github/workflows/ci.yml` roda em todo push/PR para `master`: `npm ci` → cria um `.env` a

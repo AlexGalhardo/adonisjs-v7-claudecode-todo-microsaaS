@@ -24,6 +24,10 @@ via `prebuild-install` antes de cair em `node-gyp`, então evita o problema na p
 - [x] Atualizar `infra/Dockerfile` / docs (`docs/database.md`, `docs/deployment.md`)
 - [x] Rodar `npm install`, migrations e suíte de testes localmente para validar (46/46 pass)
 - [x] Commit + push
+- [x] **Regressão encontrada em produção** (ver log de erro da sessão seguinte): `sqlite3@6.0.1`
+      baixa um binário pré-compilado exigindo `GLIBC_2.38`, mais nova do que a glibc do runtime do
+      Galaxy Cloud → 500 em qualquer request que tocasse o banco. Fix: `sqlite3` fixado em `5.1.7`
+      (última release antes dessa mudança de toolchain) — ver `docs/deployment.md`. Commit + push.
 
 ## 2. Envio de emails via Resend + react-email
 

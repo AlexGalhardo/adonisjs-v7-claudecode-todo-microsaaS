@@ -6,6 +6,11 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- **Causa raiz real do 500 no login social em produção**: não era o OAuth em si — qualquer
+  request que tocasse o banco falhava, porque o binário pré-compilado do `sqlite3@6.0.1`
+  requer uma `glibc` (2.38) mais nova do que a do runtime do Galaxy Cloud
+  (`GLIBC_2.38' not found`). `sqlite3` fixado em `5.1.7` (última release antes dessa mudança
+  de toolchain de build do pacote) resolve. Ver `docs/deployment.md`.
 - Login social (Google/GitHub) retornava HTTP 500 no callback sem nenhum diagnóstico: erros de
   `provider.user()` (rede, credenciais OAuth ausentes/erradas no ambiente, mudança de resposta da
   API do provedor) agora são capturados, logados no servidor e o usuário é redirecionado ao login
