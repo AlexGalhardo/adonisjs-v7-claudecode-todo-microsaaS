@@ -18,6 +18,11 @@ MVC e as convenções impostas pelo AdonisJS — sem arquitetura paralela.
   ver `docs/database.md`) — Lucid continua sendo o único ORM/dono de migrations.
 - **Email**: Resend (`config/mail.ts`), templates em JSX renderizados via
   `@react-email/render` (ver `app/mails/`)
+- **Pagamentos**: Stripe (`config/stripe.ts`, `app/services/stripe_service.ts`) — micro-SaaS
+  com 10 todos grátis por usuário, depois exige assinatura (mensal $2.99 / anual $29.90, um
+  único plano "Pro"). Checkout e Customer Portal são hosted pela Stripe; o estado da
+  assinatura só muda via webhook (`POST /webhooks/stripe`), nunca na success page. Opcional
+  como as credenciais OAuth — a app sobe sem Stripe configurado. Ver `docs/billing.md`.
 - **Lint/format**: BiomeJS v2 (`biome.json`) — substitui ESLint/Prettier. `useImportType`
   fica desligado de propósito: veja
   `.claude/skills/how-to-avoid-breaking-inject-with-biome.md` antes de reativá-lo (quebra o
@@ -64,6 +69,7 @@ Ver `setups/` para scripts idempotentes por plataforma/driver.
 - [docs/api.md](docs/api.md) — endpoints REST, contratos de request/response
 - [docs/testing.md](docs/testing.md) — estratégia de testes e como rodar
 - [docs/deployment.md](docs/deployment.md) — Docker e produção
+- [docs/billing.md](docs/billing.md) — assinaturas Stripe, webhooks, setup de credenciais
 
 ## Progresso
 

@@ -1,239 +1,121 @@
-# Todo
+<div align="center">
 
-Aplicação de lista de tarefas (todo list) full-stack construída com **AdonisJS v7**,
-**Inertia v3 + React 19** e **PostgreSQL/SQLite**, usada como projeto de referência para
-quem está aprendendo o framework. Segue estritamente o padrão MVC e as convenções
-impostas pelo AdonisJS — sem arquitetura paralela inventada.
+# AdonisJS v7 ClaudeCode ToDo MicroSaaS
 
-Inclui: cadastro/login por email e senha, recuperação de senha, login sem senha (magic
-link), autenticação de dois fatores (2FA/TOTP), login social (Google/GitHub), CRUD de
-todos com autorização por usuário (camada web via Inertia **e** API REST equivalente),
-rate limiting, testes automatizados (unit/functional/E2E) e infraestrutura Docker pronta.
+[![CI](https://github.com/AlexGalhardo/todo-adonisjs-v7-claude/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexGalhardo/todo-adonisjs-v7-claude/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D24-brightgreen.svg)](https://nodejs.org)
+[![AdonisJS](https://img.shields.io/badge/AdonisJS-v7-5A45FF.svg)](https://adonisjs.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Stack
+</div>
 
-| Camada         | Tecnologia                                             |
-| -------------- | ------------------------------------------------------- |
-| Backend        | [AdonisJS v7](https://docs.adonisjs.com/) (TypeScript)   |
-| ORM            | [Lucid](https://lucid.adonisjs.com/)                      |
-| Validação      | [VineJS](https://vinejs.dev/)                               |
-| Frontend       | [Inertia v3](https://inertiajs.com/) + [React 19](https://react.dev/) |
-| Estilo         | [Tailwind CSS v4](https://tailwindcss.com/) + [Base UI](https://base-ui.com/) |
-| Banco de dados | SQLite (dev) **ou** PostgreSQL (dev/produção), via `.env`   |
-| Testes         | [Japa](https://japa.dev/) (unit, functional, browser/E2E) |
-| Runtime        | Node.js **v24+**                                            |
+Project built to learn the AdonisJS framework alongside Inertia + React, with ~99% of the
+code written by [Claude Code](https://claude.com/claude-code). It's a todo list app that
+doubles as a reference implementation of a small, real micro-SaaS: authentication (password,
+magic link, 2FA, social login), a todo CRUD (web + REST API), and a Stripe subscription flow
+gating a free-plan limit — all following AdonisJS's own conventions strictly, with no parallel
+architecture invented on top.
 
-## Pré-requisitos
+## Features
 
-- [Node.js 24+](https://nodejs.org)
-- Para PostgreSQL local sem Docker: um servidor PostgreSQL rodando
-- Para qualquer variante com Docker: [Docker](https://www.docker.com/) instalado e rodando
+- Email/password signup & login, password recovery, passwordless login (magic link),
+  two-factor authentication (2FA/TOTP), social login (Google/GitHub)
+- Todo CRUD with per-user authorization — web (Inertia) and an equivalent REST API
+- **Micro-SaaS billing**: 10 todos free per user, then a Stripe subscription (monthly/annual)
+  is required — Stripe Checkout, Customer Portal, and webhook-driven subscription state (see
+  [`docs/billing.md`](docs/billing.md))
+- Rate limiting, automated tests (unit/functional/E2E), Docker infra, CI
 
-## Instalação rápida
+## Tech stack
 
-A forma mais simples de rodar o projeto do zero é usando um dos scripts em `setups/` —
-eles validam os pré-requisitos, criam o `.env`, instalam as dependências, geram a chave da
-aplicação, rodam as migrations e semeiam o banco, tudo de uma vez.
+| Layer          | Technology                                                              |
+| -------------- | ------------------------------------------------------------------------ |
+| Backend        | [AdonisJS v7](https://docs.adonisjs.com/) (TypeScript)                    |
+| ORM            | [Lucid](https://lucid.adonisjs.com/)                                        |
+| Validation     | [VineJS](https://vinejs.dev/)                                                 |
+| Frontend       | [Inertia v3](https://inertiajs.com/) + [React 19](https://react.dev/)          |
+| Styling        | [Tailwind CSS v4](https://tailwindcss.com/) + [Base UI](https://base-ui.com/)   |
+| Database       | SQLite (dev) **or** PostgreSQL (dev/production), switched via `.env`             |
+| Payments       | [Stripe](https://stripe.com/) — Checkout, Billing/Customer Portal, webhooks         |
+| Email          | [Resend](https://resend.com/)                                                        |
+| Testing        | [Japa](https://japa.dev/) (unit, functional, browser/E2E via Playwright)              |
+| Lint/format    | [BiomeJS](https://biomejs.dev/)                                                         |
+| Hosting        | [Galaxy Cloud](https://galaxycloud.app/) (Node/AdonisJS buildpack, auto-deploy on push)  |
+| Runtime        | Node.js **v24+**                                                                          |
+
+## Development setup
+
+The fastest way to get running from scratch is one of the idempotent scripts in
+[`setups/`](setups/) — pick the one matching your OS and database choice. Each one validates
+prerequisites, creates `.env`, installs dependencies, generates the app key, runs migrations,
+seeds the database, and finally starts the dev server (logs stream in the same terminal):
 
 ```bash
-# SQLite (mais simples, sem Docker)
+# SQLite (simplest, no Docker)
 ./setups/setup-unix-using-sqlite-localhost.sh          # Linux/macOS
 ./setups/setup-windows-using-sqlite-localhost.sh        # Windows (via Git Bash)
 
-# PostgreSQL já instalado localmente (não em Docker)
+# PostgreSQL already installed locally (not Docker)
 ./setups/setup-unix-using-postgresql-localhost.sh
 ./setups/setup-windows-using-postgresql-localhost.sh
 
-# PostgreSQL via Docker (app roda local com hot-reload)
+# PostgreSQL via Docker (app still runs locally with hot-reload)
 ./setups/setup-unix-using-postgresql-docker.sh
 ./setups/setup-windows-using-postgresql-docker.sh
 ```
 
-(As três variantes "windows" rodam via Git Bash e têm a mesma lógica das variantes
-"unix" — só trocam as dicas de instalação de pré-requisitos exibidas em caso de erro.)
-
-Depois de rodar um dos scripts:
-
-```bash
-npm run dev
-```
-
-E acesse **http://localhost:3333**.
-
-### Instalação manual (passo a passo)
-
-Se preferir não usar os scripts:
-
-```bash
-cp .env.example .env
-npm install
-node ace generate:key
-node ace migration:run
-node ace db:seed
-npm run dev
-```
-
-Por padrão, `.env.example` usa SQLite (`DB_CONNECTION=sqlite`) — zero configuração
-adicional necessária. Para usar PostgreSQL, veja a seção abaixo.
-
-## Variáveis de ambiente
-
-Veja `.env.example` — todas as variáveis estão lá, comentadas. Os grupos principais:
-
-- **Node/App**: porta, host, `APP_KEY` (gerada automaticamente por
-  `node ace generate:key`), `APP_URL`.
-- **Banco de dados**: `DB_CONNECTION=sqlite` ou `DB_CONNECTION=pg` (+ `DB_HOST`,
-  `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`) — troca de banco é só uma questão de
-  variável de ambiente, nenhum código muda. Detalhes em [`docs/database.md`](docs/database.md).
-- **Mail** (`RESEND_API_KEY`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME`): usado para recuperação
-  de senha, magic link e o formulário de contato, enviados via [Resend](https://resend.com).
-  Gere uma chave em https://resend.com/api-keys.
-- **Rate limiting** (`LIMITER_STORE`): `database` em desenvolvimento/produção, `memory`
-  automaticamente nos testes.
-- **Login social** (`GOOGLE_CLIENT_*`, `GITHUB_CLIENT_*`): opcionais — sem eles o app
-  funciona normalmente, só os botões "Continue with Google/GitHub" não completam o login.
-  Veja [`docs/auth.md`](docs/auth.md#login-social-googlegithub) para como criar as
-  credenciais.
-
-## Rodando com SQLite
-
-Já é o padrão de `.env.example`. Não precisa de nenhum serviço externo:
-
-```bash
-cp .env.example .env
-npm install
-node ace generate:key
-node ace migration:run
-node ace db:seed
-npm run dev
-```
-
-## Rodando com PostgreSQL (local, sem Docker)
-
-Com um PostgreSQL já rodando na máquina:
-
-```bash
-cp .env.example .env
-# Edite o .env: descomente e ajuste as linhas DB_CONNECTION=pg / DB_HOST / DB_PORT / DB_USER / DB_PASSWORD / DB_DATABASE
-npm install
-node ace generate:key
-node ace migration:run
-node ace db:seed
-npm run dev
-```
-
-## Rodando com Docker
-
-Duas formas, dependendo do que você quer rodar em container:
-
-### Só a infraestrutura (Postgres), app local com hot-reload
-
-```bash
-docker compose -f infra/docker-compose.yml up -d db
-cp .env.example .env
-```
-
-No `.env`, defina:
-
-```
-DB_CONNECTION=pg
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_DATABASE=ado
-RESEND_API_KEY=<sua chave>
-```
-
-```bash
-npm install
-node ace generate:key
-node ace migration:run
-node ace db:seed
-npm run dev
-```
-
-### Tudo em containers (app + Postgres)
-
-```bash
-cp .env.example .env
-npm install               # precisa do node_modules local só para gerar a APP_KEY abaixo
-node ace generate:key      # grava a APP_KEY no .env, que o container lê via env_file
-docker compose -f infra/docker-compose.yml up -d
-docker compose -f infra/docker-compose.yml exec app node ace migration:run --force
-docker compose -f infra/docker-compose.yml exec app node ace db:seed
-```
-
-Acesse **http://localhost:3333**. Pare tudo com
-`docker compose -f infra/docker-compose.yml down`.
-
-Detalhes completos (por que cada estágio do Dockerfile existe, etc.) em
-[`docs/deployment.md`](docs/deployment.md).
-
-## Credenciais de exemplo (seed)
-
-O seeder (`database/seeders/admin_user_seeder.ts`, rodado por `node ace db:seed`) cria uma
-conta admin com alguns todos de exemplo:
+Then open **http://localhost:3333** and log in with the seeded admin account:
 
 ```
 email:    admin@gmail.com
-senha:    adminBR@123
+password: adminBR@123
 ```
 
-Rodar o seed várias vezes é seguro — ele não duplica nada.
+Prefer doing it by hand, or need PostgreSQL/Docker specifics? See the full manual steps and
+environment variable reference in [`docs/database.md`](docs/database.md) and
+[`docs/deployment.md`](docs/deployment.md). All variables are documented in `.env.example`.
 
-## Rodando os testes
+### Useful commands
 
 ```bash
-# Uma vez, antes da primeira execução (ou depois de criar uma migration nova):
-NODE_ENV=test node ace migration:run
-
-npm run test          # todas as suítes (unit + functional + browser)
-node ace test unit     # só unitários
-node ace test functional
-node ace test browser   # E2E — abre um Chromium headless via Playwright
+npm run dev              # dev server with HMR (http://localhost:3333)
+npm run build             # production build
+npm run test                # full test suite (unit + functional + browser)
+npm run lint                  # biome check
+npm run format                  # biome format --write
+npm run typecheck                 # tsc --noEmit (backend + frontend)
+node ace migration:run              # run pending migrations
+node ace db:seed                      # seed the database (admin + sample todos)
+npm run db:studio                       # Drizzle Studio (database viewer)
 ```
 
-Os testes usam um banco SQLite isolado (`tmp/db_test.sqlite3`) por padrão — nunca tocam no
-banco de desenvolvimento, mesmo que você esteja usando PostgreSQL em dev. Detalhes e
-gotchas encontrados escrevendo os testes em [`docs/testing.md`](docs/testing.md).
+## Documentation
 
-## Documentação
+In-depth docs live in [`docs/`](docs/):
 
-- [`CLAUDE.md`](CLAUDE.md) — guia rápido para quem for mexer no código
-- [`TODO.md`](TODO.md) — progresso do projeto, tarefa por tarefa
-- [`docs/architecture.md`](docs/architecture.md) — decisões de arquitetura e o porquê
-- [`docs/database.md`](docs/database.md) — modelagem, migrations, seeds, troca de driver
-- [`docs/auth.md`](docs/auth.md) — todos os fluxos de autenticação em detalhe
-- [`docs/api.md`](docs/api.md) — contratos da API REST
-- [`docs/testing.md`](docs/testing.md) — estratégia de testes
-- [`docs/deployment.md`](docs/deployment.md) — Docker e produção
-- [`.claude/skills/`](.claude/skills/) — como reproduzir cada fluxo dominado neste
-  projeto (adicionar um recurso CRUD, um fluxo de email com token, verificar infra Docker
-  de verdade, etc.), além de skills de design de UI (ver abaixo)
+- [`docs/architecture.md`](docs/architecture.md) — architecture decisions and why
+- [`docs/database.md`](docs/database.md) — modeling, migrations, seeds, switching SQLite/Postgres
+- [`docs/auth.md`](docs/auth.md) — every authentication flow in detail
+- [`docs/api.md`](docs/api.md) — REST API contracts
+- [`docs/billing.md`](docs/billing.md) — Stripe subscriptions, webhooks, credential setup
+- [`docs/testing.md`](docs/testing.md) — testing strategy and how to run it
+- [`docs/deployment.md`](docs/deployment.md) — Docker and production (Galaxy Cloud)
 
-### Skills de design de UI
+Also see [`CLAUDE.md`](CLAUDE.md) (quick guide for working in this codebase) and
+[`TODO.md`](TODO.md) (task-by-task progress log).
 
-Além das skills `how-to-*` (escritas para este projeto), `.claude/skills/` também traz
-skills de terceiros via [skills.sh](https://www.skills.sh/) para orientar decisões visuais
-(paletas, tipografia, guidelines de acessibilidade, padrões React/Next.js):
-`frontend-design`, `web-design-guidelines`, `vercel-react-best-practices`, `ui-ux-pro-max`,
-`minimalist-ui`. São copiadas diretamente (não symlinks — o CLI `skills` grava symlinks com
-caminho absoluto, que quebrariam em outra máquina), então já funcionam após clonar o repo,
-sem passo extra de instalação.
+## Contributing
 
-## Comandos úteis
+Contributions are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow,
+conventions, and pre-PR checklist.
 
-```bash
-npm run dev         # servidor de desenvolvimento com HMR
-npm run build         # build de produção
-npm run test            # suíte de testes completa
-npm run lint              # biome check
-npm run format             # biome format --write
-npm run typecheck           # tsc --noEmit (backend + frontend)
-node ace migration:run      # roda migrations pendentes
-node ace migration:rollback  # desfaz o último batch de migrations
-node ace db:seed              # popula o banco (admin + todos de exemplo)
-node ace codegen                # regenera tipos/registros (rotas, páginas, policies)
-npm run db:studio                # abre o Drizzle Studio (visualizador do banco, ver docs/database.md)
-```
+## Credits
+
+Built by [Alex Galhardo](https://github.com/AlexGalhardo), ~99% of the implementation by
+[Claude Code](https://claude.com/claude-code), as a hands-on way to learn AdonisJS.
+
+## License
+
+[MIT](LICENSE)
