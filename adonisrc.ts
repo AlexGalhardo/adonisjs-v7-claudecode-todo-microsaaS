@@ -131,6 +131,13 @@ export default defineConfig({
       pattern: 'public/**',
       reloadServer: false,
     },
+    {
+      // Keeps `tmp/` present in the production build output (it holds the
+      // SQLite database file) — see config/database.ts for why relying on
+      // this alone isn't enough on every deploy target.
+      pattern: 'tmp/.gitkeep',
+      reloadServer: false,
+    },
   ],
 
   hooks: {

@@ -1,6 +1,17 @@
+import { mkdirSync } from 'node:fs'
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/lucid'
 import env from '#start/env'
+
+/**
+ * `tmp/` only ships in the production build via .gitkeep (see adonisrc.ts
+ * metaFiles) — some deploy targets (e.g. Galaxy Cloud, which builds with
+ * `node ace build` directly and never runs infra/Dockerfile's `mkdir -p tmp`)
+ * can still end up without it, which makes the sqlite3 driver fail with
+ * SQLITE_CANTOPEN instead of creating the file. Guarantee the directory
+ * exists before Lucid ever tries to open the database file.
+ */
+mkdirSync(app.tmpPath(), { recursive: true })
 
 const dbConfig = defineConfig({
   /**

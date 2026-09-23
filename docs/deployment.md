@@ -131,6 +131,25 @@ release antes dessa mudança de toolchain — confirmado como correção pela co
 - Se uma futura atualização do `sqlite3` corrigir esse problema na origem (ou se o Galaxy
   Cloud alinhar a glibc do build/runtime), vale revisitar o pin.
 
+### Regressão: `SQLITE_CANTOPEN: unable to open database file` em produção
+
+Depois do fix de GLIBC acima, o app ainda quebrava em qualquer request que tocasse o banco,
+agora com `SQLITE_CANTOPEN` em vez de erro de `glibc`.
+
+Causa raiz: `tmp/` (onde mora o arquivo `db.sqlite3`, ver `config/database.ts`) nunca chegava
+no build de produção. `adonisrc.ts` (`metaFiles`) só copiava `resources/views/**/*.edge` e
+`public/**` para `build/` — `tmp/` fica de fora por padrão, e o `RUN mkdir -p tmp` do
+`infra/Dockerfile` não ajuda porque o Galaxy Cloud builda com `node ace build` direto (seu
+próprio buildpack), sem passar pelo Dockerfile deste repositório.
+
+- **Fix**: duas camadas independentes, cada uma suficiente sozinha, mas redundantes de
+  propósito para qualquer método de deploy futuro:
+  - `tmp/.gitkeep` adicionado a `metaFiles` em `adonisrc.ts`, para que `tmp/` sempre exista no
+    build de produção.
+  - `config/database.ts` chama `mkdirSync(app.tmpPath(), { recursive: true })` antes de
+    definir a conexão SQLite, garantindo o diretório em tempo de execução independente de
+    como o build foi gerado.
+
 ## CI/CD (GitHub Actions)
 
 `.github/workflows/ci.yml` roda em todo push/PR para `master`: `npm ci` → cria um `.env` a
