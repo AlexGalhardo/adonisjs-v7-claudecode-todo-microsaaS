@@ -13,14 +13,25 @@ const FORCE_DARK_BARE_PATHS = [
   '/two-factor/challenge',
 ]
 
-const APP_PATHS = ['/dashboard', '/profile', '/profile/api']
+const APP_PATHS = ['/dashboard', '/profile', '/profile/api', '/checkout']
+
+/**
+ * `usePage().url` includes the query string (e.g. dashboard filters or the
+ * `?state=...&code=...` OAuth callback params on the post-login redirect) —
+ * strip it before matching, or any path with a query string falls through to
+ * the wrong layout.
+ */
+function pathnameOf(url: string): string {
+  return url.split('?')[0]
+}
 
 function isForceDarkBarePath(url: string): boolean {
-  return FORCE_DARK_BARE_PATHS.includes(url) || url.startsWith('/reset-password/')
+  const path = pathnameOf(url)
+  return FORCE_DARK_BARE_PATHS.includes(path) || path.startsWith('/reset-password/')
 }
 
 function isAppPath(url: string): boolean {
-  return APP_PATHS.includes(url)
+  return APP_PATHS.includes(pathnameOf(url))
 }
 
 /**
@@ -51,7 +62,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
 
   const toaster = <Toaster position="top-center" richColors />
 
-  if (url === '/') {
+  if (pathnameOf(url) === '/') {
     return (
       <>
         {children}

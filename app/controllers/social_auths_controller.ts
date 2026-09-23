@@ -32,7 +32,7 @@ export default class SocialAuthsController {
 
     if (provider.accessDenied() || provider.stateMisMatch() || provider.hasError()) {
       session.flash('error', 'Something went wrong while signing in. Please try again.')
-      response.redirect().toRoute('session.create')
+      response.redirect().withQs(false).toRoute('session.create')
       return
     }
 
@@ -46,7 +46,7 @@ export default class SocialAuthsController {
     } catch (error) {
       logger.error({ err: error, provider: params.provider }, 'OAuth callback failed')
       session.flash('error', 'Something went wrong while signing in. Please try again.')
-      response.redirect().toRoute('session.create')
+      response.redirect().withQs(false).toRoute('session.create')
       return
     }
 
@@ -55,7 +55,7 @@ export default class SocialAuthsController {
         'error',
         `Your ${params.provider} account has no public email address to sign in with.`
       )
-      response.redirect().toRoute('session.create')
+      response.redirect().withQs(false).toRoute('session.create')
       return
     }
 
@@ -76,7 +76,7 @@ export default class SocialAuthsController {
     const deletionStatus = this.accountDeletionService.checkOnLogin(user)
     if (deletionStatus === 'expired') {
       session.flash('error', 'This account has been deleted.')
-      response.redirect().toRoute('session.create')
+      response.redirect().withQs(false).toRoute('session.create')
       return
     }
     if (deletionStatus === 'pending') {
@@ -85,6 +85,6 @@ export default class SocialAuthsController {
     }
 
     await auth.use('web').login(user)
-    response.redirect().toRoute('dashboard')
+    response.redirect().withQs(false).toRoute('dashboard')
   }
 }
