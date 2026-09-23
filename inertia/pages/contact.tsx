@@ -51,7 +51,7 @@ export default function Contact() {
                 id="subject"
                 name="subject"
                 defaultValue="bug"
-                className="h-10 w-full rounded-md border border-gray-4 px-4 text-sm text-gray-12 outline-none focus:border-gray-8"
+                className="h-10 w-full rounded-md border border-gray-4 bg-white px-4 text-sm text-black outline-none focus:border-gray-8"
               >
                 <option value="bug">Bug / technical issue</option>
                 <option value="suggestion">Suggestion or question</option>

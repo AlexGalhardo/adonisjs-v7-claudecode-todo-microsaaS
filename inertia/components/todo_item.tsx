@@ -2,6 +2,7 @@ import { Checkbox } from '@base-ui/react/checkbox'
 import { Menu } from '@base-ui/react/menu'
 import type { Data } from '@generated/data'
 import { router } from '@inertiajs/react'
+import { categoryLabel } from '~/lib/todo_categories'
 
 type TodoItemProps = {
   todo: Data.Todo
@@ -24,7 +25,9 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
         onCheckedChange={toggleCompleted}
         className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-gray-4 data-[checked]:border-gray-12 data-[checked]:bg-gray-12"
       >
-        <Checkbox.Indicator className="text-xs font-bold text-white">✓</Checkbox.Indicator>
+        <Checkbox.Indicator className="text-xs font-bold text-white dark:text-black">
+          ✓
+        </Checkbox.Indicator>
       </Checkbox.Root>
 
       <div className="min-w-0 flex-1">
@@ -34,6 +37,20 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
           {todo.title}
         </p>
         {todo.description && <p className="mt-1 text-sm text-gray-6">{todo.description}</p>}
+        {(todo.category || todo.dueDate) && (
+          <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-gray-6">
+            {todo.category && (
+              <span className="rounded-full border border-gray-4 px-2 py-0.5">
+                {categoryLabel(todo.category)}
+              </span>
+            )}
+            {todo.dueDate && (
+              <span className="rounded-full border border-gray-4 px-2 py-0.5">
+                Due {todo.dueDate.slice(0, 10)}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       <Menu.Root>
@@ -45,13 +62,13 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
             <Menu.Popup className="min-w-32 rounded-md border border-gray-3 bg-white py-1 shadow-lg">
               <Menu.Item
                 onClick={() => onEdit(todo)}
-                className="cursor-pointer px-3 py-1.5 text-sm text-gray-12 hover:bg-gray-1"
+                className="cursor-pointer px-3 py-1.5 text-sm text-black transition-colors hover:bg-blue-600 hover:text-white"
               >
                 Edit
               </Menu.Item>
               <Menu.Item
                 onClick={destroy}
-                className="cursor-pointer px-3 py-1.5 text-sm text-red-500 hover:bg-gray-1"
+                className="cursor-pointer px-3 py-1.5 text-sm text-red-600 transition-colors hover:bg-red-600 hover:text-white"
               >
                 Delete
               </Menu.Item>
