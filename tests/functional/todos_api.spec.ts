@@ -29,10 +29,10 @@ test.group('Todos API', () => {
       .post('/api/todos')
       .withGuard('api')
       .loginAs(user)
-      .json({ title: 'Buy milk' })
+      .json({ title: 'Buy milk', category: 'other' })
 
     response.assertStatus(201)
-    assert.equal(response.body().data.title, 'Buy milk')
+    assert.equal(response.body().data.title, 'BUY MILK')
     assert.isFalse(response.body().data.completed)
   })
 
@@ -61,7 +61,7 @@ test.group('Todos API', () => {
 
     response.assertStatus(403)
     await todo.refresh()
-    assert.equal(todo.title, 'Original')
+    assert.equal(todo.title, 'ORIGINAL')
   })
 
   test('destroy removes the todo', async ({ client, assert }) => {

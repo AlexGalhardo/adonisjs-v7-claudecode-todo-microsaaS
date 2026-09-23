@@ -63,7 +63,7 @@ export default function TodoDialog({ open, onOpenChange, todo }: TodoDialogProps
               label="Title"
               id="title"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setTitle(event.target.value.toUpperCase())}
               minLength={TITLE_MIN}
               maxLength={TITLE_MAX}
               error={errors.title}
@@ -79,9 +79,16 @@ export default function TodoDialog({ open, onOpenChange, todo }: TodoDialogProps
                   id="category"
                   value={category}
                   onChange={(event) => setCategory(event.target.value)}
+                  required={!todo}
                   className="h-10 w-full rounded-md border border-gray-4 bg-white px-3 text-sm text-black outline-none focus:border-gray-8"
                 >
-                  <option value="">No category</option>
+                  {todo ? (
+                    <option value="">No category</option>
+                  ) : (
+                    <option value="" disabled>
+                      Select a category
+                    </option>
+                  )}
                   {TODO_CATEGORIES.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -139,7 +146,7 @@ export default function TodoDialog({ open, onOpenChange, todo }: TodoDialogProps
                 <textarea
                   id="description"
                   value={description}
-                  onChange={(event) => setDescription(event.target.value)}
+                  onChange={(event) => setDescription(event.target.value.toUpperCase())}
                   rows={3}
                   minLength={DESCRIPTION_MIN}
                   maxLength={DESCRIPTION_MAX}

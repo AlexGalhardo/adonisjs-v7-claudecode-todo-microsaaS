@@ -6,6 +6,7 @@ export const TODO_CATEGORIES = [
   { value: 'coding_project', label: 'Coding Project' },
   { value: 'special_date', label: 'Special Date' },
   { value: 'exam', label: 'Exam' },
+  { value: 'other', label: 'Other' },
 ] as const
 
 export type TodoCategory = (typeof TODO_CATEGORIES)[number]['value']

@@ -39,7 +39,10 @@ export default class TodoService {
     const query = Todo.query().where('userId', user.id)
 
     if (filters.search) {
-      const term = `%${filters.search}%`
+      // Title/description are always stored UPPERCASE — matching the search
+      // term's case too keeps this working on PostgreSQL, where (unlike
+      // SQLite) LIKE is case-sensitive.
+      const term = `%${filters.search.toUpperCase()}%`
       query.where((builder) => {
         builder.whereLike('title', term).orWhereLike('description', term)
       })

@@ -17,23 +17,23 @@ test.group('Todos flow', () => {
     // Create
     await signupPage.click('text=New todo')
     await signupPage.fill('#title', 'Buy milk')
+    await signupPage.selectOption('#category', 'other')
     await signupPage.click('button[type=submit]:has-text("Create")')
-    await signupPage.assertExists('text=Buy milk')
+    await signupPage.assertExists('text=BUY MILK')
 
     // Toggle complete
     await signupPage.click('[role=checkbox]')
     await signupPage.assertVisible('.line-through')
 
     // Edit
-    await signupPage.click('text=⋯')
-    await signupPage.click('text=Edit')
+    await signupPage.click('[aria-label="Edit todo"]')
     await signupPage.fill('#title', 'Buy oat milk')
     await signupPage.click('button[type=submit]:has-text("Save")')
-    await signupPage.assertExists('text=Buy oat milk')
+    await signupPage.assertExists('text=BUY OAT MILK')
 
     // Delete
-    await signupPage.click('text=⋯')
-    await signupPage.click('text=Delete')
+    await signupPage.click('[aria-label="Delete todo"]')
+    await signupPage.click('button:has-text("Delete")')
     await signupPage.assertExists('text=No todos yet')
 
     // Logout

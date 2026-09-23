@@ -1,7 +1,7 @@
 import { type ComponentProps, forwardRef } from 'react'
 
 type ButtonProps = ComponentProps<'button'> & {
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
 }
 
 const variants = {
@@ -10,6 +10,7 @@ const variants = {
   secondary:
     'border border-gray-4 text-gray-12 hover:bg-gray-1 dark:bg-white dark:text-black dark:hover:bg-blue-600 dark:hover:text-white',
   ghost: 'text-gray-8 hover:text-gray-12',
+  danger: 'bg-red-600 text-white hover:bg-red-700',
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(function ButtonRoot(

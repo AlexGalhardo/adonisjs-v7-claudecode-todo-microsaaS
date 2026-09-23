@@ -1,7 +1,10 @@
 import { Checkbox } from '@base-ui/react/checkbox'
-import { Menu } from '@base-ui/react/menu'
+import { Dialog } from '@base-ui/react/dialog'
 import type { Data } from '@generated/data'
 import { router } from '@inertiajs/react'
+import { useState } from 'react'
+import Button from '~/components/button'
+import { PencilIcon, TrashIcon } from '~/components/icons'
 import { categoryLabel } from '~/lib/todo_categories'
 
 type TodoItemProps = {
@@ -10,12 +13,17 @@ type TodoItemProps = {
 }
 
 export default function TodoItem({ todo, onEdit }: TodoItemProps) {
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+
   function toggleCompleted() {
     router.put(`/todos/${todo.id}`, { completed: !todo.completed }, { preserveScroll: true })
   }
 
   function destroy() {
-    router.delete(`/todos/${todo.id}`, { preserveScroll: true })
+    router.delete(`/todos/${todo.id}`, {
+      preserveScroll: true,
+      onFinish: () => setConfirmingDelete(false),
+    })
   }
 
   return (
@@ -53,29 +61,44 @@ export default function TodoItem({ todo, onEdit }: TodoItemProps) {
         )}
       </div>
 
-      <Menu.Root>
-        <Menu.Trigger className="rounded p-1 text-gray-6 hover:bg-gray-1 hover:text-gray-12">
-          ⋯
-        </Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner sideOffset={4} align="end">
-            <Menu.Popup className="min-w-32 rounded-md border border-gray-3 bg-white py-1 shadow-lg">
-              <Menu.Item
-                onClick={() => onEdit(todo)}
-                className="cursor-pointer px-3 py-1.5 text-sm text-black transition-colors hover:bg-blue-600 hover:text-white"
-              >
-                Edit
-              </Menu.Item>
-              <Menu.Item
-                onClick={destroy}
-                className="cursor-pointer px-3 py-1.5 text-sm text-red-600 transition-colors hover:bg-red-600 hover:text-white"
-              >
+      <div className="flex shrink-0 items-center gap-1">
+        <button
+          type="button"
+          aria-label="Edit todo"
+          onClick={() => onEdit(todo)}
+          className="rounded p-1.5 text-gray-6 hover:bg-gray-1 hover:text-gray-12"
+        >
+          <PencilIcon width={16} height={16} />
+        </button>
+        <button
+          type="button"
+          aria-label="Delete todo"
+          onClick={() => setConfirmingDelete(true)}
+          className="rounded p-1.5 text-gray-6 hover:bg-red-50 hover:text-red-600"
+        >
+          <TrashIcon width={16} height={16} />
+        </button>
+      </div>
+
+      <Dialog.Root open={confirmingDelete} onOpenChange={setConfirmingDelete}>
+        <Dialog.Portal>
+          <Dialog.Backdrop className="fixed inset-0 bg-black/30" />
+          <Dialog.Popup className="fixed top-1/2 left-1/2 w-full max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-3 bg-gray-1 p-6 shadow-xl">
+            <Dialog.Title className="text-lg font-semibold text-gray-12">Delete todo</Dialog.Title>
+            <Dialog.Description className="mt-2 text-sm text-gray-6">
+              Are you sure you want to delete "{todo.title}"? This can't be undone.
+            </Dialog.Description>
+            <div className="mt-6 flex justify-end gap-3">
+              <Dialog.Close render={<Button type="button" variant="secondary" />}>
+                Cancel
+              </Dialog.Close>
+              <Button type="button" variant="danger" onClick={destroy}>
                 Delete
-              </Menu.Item>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
-      </Menu.Root>
+              </Button>
+            </div>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
     </li>
   )
 }

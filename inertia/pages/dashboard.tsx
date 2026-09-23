@@ -86,19 +86,19 @@ export default function Dashboard({ todos, filters }: DashboardProps) {
         <Button onClick={openCreateDialog}>New todo</Button>
       </div>
 
-      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-4">
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-6">
         <input
           type="text"
           placeholder="Search title or description…"
           value={search}
           onChange={(event) => handleSearchChange(event.target.value)}
-          className="h-10 rounded-md border border-gray-4 bg-white px-3 text-sm text-black outline-none placeholder:text-gray-6 focus:border-gray-8 sm:col-span-2"
+          className="h-10 rounded-md border border-gray-4 bg-white px-3 text-sm text-black outline-none placeholder:text-gray-6 focus:border-gray-8 sm:col-span-3"
         />
 
         <select
           value={filters.category}
           onChange={(event) => applyFilters({ category: event.target.value })}
-          className={selectClassName}
+          className={`${selectClassName} sm:col-span-1`}
         >
           <option value="">All categories</option>
           {TODO_CATEGORIES.map((category) => (
@@ -108,7 +108,7 @@ export default function Dashboard({ todos, filters }: DashboardProps) {
           ))}
         </select>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:col-span-2">
           <input
             type="date"
             aria-label="Due date from"

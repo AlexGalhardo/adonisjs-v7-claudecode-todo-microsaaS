@@ -31,11 +31,11 @@ test.group('Todos web', () => {
       .loginAs(user)
       .withCsrfToken()
       .redirects(0)
-      .form({ title: 'Buy milk', description: 'Whole milk' })
+      .form({ title: 'Buy milk', description: 'Whole milk', category: 'other' })
 
     response.assertStatus(302)
     const todo = await Todo.query().where('userId', user.id).firstOrFail()
-    assert.equal(todo.title, 'Buy milk')
+    assert.equal(todo.title, 'BUY MILK')
   })
 
   test('store rejects an empty title', async ({ client, assert }) => {
@@ -73,7 +73,7 @@ test.group('Todos web', () => {
     response.assertStatus(302)
     response.assertFlashMessage('error')
     await todo.refresh()
-    assert.equal(todo.title, 'Original')
+    assert.equal(todo.title, 'ORIGINAL')
   })
 
   test('destroy removes the todo', async ({ client, assert }) => {

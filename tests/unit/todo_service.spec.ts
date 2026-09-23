@@ -10,7 +10,7 @@ test.group('Todo service', () => {
     const todo = await service.create(user, { title: 'Buy milk' })
 
     assert.equal(todo.userId, user.id)
-    assert.equal(todo.title, 'Buy milk')
+    assert.equal(todo.title, 'BUY MILK')
     assert.isNull(todo.description)
     assert.isFalse(todo.completed)
   })
@@ -25,7 +25,7 @@ test.group('Todo service', () => {
     const todos = await service.list(userA)
 
     assert.lengthOf(todos, 1)
-    assert.equal(todos[0].title, 'User A todo')
+    assert.equal(todos[0].title, 'USER A TODO')
   })
 
   test('update merges the given fields', async ({ assert }) => {
@@ -35,7 +35,7 @@ test.group('Todo service', () => {
 
     await service.update(todo, { title: 'Updated title', completed: true })
 
-    assert.equal(todo.title, 'Updated title')
+    assert.equal(todo.title, 'UPDATED TITLE')
     assert.isTrue(todo.completed)
   })
 
