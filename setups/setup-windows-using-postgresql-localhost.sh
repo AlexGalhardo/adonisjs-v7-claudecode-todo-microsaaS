@@ -8,6 +8,8 @@
 #   3. Installs npm dependencies
 #   4. Generates an APP_KEY if one isn't set yet
 #   5. Runs migrations and seeds the database (admin@gmail.com / adminBR@123)
+#   6. Starts the dev server (npm run dev) in this same window, so its logs
+#      stay visible instead of the window closing right after setup
 #
 # Set DB_HOST/DB_PORT/DB_USER/DB_PASSWORD/DB_DATABASE env vars before running
 # if your local Postgres isn't on the defaults below.
@@ -15,6 +17,10 @@
 # Usage (Git Bash): ./setups/setup-windows-using-postgresql-localhost.sh
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
+# Keeps the window open (e.g. when double-clicked from Windows Explorer,
+# which closes the Git Bash window the instant the script exits) so setup
+# output, errors, and dev-server logs stay readable until dismissed.
+trap 'read -n 1 -s -r -p "Press any key to close this window..." 2>/dev/null; echo' EXIT
 
 log() { printf '\n\033[1;34m==>\033[0m %s\n' "$1"; }
 die() { printf '\n\033[1;31merror:\033[0m %s\n' "$1" >&2; exit 1; }
@@ -96,13 +102,12 @@ node ace migration:run
 log "Seeding the database (admin user + sample todos)"
 node ace db:seed
 
-log "Done!"
+log "Done! Starting the dev server (logs will stream below — press Ctrl+C to stop)"
 cat <<'EOF'
 
-Start the dev server:
-  npm run dev
-
-Then open http://localhost:3333 and log in with:
+Open http://localhost:3333 and log in with:
   email:    admin@gmail.com
   password: adminBR@123
+
 EOF
+npm run dev
