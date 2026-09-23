@@ -16,18 +16,11 @@ const STRONG_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
 
 /**
  * Validator to use when performing self-signup.
- *
- * The "passwordConfirmation" field is declared explicitly, so that it is part
- * of the request body type shared with the frontend. Otherwise the signup form
- * has no way to know about the errors reported for this field.
  */
 export const signupValidator = vine.create({
   fullName: vine.string().minLength(4).maxLength(24).nullable(),
   email: email().unique({ table: 'users', column: 'email' }),
-  password: password().regex(STRONG_PASSWORD).confirmed({
-    confirmationField: 'passwordConfirmation',
-  }),
-  passwordConfirmation: vine.string(),
+  password: password().regex(STRONG_PASSWORD),
 })
 
 /**

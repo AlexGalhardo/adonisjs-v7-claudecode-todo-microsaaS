@@ -40,7 +40,10 @@ export default function Login() {
               </Link>
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full bg-white text-black transition-colors hover:bg-blue-600 hover:text-white"
+            >
               Login
             </Button>
 
@@ -57,6 +60,13 @@ export default function Login() {
       <div className="mt-6">
         <SocialAuthLinks />
       </div>
+
+      <p className="mt-6 text-center text-sm text-gray-6">
+        Don't have an account yet?{' '}
+        <Link route="new_account.create" className="font-medium text-gray-12 hover:underline">
+          Create account
+        </Link>
+      </p>
     </div>
   )
 }
