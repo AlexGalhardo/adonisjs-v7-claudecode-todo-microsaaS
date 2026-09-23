@@ -77,22 +77,22 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 7. Landing page (/)
 
-- [ ] Remover botão "Começar agora"
-- [ ] Layout sem scroll (100vh) com efeito matrix (0/1 caindo) no fundo, dark theme
-- [ ] Título atraente à esquerda, placeholder de imagem/gif à direita
-- [ ] Botão Signup verde "matrix" com hover, botão Login branco com hover
-- [ ] Footer: copyright à esquerda, links (Contact, Terms Of Use, Privacy Policy) à direita
-- [ ] Redirecionar usuário autenticado para /dashboard
-- [ ] Commit + push
+- [x] Remover botão "Começar agora"
+- [x] Layout sem scroll (100vh) com efeito matrix (0/1 caindo) no fundo, dark theme
+- [x] Título atraente à esquerda, placeholder de imagem/gif à direita
+- [x] Botão Signup verde "matrix" com hover, botão Login branco com hover
+- [x] Footer: copyright à esquerda, links (Contact, Terms Of Use, Privacy Policy) à direita
+- [x] Redirecionar usuário autenticado para /dashboard (guest middleware, feito no commit de layouts)
+- [x] Commit + push
 
 ## 8. Página /contact
 
-- [ ] Form: full name + email pré-preenchidos/disabled se autenticado
-- [ ] Select de assunto (Bug/Problema técnico, Sugestão ou dúvida, Outros assuntos)
-- [ ] Textarea 7 rows, 32–512 chars, contador "[x]/512"
-- [ ] Botão hover verde matrix
-- [ ] Rota + controller + validator + email de notificação (Resend)
-- [ ] Commit + push
+- [x] Form: full name + email pré-preenchidos/disabled (readOnly) se autenticado
+- [x] Select de assunto (Bug/Technical issue, Suggestion or question, Other)
+- [x] Textarea 7 rows, 32–512 chars, contador "x/512 characters"
+- [x] Botão hover verde matrix
+- [x] Rota + controller + validator + email de notificação (Resend)
+- [x] Commit + push
 
 ## 9. Rota /dashboard (ex /todos) + navbar
 
