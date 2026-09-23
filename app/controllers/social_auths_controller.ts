@@ -1,5 +1,7 @@
 import User from '#models/user'
+import { inject } from '@adonisjs/core'
 import { randomBytes } from 'node:crypto'
+import AccountDeletionService from '#services/account_deletion_service'
 import type { HttpContext } from '@adonisjs/core/http'
 
 const PROVIDERS = ['google', 'github'] as const
@@ -9,7 +11,9 @@ function isSupportedProvider(value: string): value is Provider {
   return (PROVIDERS as readonly string[]).includes(value)
 }
 
+@inject()
 export default class SocialAuthsController {
+  constructor(protected accountDeletionService: AccountDeletionService) {}
   async redirect({ params, ally, response }: HttpContext) {
     if (!isSupportedProvider(params.provider)) {
       return response.notFound()
@@ -53,7 +57,17 @@ export default class SocialAuthsController {
       })
     }
 
+    const deletionStatus = await this.accountDeletionService.checkOnLogin(user)
+    if (deletionStatus === 'expired') {
+      session.flash('error', 'This account has been deleted.')
+      response.redirect().toRoute('session.create')
+      return
+    }
+
     await auth.use('web').login(user)
+    if (deletionStatus === 'cancelled') {
+      session.flash('success', 'Welcome back — your account deletion was cancelled.')
+    }
     response.redirect().toRoute('dashboard')
   }
 }

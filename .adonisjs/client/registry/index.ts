@@ -174,6 +174,30 @@ const routes = {
     tokens: [{"old":"/settings/two-factor","type":0,"val":"settings","end":""},{"old":"/settings/two-factor","type":0,"val":"two-factor","end":""}],
     types: placeholder as Registry['two_factor_settings.destroy']['types'],
   },
+  'profile.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/profile',
+    tokens: [{"old":"/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['profile.show']['types'],
+  },
+  'profile.update_name': {
+    methods: ["PATCH"],
+    pattern: '/profile',
+    tokens: [{"old":"/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['profile.update_name']['types'],
+  },
+  'profile.update_password': {
+    methods: ["PUT"],
+    pattern: '/profile/password',
+    tokens: [{"old":"/profile/password","type":0,"val":"profile","end":""},{"old":"/profile/password","type":0,"val":"password","end":""}],
+    types: placeholder as Registry['profile.update_password']['types'],
+  },
+  'profile.destroy': {
+    methods: ["DELETE"],
+    pattern: '/profile',
+    tokens: [{"old":"/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['profile.destroy']['types'],
+  },
   'profile_api.index': {
     methods: ["GET","HEAD"],
     pattern: '/profile/api',

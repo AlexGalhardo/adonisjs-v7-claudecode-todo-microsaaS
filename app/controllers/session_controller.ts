@@ -1,8 +1,13 @@
 import User from '#models/user'
+import { inject } from '@adonisjs/core'
 import { loginValidator } from '#validators/user'
+import AccountDeletionService from '#services/account_deletion_service'
 import type { HttpContext } from '@adonisjs/core/http'
 
+@inject()
 export default class SessionController {
+  constructor(protected accountDeletionService: AccountDeletionService) {}
+
   async create({ inertia }: HttpContext) {
     return inertia.render('auth/login', {})
   }
@@ -11,6 +16,13 @@ export default class SessionController {
     const { email, password } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
 
+    const deletionStatus = await this.accountDeletionService.checkOnLogin(user)
+    if (deletionStatus === 'expired') {
+      session.flash('error', 'This account has been deleted.')
+      response.redirect().back()
+      return
+    }
+
     if (user.twoFactorConfirmedAt) {
       session.put('two_factor_user_id', user.id)
       response.redirect().toRoute('two_factor_challenges.create')
@@ -18,6 +30,9 @@ export default class SessionController {
     }
 
     await auth.use('web').login(user)
+    if (deletionStatus === 'cancelled') {
+      session.flash('success', 'Welcome back — your account deletion was cancelled.')
+    }
     response.redirect().toRoute('dashboard')
   }
 

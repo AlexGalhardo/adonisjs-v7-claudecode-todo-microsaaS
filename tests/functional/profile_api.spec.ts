@@ -14,7 +14,7 @@ test.group('Profile API tokens', () => {
       .form({ name: 'CLI token' })
 
     storeResponse.assertStatus(302)
-    assert.match(storeResponse.flashMessage('newApiToken'), /^oat_/)
+    assert.match(String(storeResponse.flashMessage('newApiToken')), /^oat_/)
 
     const indexResponse = await client.get('/profile/api').loginAs(user).withInertia()
     indexResponse.assertStatus(200)
@@ -33,7 +33,7 @@ test.group('Profile API tokens', () => {
       .withCsrfToken()
       .redirects(0)
       .form({ name: 'CLI token' })
-    const plainToken = storeResponse.flashMessage('newApiToken') as string
+    const plainToken = String(storeResponse.flashMessage('newApiToken'))
 
     const apiResponse = await client
       .get('/api/todos')

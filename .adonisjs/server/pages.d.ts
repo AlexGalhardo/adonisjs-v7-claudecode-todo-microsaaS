@@ -25,6 +25,7 @@ declare module '@adonisjs/inertia/types' {
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'privacy': ExtractProps<(typeof import('../../inertia/pages/privacy.tsx'))['default']>
     'profile/api': ExtractProps<(typeof import('../../inertia/pages/profile/api.tsx'))['default']>
+    'profile/index': ExtractProps<(typeof import('../../inertia/pages/profile/index.tsx'))['default']>
     'settings/two_factor': ExtractProps<(typeof import('../../inertia/pages/settings/two_factor.tsx'))['default']>
     'terms': ExtractProps<(typeof import('../../inertia/pages/terms.tsx'))['default']>
   }

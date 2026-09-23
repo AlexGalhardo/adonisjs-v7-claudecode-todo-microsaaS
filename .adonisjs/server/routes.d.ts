@@ -32,6 +32,10 @@ export type ScannedRoutes = {
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'two_factor_settings.store': { paramsTuple?: []; params?: {} }
     'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
+    'profile.show': { paramsTuple?: []; params?: {} }
+    'profile.update_name': { paramsTuple?: []; params?: {} }
+    'profile.update_password': { paramsTuple?: []; params?: {} }
+    'profile.destroy': { paramsTuple?: []; params?: {} }
     'profile_api.index': { paramsTuple?: []; params?: {} }
     'profile_api.store': { paramsTuple?: []; params?: {} }
     'profile_api.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -59,6 +63,7 @@ export type ScannedRoutes = {
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
+    'profile.show': { paramsTuple?: []; params?: {} }
     'profile_api.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -79,6 +84,7 @@ export type ScannedRoutes = {
     'social_auths.callback': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
+    'profile.show': { paramsTuple?: []; params?: {} }
     'profile_api.index': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -101,13 +107,18 @@ export type ScannedRoutes = {
   PUT: {
     'password_resets.update': { paramsTuple?: []; params?: {} }
     'todos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'profile.update_password': { paramsTuple?: []; params?: {} }
     'api.todos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'two_factor_settings.destroy': { paramsTuple?: []; params?: {} }
+    'profile.destroy': { paramsTuple?: []; params?: {} }
     'profile_api.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.todos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  PATCH: {
+    'profile.update_name': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

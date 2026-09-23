@@ -34,7 +34,7 @@ Fluxo: `POST /forgot-password` (email) → email com link assinado (via um token
 ## Magic link
 
 `POST /magic-link` (email) → email com link de login de uso único → `GET
-/magic-link/:token` autentica direto (sem senha) e redireciona para `/todos`.
+/magic-link/:token` autentica direto (sem senha) e redireciona para `/dashboard`.
 
 Reaproveita `AuthTokenService`/`auth_tokens` (mesma tabela da recuperação de senha, com
 `type = 'magic_link'`), o mesmo princípio de resposta uniforme (não revela quais emails
@@ -93,6 +93,28 @@ OAuth apps e a callback URL exata que cada um espera). Sem essas credenciais, os
 "Continue with Google/GitHub" redirecionam corretamente até o provedor, mas a autenticação
 em si falha — isso é uma pendência explícita que só o usuário pode resolver (ver
 `TODO.md`).
+
+## Perfil (/profile)
+
+`ProfileController` — nome, senha e exclusão de conta:
+
+- `PATCH /profile` atualiza `fullName` (4–24 caracteres).
+- `PUT /profile/password` exige a senha atual (`user.verifyPassword`) antes de trocar —
+  sem isso, qualquer um com a sessão aberta (ex.: computador compartilhado) poderia trocar a
+  senha sem saber a atual. A nova senha segue a mesma regra do signup (8–32 chars, 1
+  maiúscula, 1 minúscula, 1 número, 1 especial).
+- 2FA: a página mostra só o status (habilitado/desabilitado) com um link para
+  `/settings/two-factor` (habilitar) ou um botão que chama `DELETE /settings/two-factor`
+  diretamente (desabilitar) — reaproveita o controller da seção acima, sem duplicar o fluxo
+  de QR code/confirmação.
+- `DELETE /profile` **não apaga a linha na hora** — grava `deletion_requested_at` (ver
+  `app/services/account_deletion_service.ts`) e desloga o usuário. Fazer login de novo
+  dentro de 30 dias limpa essa coluna automaticamente (`AccountDeletionService#checkOnLogin`,
+  chamado por todo fluxo de login: senha, 2FA, magic link, social) e mostra um flash
+  "Welcome back". Depois de 30 dias, o login passa a ser recusado como se a conta não
+  existisse mais, mesmo que a linha ainda esteja no banco — a exclusão física de fato só
+  acontece rodando `node ace users:purge-deleted` (nada neste projeto agenda isso sozinho;
+  precisa de um cron/scheduler externo, ex. no provedor de hospedagem).
 
 ## Autorização
 

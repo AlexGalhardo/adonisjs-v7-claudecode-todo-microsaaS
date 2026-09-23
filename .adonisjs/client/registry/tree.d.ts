@@ -50,6 +50,12 @@ export interface ApiDefinition {
     store: typeof routes['two_factor_settings.store']
     destroy: typeof routes['two_factor_settings.destroy']
   }
+  profile: {
+    show: typeof routes['profile.show']
+    updateName: typeof routes['profile.update_name']
+    updatePassword: typeof routes['profile.update_password']
+    destroy: typeof routes['profile.destroy']
+  }
   profileApi: {
     index: typeof routes['profile_api.index']
     store: typeof routes['profile_api.store']

@@ -82,10 +82,12 @@ export class TodoSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'twoFactorConfirmedAt', 'twoFactorRecoveryCodes', 'twoFactorSecret', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletionRequestedAt', 'email', 'fullName', 'id', 'password', 'twoFactorConfirmedAt', 'twoFactorRecoveryCodes', 'twoFactorSecret', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletionRequestedAt: DateTime | null
   @column()
   declare email: string
   @column()
