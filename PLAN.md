@@ -119,10 +119,12 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 12. BiomeJS v2
 
-- [ ] Remover ESLint/Prettier padrão do AdonisJS
-- [ ] Instalar e configurar Biome v2 (lint + format)
-- [ ] Atualizar scripts npm (`lint`, `format`)
-- [ ] Commit + push
+- [x] Remover ESLint/Prettier padrão do AdonisJS
+- [x] Instalar e configurar Biome v2 (lint + format)
+- [x] Atualizar scripts npm (`lint`, `format`)
+- [x] Achado e corrigido durante a migração: `useImportType` quebrava `@inject()` do AdonisJS (ver `.claude/skills/how-to-avoid-breaking-inject-with-biome.md`)
+- [x] Achado e corrigido (revisão automática): bypass de 2FA na exclusão de conta (`account_deletion_service.ts`) — ver commit
+- [x] Commit + push
 
 ## 13. Husky (git hooks)
 
