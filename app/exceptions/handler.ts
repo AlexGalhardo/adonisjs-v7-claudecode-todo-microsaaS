@@ -21,7 +21,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * to return the HTML contents to send as a response.
    */
   protected statusPages: Record<StatusPageRange, StatusPageRenderer> = {
-    '404': (_, { inertia }) => inertia.render('errors/not_found', {}),
     '500..599': (_, { inertia }) => inertia.render('errors/server_error', {}),
   }
 
@@ -41,7 +40,26 @@ export default class HttpExceptionHandler extends ExceptionHandler {
       ctx.request.request.headers.accept = 'application/json'
     }
 
+    /**
+     * Any unmatched route (typo, stale bookmark, ...) sends the visitor back
+     * to the landing page instead of a dead-end 404 screen — checked ahead of
+     * `renderStatusPages` (production-only) so this applies in every
+     * environment, and skipped for the API surface, which must 404 in JSON.
+     */
+    if (this.#isRouteNotFound(error) && !ctx.request.url().startsWith('/api/')) {
+      return ctx.response.redirect('/')
+    }
+
     return super.handle(error, ctx)
+  }
+
+  #isRouteNotFound(error: unknown): boolean {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      error.code === 'E_ROUTE_NOT_FOUND'
+    )
   }
 
   /**
