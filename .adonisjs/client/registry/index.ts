@@ -12,6 +12,30 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
+  'legal.terms': {
+    methods: ["GET","HEAD"],
+    pattern: '/terms',
+    tokens: [{"old":"/terms","type":0,"val":"terms","end":""}],
+    types: placeholder as Registry['legal.terms']['types'],
+  },
+  'legal.privacy': {
+    methods: ["GET","HEAD"],
+    pattern: '/privacy',
+    tokens: [{"old":"/privacy","type":0,"val":"privacy","end":""}],
+    types: placeholder as Registry['legal.privacy']['types'],
+  },
+  'contact.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/contact',
+    tokens: [{"old":"/contact","type":0,"val":"contact","end":""}],
+    types: placeholder as Registry['contact.create']['types'],
+  },
+  'contact.store': {
+    methods: ["POST"],
+    pattern: '/contact',
+    tokens: [{"old":"/contact","type":0,"val":"contact","end":""}],
+    types: placeholder as Registry['contact.store']['types'],
+  },
   'new_account.create': {
     methods: ["GET","HEAD"],
     pattern: '/signup',

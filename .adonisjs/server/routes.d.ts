@@ -5,6 +5,10 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'home': { paramsTuple?: []; params?: {} }
+    'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'contact.create': { paramsTuple?: []; params?: {} }
+    'contact.store': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
@@ -38,6 +42,9 @@ export type ScannedRoutes = {
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
+    'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'contact.create': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'password_resets.create': { paramsTuple?: []; params?: {} }
@@ -54,6 +61,9 @@ export type ScannedRoutes = {
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
+    'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'contact.create': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'password_resets.create': { paramsTuple?: []; params?: {} }
@@ -69,6 +79,7 @@ export type ScannedRoutes = {
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
+    'contact.store': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'password_resets.store': { paramsTuple?: []; params?: {} }

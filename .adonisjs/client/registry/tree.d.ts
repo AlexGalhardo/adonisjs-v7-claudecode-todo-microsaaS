@@ -3,6 +3,14 @@ import type { routes } from './index.ts'
 
 export interface ApiDefinition {
   home: typeof routes['home']
+  legal: {
+    terms: typeof routes['legal.terms']
+    privacy: typeof routes['legal.privacy']
+  }
+  contact: {
+    create: typeof routes['contact.create']
+    store: typeof routes['contact.store']
+  }
   newAccount: {
     create: typeof routes['new_account.create']
     store: typeof routes['new_account.store']

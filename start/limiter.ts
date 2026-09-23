@@ -32,3 +32,11 @@ export const passwordResetThrottle = limiter.define('password_reset', () => {
 export const magicLinkThrottle = limiter.define('magic_link', () => {
   return limiter.allowRequests(3).every('15 minutes')
 })
+
+/**
+ * The contact form is public and sends an email on every submission —
+ * same spam-vector shape as the flows above.
+ */
+export const contactThrottle = limiter.define('contact', () => {
+  return limiter.allowRequests(3).every('15 minutes')
+})

@@ -10,9 +10,20 @@
 import { middleware } from '#start/kernel'
 import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
-import { loginThrottle, magicLinkThrottle, passwordResetThrottle } from '#start/limiter'
+import {
+  loginThrottle,
+  magicLinkThrottle,
+  passwordResetThrottle,
+  contactThrottle,
+} from '#start/limiter'
 
 router.on('/').renderInertia('home', {}).as('home').use(middleware.guest())
+
+router.get('terms', [controllers.Legal, 'terms'])
+router.get('privacy', [controllers.Legal, 'privacy'])
+
+router.get('contact', [controllers.Contact, 'create'])
+router.post('contact', [controllers.Contact, 'store']).use(contactThrottle)
 
 router
   .group(() => {
