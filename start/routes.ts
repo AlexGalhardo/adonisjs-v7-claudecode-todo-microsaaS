@@ -25,6 +25,10 @@ router.get('privacy', [controllers.Legal, 'privacy'])
 router.get('contact', [controllers.Contact, 'create'])
 router.post('contact', [controllers.Contact, 'store']).use(contactThrottle)
 
+// Public — Stripe calls this directly (no session, no CSRF token available).
+// Excluded from CSRF in config/shield.ts.
+router.post('webhooks/stripe', [controllers.StripeWebhooks, 'handle'])
+
 router
   .group(() => {
     router.get('signup', [controllers.NewAccount, 'create'])
@@ -71,6 +75,12 @@ router
     router.get('profile/api', [controllers.ProfileApi, 'index'])
     router.post('profile/api/tokens', [controllers.ProfileApi, 'store'])
     router.delete('profile/api/tokens/:id', [controllers.ProfileApi, 'destroy'])
+
+    router.get('checkout', [controllers.Checkout, 'show'])
+    router.post('checkout/:plan', [controllers.Checkout, 'create'])
+    router.get('checkout/success', [controllers.Checkout, 'success'])
+
+    router.post('billing/portal', [controllers.BillingPortal, 'create'])
   })
   .use(middleware.auth())
 

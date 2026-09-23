@@ -1,17 +1,22 @@
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import AccountDeletionService from '#services/account_deletion_service'
+import StripeService from '#services/stripe_service'
 import { updateNameValidator, updatePasswordValidator } from '#validators/profile'
 
 @inject()
 export default class ProfileController {
-  constructor(protected accountDeletionService: AccountDeletionService) {}
+  constructor(
+    protected accountDeletionService: AccountDeletionService,
+    protected stripeService: StripeService
+  ) {}
 
   async show({ inertia, auth }: HttpContext) {
     const user = auth.user!
 
     return inertia.render('profile/index', {
       twoFactorEnabled: !!user.twoFactorConfirmedAt,
+      stripeConfigured: this.stripeService.isConfigured,
     })
   }
 

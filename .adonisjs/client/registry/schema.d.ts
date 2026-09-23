@@ -67,6 +67,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/contact_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'stripe_webhooks': {
+    methods: ["POST"]
+    pattern: '/webhooks/stripe'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/stripe_webhooks_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/stripe_webhooks_controller').default['handle']>>>
+    }
+  }
   'new_account.create': {
     methods: ["GET","HEAD"]
     pattern: '/signup'
@@ -425,6 +437,54 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_api_controller').default['destroy']>>>
+    }
+  }
+  'checkout.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/checkout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['show']>>>
+    }
+  }
+  'checkout.create': {
+    methods: ["POST"]
+    pattern: '/checkout/:plan'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { plan: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['create']>>>
+    }
+  }
+  'checkout.success': {
+    methods: ["GET","HEAD"]
+    pattern: '/checkout/success'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['success']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/checkout_controller').default['success']>>>
+    }
+  }
+  'billing_portal.create': {
+    methods: ["POST"]
+    pattern: '/billing/portal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/billing_portal_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/billing_portal_controller').default['create']>>>
     }
   }
   'api.session.store': {

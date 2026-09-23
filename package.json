@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "engines": {
     "node": ">=24.0.0"
   },
@@ -99,6 +99,7 @@
     "reflect-metadata": "^0.2.2",
     "sonner": "^2.0.8",
     "sqlite3": "5.1.7",
+    "stripe": "22.6.2",
     "tailwindcss": "^4.3.3"
   },
   "hotHook": {

@@ -1,5 +1,5 @@
 import { Form } from '@adonisjs/inertia/react'
-import { usePage } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 import Button from '~/components/button'
 import DeleteAccountDialog from '~/components/delete_account_dialog'
@@ -7,7 +7,17 @@ import PasswordField from '~/components/password_field'
 import TextField from '~/components/text_field'
 import TwoFactorDialog from '~/components/two_factor_dialog'
 
-export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolean }) {
+const PLAN_LABELS: Record<string, string> = {
+  monthly: 'Monthly ($2.99/mo)',
+  annual: 'Annual ($29.90/yr)',
+}
+
+type ProfileProps = {
+  twoFactorEnabled: boolean
+  stripeConfigured: boolean
+}
+
+export default function Profile({ twoFactorEnabled, stripeConfigured }: ProfileProps) {
   const { user } = usePage().props
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   // Bumped on every open so DeleteAccountDialog remounts with a fresh
@@ -17,6 +27,13 @@ export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolea
   const [twoFactorDialogOpen, setTwoFactorDialogOpen] = useState(false)
   const [twoFactorDialogKey, setTwoFactorDialogKey] = useState(0)
   const [twoFactorEnabledState, setTwoFactorEnabledState] = useState(twoFactorEnabled)
+
+  const [managingPortal, setManagingPortal] = useState(false)
+
+  function openBillingPortal() {
+    setManagingPortal(true)
+    router.post('/billing/portal', {}, { onFinish: () => setManagingPortal(false) })
+  }
 
   function openTwoFactorDialog() {
     setTwoFactorDialogOpen(true)
@@ -104,6 +121,38 @@ export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolea
             Manage
           </Button>
         </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-lg font-semibold text-gray-12">Billing</h2>
+        {!stripeConfigured ? (
+          <p className="text-sm text-gray-7">Payments aren't configured yet.</p>
+        ) : user?.hasActiveSubscription ? (
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-12">
+                  {user.subscriptionPlan ? PLAN_LABELS[user.subscriptionPlan] : 'Active plan'}
+                </p>
+                <p className="text-sm text-gray-7">
+                  Status: {user.subscriptionStatus}
+                  {user.currentPeriodEnd &&
+                    ` — renews ${new Date(user.currentPeriodEnd).toLocaleDateString()}`}
+                </p>
+              </div>
+              <Button variant="secondary" onClick={openBillingPortal} disabled={managingPortal}>
+                {managingPortal ? 'Opening…' : 'Manage subscription'}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-7">You're on the free plan (10 todos max).</p>
+            <Button variant="secondary" onClick={() => router.visit('/checkout')}>
+              Upgrade
+            </Button>
+          </div>
+        )}
       </section>
 
       <section className="flex flex-col gap-4 rounded-md border border-red-200 p-4">

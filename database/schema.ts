@@ -51,6 +51,27 @@ export class AuthTokenSchema extends BaseModel {
   declare userId: number
 }
 
+export class PaymentTransactionSchema extends BaseModel {
+  static $columns = ['amount', 'createdAt', 'currency', 'id', 'status', 'stripeEventId', 'type', 'userId'] as const
+  $columns = PaymentTransactionSchema.$columns
+  @column()
+  declare amount: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare currency: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare status: string
+  @column()
+  declare stripeEventId: string
+  @column()
+  declare type: string
+  @column()
+  declare userId: number
+}
+
 export class RateLimitSchema extends BaseModel {
   static $columns = ['expire', 'key', 'points'] as const
   $columns = RateLimitSchema.$columns
@@ -86,10 +107,12 @@ export class TodoSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletionRequestedAt', 'email', 'fullName', 'id', 'password', 'twoFactorConfirmedAt', 'twoFactorRecoveryCodes', 'twoFactorSecret', 'updatedAt'] as const
+  static $columns = ['createdAt', 'currentPeriodEnd', 'deletionRequestedAt', 'email', 'fullName', 'id', 'password', 'stripeCustomerId', 'stripeSubscriptionId', 'subscriptionPlan', 'subscriptionStatus', 'twoFactorConfirmedAt', 'twoFactorRecoveryCodes', 'twoFactorSecret', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare currentPeriodEnd: DateTime | null
   @column.dateTime()
   declare deletionRequestedAt: DateTime | null
   @column()
@@ -100,6 +123,14 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare stripeCustomerId: string | null
+  @column()
+  declare stripeSubscriptionId: string | null
+  @column()
+  declare subscriptionPlan: string | null
+  @column()
+  declare subscriptionStatus: string | null
   @column.dateTime()
   declare twoFactorConfirmedAt: DateTime | null
   @column({ serializeAs: null })

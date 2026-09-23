@@ -11,6 +11,7 @@ export interface ApiDefinition {
     create: typeof routes['contact.create']
     store: typeof routes['contact.store']
   }
+  stripeWebhooks: typeof routes['stripe_webhooks']
   newAccount: {
     create: typeof routes['new_account.create']
     store: typeof routes['new_account.store']
@@ -60,6 +61,14 @@ export interface ApiDefinition {
     index: typeof routes['profile_api.index']
     store: typeof routes['profile_api.store']
     destroy: typeof routes['profile_api.destroy']
+  }
+  checkout: {
+    show: typeof routes['checkout.show']
+    create: typeof routes['checkout.create']
+    success: typeof routes['checkout.success']
+  }
+  billingPortal: {
+    create: typeof routes['billing_portal.create']
   }
   api: {
     session: {

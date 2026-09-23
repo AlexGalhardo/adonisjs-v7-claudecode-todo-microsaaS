@@ -9,6 +9,7 @@ export type ScannedRoutes = {
     'legal.privacy': { paramsTuple?: []; params?: {} }
     'contact.create': { paramsTuple?: []; params?: {} }
     'contact.store': { paramsTuple?: []; params?: {} }
+    'stripe_webhooks': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
@@ -39,6 +40,10 @@ export type ScannedRoutes = {
     'profile_api.index': { paramsTuple?: []; params?: {} }
     'profile_api.store': { paramsTuple?: []; params?: {} }
     'profile_api.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'checkout.show': { paramsTuple?: []; params?: {} }
+    'checkout.create': { paramsTuple: [ParamValue]; params: {'plan': ParamValue} }
+    'checkout.success': { paramsTuple?: []; params?: {} }
+    'billing_portal.create': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
@@ -65,6 +70,8 @@ export type ScannedRoutes = {
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
     'profile_api.index': { paramsTuple?: []; params?: {} }
+    'checkout.show': { paramsTuple?: []; params?: {} }
+    'checkout.success': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -86,11 +93,14 @@ export type ScannedRoutes = {
     'two_factor_settings.create': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
     'profile_api.index': { paramsTuple?: []; params?: {} }
+    'checkout.show': { paramsTuple?: []; params?: {} }
+    'checkout.success': { paramsTuple?: []; params?: {} }
     'api.todos.index': { paramsTuple?: []; params?: {} }
     'api.todos.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'contact.store': { paramsTuple?: []; params?: {} }
+    'stripe_webhooks': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'password_resets.store': { paramsTuple?: []; params?: {} }
@@ -100,6 +110,8 @@ export type ScannedRoutes = {
     'todos.store': { paramsTuple?: []; params?: {} }
     'two_factor_settings.store': { paramsTuple?: []; params?: {} }
     'profile_api.store': { paramsTuple?: []; params?: {} }
+    'checkout.create': { paramsTuple: [ParamValue]; params: {'plan': ParamValue} }
+    'billing_portal.create': { paramsTuple?: []; params?: {} }
     'api.session.store': { paramsTuple?: []; params?: {} }
     'api.session.destroy': { paramsTuple?: []; params?: {} }
     'api.todos.store': { paramsTuple?: []; params?: {} }

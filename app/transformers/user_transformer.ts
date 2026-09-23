@@ -10,6 +10,10 @@ export default class UserTransformer extends BaseTransformer<User> {
       'createdAt',
       'updatedAt',
       'initials',
+      'hasActiveSubscription',
+      'subscriptionPlan',
+      'subscriptionStatus',
+      'currentPeriodEnd',
     ])
   }
 }

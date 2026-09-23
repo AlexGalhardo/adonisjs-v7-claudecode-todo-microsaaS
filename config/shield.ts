@@ -35,10 +35,14 @@ const shieldConfig = defineConfig({
     /**
      * Routes to exclude from CSRF checks. The REST API is authenticated with
      * bearer tokens (no session cookie), so CSRF protection does not apply
-     * to it. `exceptRoutes` only supports exact route-pattern matches, not
-     * globs, so a predicate is used instead to cover every "/api/*" route.
+     * to it. The Stripe webhook is called directly by Stripe's servers (no
+     * session, no CSRF token) and is authenticated by its own signature
+     * verification instead (see StripeService#constructWebhookEvent).
+     * `exceptRoutes` only supports exact route-pattern matches, not globs,
+     * so a predicate is used instead to cover every "/api/*" route.
      */
-    exceptRoutes: (ctx) => ctx.request.url().startsWith('/api/'),
+    exceptRoutes: (ctx) =>
+      ctx.request.url().startsWith('/api/') || ctx.request.url() === '/webhooks/stripe',
 
     /**
      * Expose an encrypted XSRF-TOKEN cookie for frontend HTTP clients.

@@ -46,4 +46,12 @@ export default await Env.create(new URL('../', import.meta.url), {
   GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
   GITHUB_CLIENT_ID: Env.schema.string.optional(),
   GITHUB_CLIENT_SECRET: Env.schema.string.optional(),
+
+  // Payments (Stripe) — optional until the user provides real sandbox/live
+  // credentials; see docs/billing.md
+  STRIPE_SECRET_KEY: Env.schema.string.optional(),
+  STRIPE_PUBLISHABLE_KEY: Env.schema.string.optional(),
+  STRIPE_WEBHOOK_SECRET: Env.schema.string.optional(),
+  STRIPE_PRICE_MONTHLY: Env.schema.string.optional(),
+  STRIPE_PRICE_ANNUAL: Env.schema.string.optional(),
 })

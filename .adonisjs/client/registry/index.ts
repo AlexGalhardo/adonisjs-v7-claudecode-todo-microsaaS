@@ -36,6 +36,12 @@ const routes = {
     tokens: [{"old":"/contact","type":0,"val":"contact","end":""}],
     types: placeholder as Registry['contact.store']['types'],
   },
+  'stripe_webhooks': {
+    methods: ["POST"],
+    pattern: '/webhooks/stripe',
+    tokens: [{"old":"/webhooks/stripe","type":0,"val":"webhooks","end":""},{"old":"/webhooks/stripe","type":0,"val":"stripe","end":""}],
+    types: placeholder as Registry['stripe_webhooks']['types'],
+  },
   'new_account.create': {
     methods: ["GET","HEAD"],
     pattern: '/signup',
@@ -215,6 +221,30 @@ const routes = {
     pattern: '/profile/api/tokens/:id',
     tokens: [{"old":"/profile/api/tokens/:id","type":0,"val":"profile","end":""},{"old":"/profile/api/tokens/:id","type":0,"val":"api","end":""},{"old":"/profile/api/tokens/:id","type":0,"val":"tokens","end":""},{"old":"/profile/api/tokens/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['profile_api.destroy']['types'],
+  },
+  'checkout.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/checkout',
+    tokens: [{"old":"/checkout","type":0,"val":"checkout","end":""}],
+    types: placeholder as Registry['checkout.show']['types'],
+  },
+  'checkout.create': {
+    methods: ["POST"],
+    pattern: '/checkout/:plan',
+    tokens: [{"old":"/checkout/:plan","type":0,"val":"checkout","end":""},{"old":"/checkout/:plan","type":1,"val":"plan","end":""}],
+    types: placeholder as Registry['checkout.create']['types'],
+  },
+  'checkout.success': {
+    methods: ["GET","HEAD"],
+    pattern: '/checkout/success',
+    tokens: [{"old":"/checkout/success","type":0,"val":"checkout","end":""},{"old":"/checkout/success","type":0,"val":"success","end":""}],
+    types: placeholder as Registry['checkout.success']['types'],
+  },
+  'billing_portal.create': {
+    methods: ["POST"],
+    pattern: '/billing/portal',
+    tokens: [{"old":"/billing/portal","type":0,"val":"billing","end":""},{"old":"/billing/portal","type":0,"val":"portal","end":""}],
+    types: placeholder as Registry['billing_portal.create']['types'],
   },
   'api.session.store': {
     methods: ["POST"],

@@ -13,6 +13,16 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   @hasMany(() => Todo)
   declare todos: HasMany<typeof Todo>
 
+  /**
+   * `active`/`trialing` are the only Stripe subscription statuses that grant
+   * access — `past_due`, `canceled`, `unpaid`, etc. must not. Set only by
+   * the Stripe webhook handler (`app/controllers/stripe_webhooks_controller.ts`),
+   * never assumed from a client request.
+   */
+  get hasActiveSubscription() {
+    return this.subscriptionStatus === 'active' || this.subscriptionStatus === 'trialing'
+  }
+
   get initials() {
     const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')
     if (first && last) {

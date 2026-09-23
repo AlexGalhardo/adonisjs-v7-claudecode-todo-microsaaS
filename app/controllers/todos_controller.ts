@@ -34,7 +34,9 @@ export default class TodosController {
     })
   }
 
-  async store({ request, response, auth, session }: HttpContext) {
+  async store({ request, response, auth, session, bouncer }: HttpContext) {
+    await bouncer.with(TodoPolicy).authorize('create')
+
     const payload = await request.validateUsing(createTodoValidator)
     await this.todoService.create(auth.user!, payload)
 

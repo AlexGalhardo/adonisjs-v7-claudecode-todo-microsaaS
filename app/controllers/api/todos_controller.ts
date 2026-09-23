@@ -15,7 +15,9 @@ export default class ApiTodosController {
     return serialize(TodoTransformer.transform(todos))
   }
 
-  async store({ request, auth, response, serialize }: HttpContext) {
+  async store({ request, auth, response, serialize, bouncer }: HttpContext) {
+    await bouncer.with(TodoPolicy).authorize('create')
+
     const payload = await request.validateUsing(createTodoValidator)
     const todo = await this.todoService.create(auth.use('api').getUserOrFail(), payload)
 
