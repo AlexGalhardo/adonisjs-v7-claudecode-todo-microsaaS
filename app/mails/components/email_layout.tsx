@@ -68,13 +68,31 @@ export function EmailLayout(props: {
                   <tbody>
                     <tr>
                       <td>
-                        <h1 style={{ fontSize: 20, margin: '0 0 16px', color: '#111111' }}>
+                        <h1
+                          style={{
+                            fontSize: 20,
+                            margin: '0 0 16px',
+                            color: '#111111',
+                          }}
+                        >
                           {props.heading}
                         </h1>
-                        <p style={{ fontSize: 15, color: '#444444', lineHeight: 1.5, margin: 0 }}>
+                        <p
+                          style={{
+                            fontSize: 15,
+                            color: '#444444',
+                            lineHeight: 1.5,
+                            margin: 0,
+                          }}
+                        >
                           {props.message}
                         </p>
-                        <table role="presentation" cellPadding={0} cellSpacing={0} style={{ margin: '24px 0' }}>
+                        <table
+                          role="presentation"
+                          cellPadding={0}
+                          cellSpacing={0}
+                          style={{ margin: '24px 0' }}
+                        >
                           <tbody>
                             <tr>
                               <td
@@ -100,7 +118,13 @@ export function EmailLayout(props: {
                             </tr>
                           </tbody>
                         </table>
-                        <p style={{ fontSize: 13, color: '#888888', margin: 0 }}>
+                        <p
+                          style={{
+                            fontSize: 13,
+                            color: '#888888',
+                            margin: 0,
+                          }}
+                        >
                           If the button doesn't work, copy and paste this link:
                           <br />
                           <span style={{ wordBreak: 'break-all' }}>{props.actionUrl}</span>

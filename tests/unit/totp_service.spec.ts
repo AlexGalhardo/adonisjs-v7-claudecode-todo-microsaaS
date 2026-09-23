@@ -1,5 +1,5 @@
-import { test } from '@japa/runner'
 import { createHmac } from 'node:crypto'
+import { test } from '@japa/runner'
 import TotpService from '#services/totp_service'
 
 /**

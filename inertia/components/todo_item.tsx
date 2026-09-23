@@ -1,7 +1,7 @@
-import { router } from '@inertiajs/react'
-import { Menu } from '@base-ui/react/menu'
 import { Checkbox } from '@base-ui/react/checkbox'
-import { type Data } from '@generated/data'
+import { Menu } from '@base-ui/react/menu'
+import type { Data } from '@generated/data'
+import { router } from '@inertiajs/react'
 
 type TodoItemProps = {
   todo: Data.Todo

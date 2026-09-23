@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import TodoService from '#services/todo_service'
 import { UserFactory } from '#database/factories/user_factory'
+import TodoService from '#services/todo_service'
 
 test.group('Todo service', () => {
   test('create scopes the todo to the given user', async ({ assert }) => {

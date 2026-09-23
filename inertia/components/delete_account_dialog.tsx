@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
 import { Dialog } from '@base-ui/react/dialog'
+import { router } from '@inertiajs/react'
+import { useEffect, useState } from 'react'
 import Button from '~/components/button'
 
 const COOLDOWN_SECONDS = 10

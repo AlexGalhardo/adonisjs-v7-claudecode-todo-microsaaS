@@ -1,8 +1,8 @@
+import type { Data } from '@generated/data'
 import { useState } from 'react'
-import { type Data } from '@generated/data'
 import Button from '~/components/button'
-import TodoItem from '~/components/todo_item'
 import TodoDialog from '~/components/todo_dialog'
+import TodoItem from '~/components/todo_item'
 
 export default function Dashboard({ todos }: { todos: Data.Todo[] }) {
   const [dialogOpen, setDialogOpen] = useState(false)

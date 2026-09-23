@@ -66,7 +66,11 @@ export function buildOpenApiSpec(baseUrl: string) {
                       type: { type: 'string', example: 'bearer' },
                       token: { type: 'string', example: 'oat_1.abc123...' },
                       abilities: { type: 'array', items: { type: 'string' } },
-                      expiresAt: { type: 'string', format: 'date-time', nullable: true },
+                      expiresAt: {
+                        type: 'string',
+                        format: 'date-time',
+                        nullable: true,
+                      },
                     },
                   },
                 },

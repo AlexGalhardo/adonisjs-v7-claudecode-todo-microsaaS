@@ -1,6 +1,6 @@
 import ClipboardJS from 'clipboard'
+import { type ReactNode, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import { useEffect, useRef, type ReactNode } from 'react'
 
 /**
  * Wraps clipboard.js around its children — click anywhere in this button to

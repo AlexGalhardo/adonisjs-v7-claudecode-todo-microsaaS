@@ -1,8 +1,8 @@
-import qrcode from 'qrcode'
 import { inject } from '@adonisjs/core'
+import type { HttpContext } from '@adonisjs/core/http'
+import qrcode from 'qrcode'
 import TwoFactorService from '#services/two_factor_service'
 import { confirmTwoFactorValidator } from '#validators/two_factor'
-import type { HttpContext } from '@adonisjs/core/http'
 
 const PENDING_SECRET_SESSION_KEY = 'pending_2fa_secret'
 

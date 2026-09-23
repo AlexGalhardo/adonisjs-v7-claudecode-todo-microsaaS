@@ -1,7 +1,7 @@
-import { toast, Toaster } from 'sonner'
+import type { Data } from '@generated/data'
 import { usePage } from '@inertiajs/react'
-import { type Data } from '@generated/data'
 import { type ReactElement, useEffect } from 'react'
+import { Toaster, toast } from 'sonner'
 import AppLayout from '~/layouts/app'
 import AuthLayout from '~/layouts/auth'
 

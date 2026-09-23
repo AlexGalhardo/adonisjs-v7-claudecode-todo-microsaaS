@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { usePage } from '@inertiajs/react'
 import { Form } from '@adonisjs/inertia/react'
+import { usePage } from '@inertiajs/react'
+import { useState } from 'react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
 

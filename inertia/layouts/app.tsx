@@ -1,9 +1,9 @@
-import { router } from '@inertiajs/react'
-import { Menu } from '@base-ui/react/menu'
-import { type ReactNode } from 'react'
 import { Link } from '@adonisjs/inertia/react'
+import { Menu } from '@base-ui/react/menu'
+import { router } from '@inertiajs/react'
+import type { ReactNode } from 'react'
+import { ChevronDownIcon, UserIcon } from '~/components/icons'
 import ThemeToggle from '~/components/theme_toggle'
-import { UserIcon, ChevronDownIcon } from '~/components/icons'
 
 /**
  * Chrome for the authenticated app (dashboard, profile, profile/api,

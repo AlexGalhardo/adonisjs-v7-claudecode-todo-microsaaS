@@ -18,6 +18,10 @@ MVC e as convenções impostas pelo AdonisJS — sem arquitetura paralela.
   ver `docs/database.md`) — Lucid continua sendo o único ORM/dono de migrations.
 - **Email**: Resend (`config/mail.ts`), templates em JSX renderizados via
   `@react-email/render` (ver `app/mails/`)
+- **Lint/format**: BiomeJS v2 (`biome.json`) — substitui ESLint/Prettier. `useImportType`
+  fica desligado de propósito: veja
+  `.claude/skills/how-to-avoid-breaking-inject-with-biome.md` antes de reativá-lo (quebra o
+  `@inject()` do AdonisJS).
 - **Testes**: Japa (unit, functional, browser/E2E)
 - **Runtime**: Node.js v24+
 
@@ -37,7 +41,8 @@ MVC e as convenções impostas pelo AdonisJS — sem arquitetura paralela.
 npm run dev         # servidor de desenvolvimento com HMR (http://localhost:3333)
 npm run build        # build de produção
 npm run test          # roda a suíte Japa (unit + functional + browser)
-npm run lint           # eslint
+npm run lint           # biome check
+npm run format          # biome format --write
 npm run typecheck       # tsc --noEmit (backend + inertia)
 node ace migration:run   # roda migrations pendentes
 node ace db:seed          # popula o banco (admin + todos de exemplo)

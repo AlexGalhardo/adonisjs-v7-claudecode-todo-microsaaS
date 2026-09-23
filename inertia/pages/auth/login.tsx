@@ -1,8 +1,8 @@
 import { Form, Link } from '@adonisjs/inertia/react'
 import Button from '~/components/button'
-import TextField from '~/components/text_field'
 import PasswordField from '~/components/password_field'
 import SocialAuthLinks from '~/components/social_auth_links'
+import TextField from '~/components/text_field'
 
 export default function Login() {
   return (

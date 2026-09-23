@@ -1,8 +1,8 @@
-import User from '#models/user'
 import { inject } from '@adonisjs/core'
-import { loginValidator } from '#validators/user'
-import AccountDeletionService from '#services/account_deletion_service'
 import type { HttpContext } from '@adonisjs/core/http'
+import User from '#models/user'
+import AccountDeletionService from '#services/account_deletion_service'
+import { loginValidator } from '#validators/user'
 
 @inject()
 export default class SessionController {
@@ -16,7 +16,10 @@ export default class SessionController {
     const { email, password } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
 
-    const deletionStatus = await this.accountDeletionService.checkOnLogin(user)
+    // Read-only at this point — a password alone must never cancel a
+    // pending deletion for a 2FA-enabled account; only denying on 'expired'
+    // is safe to act on before the second factor is checked.
+    const deletionStatus = this.accountDeletionService.checkOnLogin(user)
     if (deletionStatus === 'expired') {
       session.flash('error', 'This account has been deleted.')
       response.redirect().back()
@@ -29,10 +32,11 @@ export default class SessionController {
       return
     }
 
-    await auth.use('web').login(user)
-    if (deletionStatus === 'cancelled') {
+    if (deletionStatus === 'pending') {
+      await this.accountDeletionService.cancelPendingDeletion(user)
       session.flash('success', 'Welcome back — your account deletion was cancelled.')
     }
+    await auth.use('web').login(user)
     response.redirect().toRoute('dashboard')
   }
 

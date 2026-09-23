@@ -1,8 +1,8 @@
-import { indexPages } from '@adonisjs/inertia'
+import { indexPolicies } from '@adonisjs/bouncer'
 import { indexEntities } from '@adonisjs/core'
 import { defineConfig } from '@adonisjs/core/app'
+import { indexPages } from '@adonisjs/inertia'
 import { generateRegistry } from '@tuyau/core/hooks'
-import { indexPolicies } from '@adonisjs/bouncer'
 
 export default defineConfig({
   /*

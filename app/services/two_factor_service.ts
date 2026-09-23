@@ -1,8 +1,8 @@
+import { randomBytes } from 'node:crypto'
+import encryption from '@adonisjs/core/services/encryption'
+import { DateTime } from 'luxon'
 import type User from '#models/user'
 import TotpService from '#services/totp_service'
-import encryption from '@adonisjs/core/services/encryption'
-import { randomBytes } from 'node:crypto'
-import { DateTime } from 'luxon'
 
 const RECOVERY_CODES_COUNT = 8
 

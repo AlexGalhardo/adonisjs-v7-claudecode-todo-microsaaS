@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
-import { test } from '@japa/runner'
 import limiter from '@adonisjs/limiter/services/main'
+import { test } from '@japa/runner'
+import { DateTime } from 'luxon'
 import { UserFactory } from '#database/factories/user_factory'
 
 test.group('Profile', (group) => {

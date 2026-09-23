@@ -1,6 +1,6 @@
-import User from '#models/user'
-import Todo from '#models/todo'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import Todo from '#models/todo'
+import User from '#models/user'
 
 const ADMIN_EMAIL = 'admin@gmail.com'
 const ADMIN_PASSWORD = 'adminBR@123'

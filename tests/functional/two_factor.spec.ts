@@ -1,8 +1,14 @@
-import { test } from '@japa/runner'
 import { createHmac } from 'node:crypto'
+import limiter from '@adonisjs/limiter/services/main'
+import { test } from '@japa/runner'
+import { DateTime } from 'luxon'
 import { UserFactory } from '#database/factories/user_factory'
 
-test.group('Two-factor authentication', () => {
+test.group('Two-factor authentication', (group) => {
+  // Several tests below hit POST /login (loginThrottle) — same in-memory-
+  // store leak risk rate_limiting.spec.ts guards against for its own test.
+  group.each.teardown(() => limiter.clear())
+
   test('a user can enroll, then must pass a challenge on next login', async ({
     client,
     assert,
@@ -112,6 +118,51 @@ test.group('Two-factor authentication', () => {
 
     await user.refresh()
     assert.isNull(user.twoFactorConfirmedAt)
+  })
+
+  test('a pending account deletion is not cancelled by the password step alone', async ({
+    client,
+    assert,
+  }) => {
+    const user = await UserFactory.create()
+    const enrollPage = await client.get('/settings/two-factor').loginAs(user).withInertia()
+    const secret = enrollPage.inertiaProps.secret as string
+
+    await client
+      .post('/settings/two-factor')
+      .loginAs(user)
+      .withCsrfToken()
+      .withSession({ pending_2fa_secret: secret })
+      .form({ code: generateCode(secret) })
+
+    user.deletionRequestedAt = DateTime.now().minus({ days: 5 })
+    await user.save()
+
+    // Password alone gets redirected to the 2FA challenge — must not have
+    // touched deletion_requested_at yet.
+    const loginResponse = await client
+      .post('/login')
+      .withCsrfToken()
+      .redirects(0)
+      .form({ email: user.email, password: 'Password123!' })
+    loginResponse.assertStatus(302)
+    assert.equal(loginResponse.header('location'), '/two-factor/challenge')
+
+    await user.refresh()
+    assert.isNotNull(user.deletionRequestedAt)
+
+    // Only completing the second factor cancels the pending deletion.
+    const challengeResponse = await client
+      .post('/two-factor/challenge')
+      .withCsrfToken()
+      .withSession({ two_factor_user_id: user.id })
+      .redirects(0)
+      .form({ code: generateCode(secret) })
+    challengeResponse.assertStatus(302)
+    assert.equal(challengeResponse.header('location'), '/dashboard')
+
+    await user.refresh()
+    assert.isNull(user.deletionRequestedAt)
   })
 })
 

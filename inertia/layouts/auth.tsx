@@ -1,5 +1,5 @@
 import { Link } from '@adonisjs/inertia/react'
-import { type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 /**
  * Bare chrome shared by login/signup/forgot-password/reset-password/

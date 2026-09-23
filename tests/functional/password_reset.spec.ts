@@ -76,11 +76,11 @@ test.group('Password reset', (group) => {
       .withCsrfToken()
       .form({ token, password: 'NewPassword123!', passwordConfirmation: 'NewPassword123!' })
 
-    const secondAttempt = await client
-      .put('/reset-password')
-      .withCsrfToken()
-      .redirects(0)
-      .form({ token, password: 'AnotherPassword123!', passwordConfirmation: 'AnotherPassword123!' })
+    const secondAttempt = await client.put('/reset-password').withCsrfToken().redirects(0).form({
+      token,
+      password: 'AnotherPassword123!',
+      passwordConfirmation: 'AnotherPassword123!',
+    })
 
     secondAttempt.assertStatus(302)
     secondAttempt.assertFlashMessage('error')

@@ -1,7 +1,7 @@
-import { useState, type SubmitEvent } from 'react'
-import { router } from '@inertiajs/react'
 import { Dialog } from '@base-ui/react/dialog'
-import { type Data } from '@generated/data'
+import type { Data } from '@generated/data'
+import { router } from '@inertiajs/react'
+import { type SubmitEvent, useState } from 'react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
 

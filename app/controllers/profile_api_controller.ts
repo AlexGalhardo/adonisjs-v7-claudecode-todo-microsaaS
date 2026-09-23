@@ -1,6 +1,6 @@
+import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import { createTokenValidator } from '#validators/api_token'
-import type { HttpContext } from '@adonisjs/core/http'
 
 /**
  * Self-service API token management for the authenticated web user — no

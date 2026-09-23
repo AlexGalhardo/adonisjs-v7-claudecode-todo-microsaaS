@@ -1,5 +1,5 @@
-import { test } from '@japa/runner'
 import limiter from '@adonisjs/limiter/services/main'
+import { test } from '@japa/runner'
 
 test.group('Rate limiting', (group) => {
   // Exhausting a throttle here would otherwise leak into every later test

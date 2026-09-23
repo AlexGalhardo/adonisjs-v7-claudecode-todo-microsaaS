@@ -1,10 +1,10 @@
-import User from '#models/user'
-import mail from '@adonisjs/mail/services/main'
 import { inject } from '@adonisjs/core'
-import AuthTokenService from '#services/auth_token_service'
-import PasswordResetNotification from '#mails/password_reset_notification'
-import { forgotPasswordValidator, resetPasswordValidator } from '#validators/password_reset'
 import type { HttpContext } from '@adonisjs/core/http'
+import mail from '@adonisjs/mail/services/main'
+import PasswordResetNotification from '#mails/password_reset_notification'
+import User from '#models/user'
+import AuthTokenService from '#services/auth_token_service'
+import { forgotPasswordValidator, resetPasswordValidator } from '#validators/password_reset'
 
 const RESET_TOKEN_TTL_MINUTES = 60
 

@@ -28,7 +28,12 @@ export function ContactNotification(props: {
           width="100%"
           cellPadding={0}
           cellSpacing={0}
-          style={{ backgroundColor: '#ffffff', borderRadius: 8, maxWidth: 480, margin: '0 auto' }}
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: 8,
+            maxWidth: 480,
+            margin: '0 auto',
+          }}
         >
           <tbody>
             <tr>

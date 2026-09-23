@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 
 type TextFieldProps = ComponentProps<'input'> & {
   label: string

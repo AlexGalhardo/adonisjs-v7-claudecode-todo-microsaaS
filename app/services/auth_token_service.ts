@@ -1,7 +1,7 @@
-import type User from '#models/user'
-import AuthToken from '#models/auth_token'
-import { randomBytes, createHash } from 'node:crypto'
+import { createHash, randomBytes } from 'node:crypto'
 import { DateTime } from 'luxon'
+import AuthToken from '#models/auth_token'
+import type User from '#models/user'
 
 type TokenType = 'password_reset' | 'magic_link'
 

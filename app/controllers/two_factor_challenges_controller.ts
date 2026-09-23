@@ -1,14 +1,18 @@
-import User from '#models/user'
 import { inject } from '@adonisjs/core'
+import type { HttpContext } from '@adonisjs/core/http'
+import User from '#models/user'
+import AccountDeletionService from '#services/account_deletion_service'
 import TwoFactorService from '#services/two_factor_service'
 import { twoFactorChallengeValidator } from '#validators/two_factor'
-import type { HttpContext } from '@adonisjs/core/http'
 
 const PENDING_USER_SESSION_KEY = 'two_factor_user_id'
 
 @inject()
 export default class TwoFactorChallengesController {
-  constructor(protected twoFactorService: TwoFactorService) {}
+  constructor(
+    protected twoFactorService: TwoFactorService,
+    protected accountDeletionService: AccountDeletionService
+  ) {}
 
   async create({ inertia, session, response }: HttpContext) {
     if (!session.get(PENDING_USER_SESSION_KEY)) {
@@ -37,8 +41,22 @@ export default class TwoFactorChallengesController {
     }
 
     session.forget(PENDING_USER_SESSION_KEY)
-    await auth.use('web').login(user)
 
+    // The second factor is now verified — safe to act on a pending
+    // deletion (see AccountDeletionService for why this can't happen on
+    // the password step alone).
+    const deletionStatus = this.accountDeletionService.checkOnLogin(user)
+    if (deletionStatus === 'expired') {
+      session.flash('error', 'This account has been deleted.')
+      response.redirect().toRoute('session.create')
+      return
+    }
+    if (deletionStatus === 'pending') {
+      await this.accountDeletionService.cancelPendingDeletion(user)
+      session.flash('success', 'Welcome back — your account deletion was cancelled.')
+    }
+
+    await auth.use('web').login(user)
     response.redirect().toRoute('dashboard')
   }
 }

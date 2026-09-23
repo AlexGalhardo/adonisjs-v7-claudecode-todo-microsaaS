@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react'
-import { router } from '@inertiajs/react'
 import { Form } from '@adonisjs/inertia/react'
-import Button from '~/components/button'
-import TextField from '~/components/text_field'
-import CopyButton from '~/components/copy_button'
-import { buildOpenApiSpec } from '~/lib/openapi_spec'
+import { router } from '@inertiajs/react'
 import { ApiReferenceReact } from '@scalar/api-reference-react'
+import { useMemo, useState } from 'react'
+import Button from '~/components/button'
+import CopyButton from '~/components/copy_button'
+import TextField from '~/components/text_field'
+import { buildOpenApiSpec } from '~/lib/openapi_spec'
 import '@scalar/api-reference-react/style.css'
 
 type ApiToken = {

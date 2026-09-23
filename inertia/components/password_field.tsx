@@ -1,4 +1,4 @@
-import { useState, type ComponentProps } from 'react'
+import { type ComponentProps, useState } from 'react'
 import { EyeIcon, EyeOffIcon } from '~/components/icons'
 
 type PasswordFieldProps = Omit<ComponentProps<'input'>, 'type'> & {

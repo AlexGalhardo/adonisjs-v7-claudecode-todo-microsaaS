@@ -1,7 +1,7 @@
-import mail from '@adonisjs/mail/services/main'
-import { contactValidator } from '#validators/contact'
-import ContactNotification from '#mails/contact_notification'
 import type { HttpContext } from '@adonisjs/core/http'
+import mail from '@adonisjs/mail/services/main'
+import ContactNotification from '#mails/contact_notification'
+import { contactValidator } from '#validators/contact'
 
 export default class ContactController {
   async create({ inertia }: HttpContext) {

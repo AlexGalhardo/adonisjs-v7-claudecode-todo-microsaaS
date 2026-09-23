@@ -11,8 +11,8 @@
 |
 */
 
+import vine, { SimpleMessagesProvider, VineDate } from '@vinejs/vine'
 import { DateTime } from 'luxon'
-import vine, { VineDate, SimpleMessagesProvider } from '@vinejs/vine'
 
 declare module '@vinejs/vine/types' {
   interface VineGlobalTransforms {

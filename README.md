@@ -228,8 +228,9 @@ sem passo extra de instalação.
 npm run dev         # servidor de desenvolvimento com HMR
 npm run build         # build de produção
 npm run test            # suíte de testes completa
-npm run lint              # eslint
-npm run typecheck          # tsc --noEmit (backend + frontend)
+npm run lint              # biome check
+npm run format             # biome format --write
+npm run typecheck           # tsc --noEmit (backend + frontend)
 node ace migration:run      # roda migrations pendentes
 node ace migration:rollback  # desfaz o último batch de migrations
 node ace db:seed              # popula o banco (admin + todos de exemplo)

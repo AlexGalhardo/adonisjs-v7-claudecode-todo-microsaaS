@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
 import { BaseCommand } from '@adonisjs/core/ace'
 import type { CommandOptions } from '@adonisjs/core/types/ace'
+import { DateTime } from 'luxon'
 import { DELETION_GRACE_PERIOD_DAYS } from '#services/account_deletion_service'
 
 /**

@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
-import Todo from '#models/todo'
-import { UserFactory } from '#database/factories/user_factory'
 import { TodoFactory } from '#database/factories/todo_factory'
+import { UserFactory } from '#database/factories/user_factory'
+import Todo from '#models/todo'
 
 test.group('Todos web', () => {
   test('index renders only the authenticated user todos', async ({ client, assert }) => {

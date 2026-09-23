@@ -1,9 +1,9 @@
-import { useState } from 'react'
 import { Form } from '@adonisjs/inertia/react'
+import { useState } from 'react'
 import Button from '~/components/button'
-import TextField from '~/components/text_field'
 import PasswordField from '~/components/password_field'
 import SocialAuthLinks from '~/components/social_auth_links'
+import TextField from '~/components/text_field'
 
 /** "alex galhardo" -> "Alex Galhardo" — capitalizes the start of each word as it's typed. */
 function capitalizeWords(value: string): string {

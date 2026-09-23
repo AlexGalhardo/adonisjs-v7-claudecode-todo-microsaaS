@@ -1,5 +1,5 @@
-import { router } from '@inertiajs/react'
 import { Form, Link } from '@adonisjs/inertia/react'
+import { router } from '@inertiajs/react'
 import Button from '~/components/button'
 import TextField from '~/components/text_field'
 

@@ -1,8 +1,8 @@
-import User from '#models/user'
-import { inject } from '@adonisjs/core'
 import { randomBytes } from 'node:crypto'
-import AccountDeletionService from '#services/account_deletion_service'
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import User from '#models/user'
+import AccountDeletionService from '#services/account_deletion_service'
 
 const PROVIDERS = ['google', 'github'] as const
 type Provider = (typeof PROVIDERS)[number]
@@ -57,17 +57,20 @@ export default class SocialAuthsController {
       })
     }
 
-    const deletionStatus = await this.accountDeletionService.checkOnLogin(user)
+    // The OAuth round-trip is itself the whole authentication — no second
+    // factor gate in between — so it's safe to check and cancel together.
+    const deletionStatus = this.accountDeletionService.checkOnLogin(user)
     if (deletionStatus === 'expired') {
       session.flash('error', 'This account has been deleted.')
       response.redirect().toRoute('session.create')
       return
     }
-
-    await auth.use('web').login(user)
-    if (deletionStatus === 'cancelled') {
+    if (deletionStatus === 'pending') {
+      await this.accountDeletionService.cancelPendingDeletion(user)
       session.flash('success', 'Welcome back — your account deletion was cancelled.')
     }
+
+    await auth.use('web').login(user)
     response.redirect().toRoute('dashboard')
   }
 }

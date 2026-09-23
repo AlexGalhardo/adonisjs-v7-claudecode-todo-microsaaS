@@ -1,11 +1,10 @@
-import { useState } from 'react'
-import { router } from '@inertiajs/react'
-import { usePage } from '@inertiajs/react'
 import { Form, Link } from '@adonisjs/inertia/react'
+import { router, usePage } from '@inertiajs/react'
+import { useState } from 'react'
 import Button from '~/components/button'
-import TextField from '~/components/text_field'
-import PasswordField from '~/components/password_field'
 import DeleteAccountDialog from '~/components/delete_account_dialog'
+import PasswordField from '~/components/password_field'
+import TextField from '~/components/text_field'
 
 export default function Profile({ twoFactorEnabled }: { twoFactorEnabled: boolean }) {
   const { user } = usePage().props

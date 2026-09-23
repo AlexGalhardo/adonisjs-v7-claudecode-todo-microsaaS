@@ -1,5 +1,5 @@
-import env from '#start/env'
 import { test } from '@japa/runner'
+import env from '#start/env'
 
 const baseUrl = `http://${env.get('HOST')}:${env.get('PORT')}`
 

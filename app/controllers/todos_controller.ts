@@ -1,10 +1,10 @@
+import { inject } from '@adonisjs/core'
+import type { HttpContext } from '@adonisjs/core/http'
 import Todo from '#models/todo'
 import TodoPolicy from '#policies/todo_policy'
 import TodoService from '#services/todo_service'
 import TodoTransformer from '#transformers/todo_transformer'
 import { createTodoValidator, updateTodoValidator } from '#validators/todo'
-import { inject } from '@adonisjs/core'
-import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
 export default class TodosController {

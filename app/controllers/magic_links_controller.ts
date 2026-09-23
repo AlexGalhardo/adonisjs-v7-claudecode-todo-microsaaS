@@ -1,11 +1,11 @@
-import User from '#models/user'
-import mail from '@adonisjs/mail/services/main'
 import { inject } from '@adonisjs/core'
-import AuthTokenService from '#services/auth_token_service'
-import MagicLinkNotification from '#mails/magic_link_notification'
-import { requestMagicLinkValidator } from '#validators/magic_link'
-import AccountDeletionService from '#services/account_deletion_service'
 import type { HttpContext } from '@adonisjs/core/http'
+import mail from '@adonisjs/mail/services/main'
+import MagicLinkNotification from '#mails/magic_link_notification'
+import User from '#models/user'
+import AccountDeletionService from '#services/account_deletion_service'
+import AuthTokenService from '#services/auth_token_service'
+import { requestMagicLinkValidator } from '#validators/magic_link'
 
 const MAGIC_LINK_TTL_MINUTES = 15
 
@@ -45,17 +45,22 @@ export default class MagicLinksController {
 
     await this.authTokenService.consume(record)
 
-    const deletionStatus = await this.accountDeletionService.checkOnLogin(record.user)
+    // No second factor to wait for in this flow — consuming the token IS
+    // full authentication, so it's safe to check and cancel together here
+    // (unlike the password step in SessionController, which can lead into
+    // a 2FA challenge before login is actually complete).
+    const deletionStatus = this.accountDeletionService.checkOnLogin(record.user)
     if (deletionStatus === 'expired') {
       session.flash('error', 'This account has been deleted.')
       response.redirect().toRoute('session.create')
       return
     }
-
-    await auth.use('web').login(record.user)
-    if (deletionStatus === 'cancelled') {
+    if (deletionStatus === 'pending') {
+      await this.accountDeletionService.cancelPendingDeletion(record.user)
       session.flash('success', 'Welcome back — your account deletion was cancelled.')
     }
+
+    await auth.use('web').login(record.user)
     response.redirect().toRoute('dashboard')
   }
 }

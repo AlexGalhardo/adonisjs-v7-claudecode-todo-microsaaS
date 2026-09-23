@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core'
-import { updateNameValidator, updatePasswordValidator } from '#validators/profile'
-import AccountDeletionService from '#services/account_deletion_service'
 import type { HttpContext } from '@adonisjs/core/http'
+import AccountDeletionService from '#services/account_deletion_service'
+import { updateNameValidator, updatePasswordValidator } from '#validators/profile'
 
 @inject()
 export default class ProfileController {

@@ -1,6 +1,6 @@
-import env from '#start/env'
 import { defineConfig, transports } from '@adonisjs/mail'
 import type { InferMailers } from '@adonisjs/mail/types'
+import env from '#start/env'
 
 const mailConfig = defineConfig({
   default: 'resend',

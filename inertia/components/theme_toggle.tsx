@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Menu } from '@base-ui/react/menu'
-import { getTheme, toggleTheme, type Theme } from '~/lib/theme'
-import { SunIcon, MoonIcon } from '~/components/icons'
+import { useState } from 'react'
+import { MoonIcon, SunIcon } from '~/components/icons'
+import { getTheme, type Theme, toggleTheme } from '~/lib/theme'
 
 export default function ThemeToggle() {
   // Lazy initializer instead of an effect: the real value already lives in

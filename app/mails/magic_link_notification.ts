@@ -1,7 +1,7 @@
-import type User from '#models/user'
 import { BaseMail } from '@adonisjs/mail'
-import { renderEmail } from '#mails/render'
 import { EmailLayout } from '#mails/components/email_layout'
+import { renderEmail } from '#mails/render'
+import type User from '#models/user'
 
 export default class MagicLinkNotification extends BaseMail {
   subject = 'Your login link'

@@ -1,6 +1,6 @@
 import app from '@adonisjs/core/services/app'
-import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
+import env from '#start/env'
 
 const dbConfig = defineConfig({
   /**

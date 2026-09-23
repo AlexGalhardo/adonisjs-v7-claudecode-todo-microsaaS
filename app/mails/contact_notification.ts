@@ -1,7 +1,7 @@
-import env from '#start/env'
 import { BaseMail } from '@adonisjs/mail'
-import { renderEmail } from '#mails/render'
 import { ContactNotification as ContactNotificationEmail } from '#mails/components/contact_notification'
+import { renderEmail } from '#mails/render'
+import env from '#start/env'
 
 export default class ContactNotification extends BaseMail {
   subject = 'New contact form message'

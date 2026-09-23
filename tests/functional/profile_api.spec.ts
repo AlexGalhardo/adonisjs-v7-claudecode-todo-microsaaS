@@ -1,6 +1,6 @@
-import User from '#models/user'
 import { test } from '@japa/runner'
 import { UserFactory } from '#database/factories/user_factory'
+import User from '#models/user'
 
 test.group('Profile API tokens', () => {
   test('generating a token flashes the plain value once', async ({ client, assert }) => {
