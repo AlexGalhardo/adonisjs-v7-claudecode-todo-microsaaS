@@ -102,11 +102,11 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 10. Página /profile/api (docs da API + tokens)
 
-- [ ] Sistema de geração de API tokens do usuário (access tokens do Adonis)
-- [ ] Página com `@scalar/api-reference-react` documentando os endpoints REST
-- [ ] Copiar valores com `clipboard.js` + toast de confirmação
-- [ ] Exemplos práticos com cURL e `fetch` nativo
-- [ ] Commit + push
+- [x] Sistema de geração de API tokens do usuário (access tokens do Adonis)
+- [x] Página com `@scalar/api-reference-react` documentando os endpoints REST
+- [x] Copiar valores com `clipboard.js` + toast de confirmação
+- [x] Exemplos práticos com cURL e `fetch` nativo
+- [x] Commit + push
 
 ## 11. Página /profile
 
