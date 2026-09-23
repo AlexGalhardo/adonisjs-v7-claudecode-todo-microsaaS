@@ -22,6 +22,9 @@ MVC e as convenções impostas pelo AdonisJS — sem arquitetura paralela.
   fica desligado de propósito: veja
   `.claude/skills/how-to-avoid-breaking-inject-with-biome.md` antes de reativá-lo (quebra o
   `@inject()` do AdonisJS).
+- **Git hooks**: Husky (`.husky/`) — `pre-commit` roda `biome check --staged`, `pre-push`
+  roda typecheck + build + testes, `commit-msg` valida Conventional Commits. Instalado via
+  `npm install` (script `prepare`).
 - **Testes**: Japa (unit, functional, browser/E2E)
 - **Runtime**: Node.js v24+
 

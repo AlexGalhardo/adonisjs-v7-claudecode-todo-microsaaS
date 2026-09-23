@@ -128,11 +128,11 @@ para renderizar duas mensagens simples — não compensa o peso. Optou-se por JS
 
 ## 13. Husky (git hooks)
 
-- [ ] Instalar Husky
-- [ ] `pre-commit`: format + lint (Biome)
-- [ ] `pre-push`: typecheck + build + testes
-- [ ] Hook de validação de commit message (conventional commits / semver)
-- [ ] Commit + push
+- [x] Instalar Husky (`husky@9.1.7`, exato)
+- [x] `pre-commit`: `biome check --staged` (lint + format, apenas arquivos staged)
+- [x] `pre-push`: typecheck + build + testes
+- [x] Hook de validação de commit message (conventional commits) em `.husky/commit-msg`
+- [x] Commit + push
 
 ## 14. CI/CD GitHub Actions → Galaxy Cloud
 

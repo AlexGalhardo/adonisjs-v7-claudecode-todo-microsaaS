@@ -20,6 +20,7 @@ drizzle
 # Build tools specific
 npm-debug.log
 yarn-error.log
+*.tsbuildinfo
 
 # This project uses npm (package-lock.json) exclusively — ignore other lockfiles
 # that get created if someone accidentally runs a different package manager.
