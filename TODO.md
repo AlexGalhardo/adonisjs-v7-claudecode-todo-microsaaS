@@ -74,3 +74,17 @@
   - [x] f. Uma seção sobre documentações -> linka para os arquivos dentro de docs/
   - [x] g. Créditos finais e MIT LICENSE (adicione esse arquivo na raiz também)
   - [x] h. Aproveite e adicione o arquivo CONTRIBUTE.md na raiz desse projeto e linke no README.md também
+
+---
+
+- [x] 1 - Novo erro em produção depois do fix de `SQLITE_CANTOPEN`: `SQLITE_ERROR: no such table: users`.
+
+  > Causa raiz: o Galaxy Cloud não tem hook de deploy pra rodar `node ace migration:run`, e sem
+  > disco persistente o `db.sqlite3` nasce vazio (sem tabelas) a cada deploy. Corrigido rodando as
+  > migrations pendentes no boot do processo (`bin/server.ts`, hook `app.ready()`, só em produção)
+  > via `MigrationRunner` da Lucid direto, sem depender de nenhum passo externo. Verificado com um
+  > build de produção real (`npm run build` + install de produção) contra um SQLite vazio do zero —
+  > incluindo um bug que o próprio teste pegou antes de chegar em produção:
+  > `MigrationRunner#close()` fecha todas as conexões do `db.manager`, não só a da migration, o que
+  > quebrava sessão/queries logo depois do boot num processo de vida longa; `close()` nunca é
+  > chamado nesse hook por causa disso. Ver `docs/deployment.md#galaxy-cloud` e CHANGELOG.md.

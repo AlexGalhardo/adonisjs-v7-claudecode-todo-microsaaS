@@ -150,6 +150,28 @@ próprio buildpack), sem passar pelo Dockerfile deste repositório.
     definir a conexão SQLite, garantindo o diretório em tempo de execução independente de
     como o build foi gerado.
 
+### Regressão: `SQLITE_ERROR: no such table: users` em produção
+
+Depois do fix de `tmp/` acima, o arquivo abria — mas estava vazio: nenhuma tabela.
+
+Causa raiz: o Galaxy Cloud não tem hook de deploy para rodar `node ace migration:run` depois
+do build (nem qualquer outro jeito documentado de rodar um comando pós-deploy), e num host sem
+disco persistente o arquivo `db.sqlite3` nasce do zero a cada deploy — mesmo com o `tmp/`
+existindo, não tem tabela nenhuma nele.
+
+- **Fix**: `bin/server.ts` roda as migrations pendentes no boot do processo (hook
+  `app.ready()`, só quando `app.inProduction`), antes do servidor aceitar requests, usando o
+  `MigrationRunner` da própria Lucid (`@adonisjs/lucid/migration`) diretamente — sem depender
+  de rodar `node ace migration:run` como um passo externo.
+- **Cuidado ao reproduzir esse padrão**: `MigrationRunner#close()` chama
+  `db.manager.closeAll()`, fechando *todas* as conexões do `lucid.db`, não só a usada pela
+  migration. Isso é inofensivo no comando `migration:run` normal (processo curto, que termina
+  logo em seguida), mas dentro do processo do servidor — de vida longa — derrubava a conexão
+  primária da aplicação inteira (sessão, todas as queries) logo depois do boot. Por isso
+  `close()` deliberadamente nunca é chamado nesse hook.
+- O lock de migration da Lucid torna isso seguro mesmo com múltiplas instâncias do app
+  subindo ao mesmo tempo (deploy blue/green, por exemplo).
+
 ## CI/CD (GitHub Actions)
 
 `.github/workflows/ci.yml` roda em todo push/PR para `master`: `npm ci` → cria um `.env` a

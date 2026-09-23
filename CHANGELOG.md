@@ -6,6 +6,17 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- **`SQLITE_ERROR: no such table: users` em produção** (regressão do fix de `SQLITE_CANTOPEN`
+  abaixo): corrigir o `tmp/` ausente resolveu abrir o arquivo, mas em qualquer plataforma sem
+  disco persistente (Galaxy Cloud incluído) o arquivo SQLite nasce vazio a cada deploy — sem
+  as tabelas das migrations. Não existe hook de deploy no Galaxy Cloud para rodar
+  `node ace migration:run` depois do build. `bin/server.ts` agora roda as migrations
+  pendentes no boot do processo (`app.ready()`, só em produção) antes do servidor aceitar
+  requests, usando o `MigrationRunner` da Lucid diretamente (o lock de migration da Lucid
+  torna isso seguro mesmo com múltiplas instâncias subindo ao mesmo tempo). Verificado com um
+  build de produção real contra um SQLite vazio do zero — sem esse fix, `MigrationRunner#close()`
+  fecha *todas* as conexões do `db.manager` (não só a da migration), o que quebrava a sessão e
+  qualquer query subsequente; por isso `close()` deliberadamente nunca é chamado aqui.
 - **`SQLITE_CANTOPEN` em produção**: `tmp/` (onde vive o arquivo SQLite) nunca era copiado
   para o build de produção — `adonisrc.ts` só listava `resources/views/**` e `public/**` em
   `metaFiles`, e o Galaxy Cloud builda com `node ace build` direto (não usa
